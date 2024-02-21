@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { Food } from '../types/food';
 
-const foodSchema = new Schema<Food>(
+export const foodSchema = new Schema<Food>(
   {
     name: { type: String, required: true },
     brand: { type: String, required: true },
