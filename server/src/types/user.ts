@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Macros } from './macros';
 
 export type User = {
   email: string;
@@ -7,10 +8,6 @@ export type User = {
   logs: mongoose.Schema.Types.ObjectId[];
   dailyIntake: {
     calories: number;
-    macros: {
-      carbs: number;
-      fat: number;
-      protein: number;
-    };
+    macros: Macros;
   };
 };
