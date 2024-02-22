@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { Meal } from '../types/meal';
 import { foodSchema } from './food';
-import { FoodLog } from '../types/foodLog';
+import { FoodLog } from '../types/food-log';
 
 const mealSchema = new Schema<Meal>(
   {
