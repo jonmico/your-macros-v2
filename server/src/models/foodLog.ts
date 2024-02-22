@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { Meal } from '../types/meal';
 import { foodSchema } from './food';
-import { Log } from '../types/log';
+import { FoodLog } from '../types/foodLog';
 
 const mealSchema = new Schema<Meal>(
   {
@@ -25,7 +25,7 @@ const mealSchema = new Schema<Meal>(
   { timestamps: true }
 );
 
-const logSchema = new Schema<Log>(
+const foodLogSchema = new Schema<FoodLog>(
   {
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
@@ -42,6 +42,6 @@ const logSchema = new Schema<Log>(
   { timestamps: true }
 );
 
-const Log = mongoose.model('Log', logSchema);
+const FoodLog = mongoose.model('FoodLog', foodLogSchema);
 
-export default Log;
+export default FoodLog;

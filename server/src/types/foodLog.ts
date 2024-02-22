@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { Macros } from './macros';
 import { Meal } from './meal';
 
-export type Log = {
+export type FoodLog = {
   _id?: mongoose.Schema.Types.ObjectId;
   author: mongoose.Schema.Types.ObjectId;
   name: string;
