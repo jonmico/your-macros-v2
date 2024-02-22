@@ -1,9 +1,12 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 import 'dotenv/config';
-
 import { connectDb } from './db';
 import { AppError } from './app-error';
-import { Error } from 'mongoose';
 
 connectDb();
 
@@ -21,14 +24,19 @@ app.use((req, res) => {
 });
 
 // Catch-all error handler
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use(((
+  err: AppError | Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction
+) => {
   const errorMessage = err instanceof AppError ? err.errorMessage : err.message;
   const errorCode = err instanceof AppError ? err.errorCode : 500;
 
   console.error(err);
   res.status(errorCode).json({ errorMessage });
-});
+}) as ErrorRequestHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}.`);
