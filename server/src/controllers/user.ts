@@ -22,7 +22,15 @@ export async function createUser(
     }
 
     const newUser = await User.create(user);
-    res.json({ newUser });
+    res.json({
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        weight: newUser.weight,
+        weightLogs: newUser.weightLogs,
+        dailyIntake: newUser.dailyIntake,
+      },
+    });
   } catch (err) {
     next(err);
   }

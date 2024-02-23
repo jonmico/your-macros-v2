@@ -19,7 +19,7 @@ export async function createFood(
     }
 
     const newFood = await Food.create({ ...food, author: user._id });
-    res.json({ newFood });
+    res.json({ food: newFood });
   } catch (err) {
     next(err);
   }
