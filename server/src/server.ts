@@ -8,7 +8,7 @@ import 'dotenv/config';
 import { connectDb } from './db';
 import { AppError } from './app-error';
 import { router as userRouter } from './routes/user';
-
+import { router as foodRouter } from './routes/food';
 connectDb();
 
 const PORT = process.env.PORT;
@@ -16,7 +16,9 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json());
+
 app.use('/api/user', userRouter);
+app.use('/api/food', foodRouter);
 
 // 404 Error handler
 app.use((req, res) => {
