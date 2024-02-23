@@ -26,6 +26,7 @@ export async function createFood(
       calories: calories,
       author: user._id,
     });
+
     res.json({ food: newFood });
   } catch (err) {
     next(err);

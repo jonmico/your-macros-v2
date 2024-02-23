@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 
-export default function App() {
+export default function AppLayout() {
   return (
     <>
-      <div>this is the App!</div>
+      <div>this is the app layout page</div>
       <Outlet />
     </>
   );
