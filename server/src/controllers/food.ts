@@ -3,6 +3,7 @@ import Food from '../models/food';
 import { Food as FoodType } from '../types/food';
 import User from '../models/user';
 import { AppError } from '../app-error';
+import { calcCalories } from '../utils/calcCalories';
 
 export async function createFood(
   req: Request,
@@ -18,7 +19,13 @@ export async function createFood(
       throw new AppError(400, 'User does not exist.');
     }
 
-    const newFood = await Food.create({ ...food, author: user._id });
+    const calories = calcCalories(food.macros);
+
+    const newFood = await Food.create({
+      ...food,
+      calories: calories,
+      author: user._id,
+    });
     res.json({ food: newFood });
   } catch (err) {
     next(err);
