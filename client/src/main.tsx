@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App.tsx';
-import './index.css';
-
 import Home from './pages/home/home.tsx';
 import Login from './pages/login/login.tsx';
 import Dashboard from './pages/dashboard/dashboard.tsx';
