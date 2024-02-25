@@ -6,6 +6,8 @@ const StyledGlobalNav = styled.nav`
   align-items: center;
   justify-content: space-between;
   color: var(--text);
+  padding: 0.5rem 5rem;
+  border-bottom: 1px solid var(--accent-200);
 `;
 
 const LinkContainer = styled.div`
@@ -21,13 +23,13 @@ const StyledLink = styled(Link)`
 
 const StyledNavLink = styled(NavLink)`
   font-weight: 500;
-  font-size: 1.25rem;
+  font-size: 1rem;
 
   &:hover,
   &:active,
   &.active:link,
   &.active:visited {
-    color: var(--accent);
+    color: var(--accent-500);
   }
 `;
 

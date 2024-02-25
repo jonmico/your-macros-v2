@@ -13,8 +13,8 @@ export default function App() {
   return (
     <>
       <GlobalStyle />
+      <GlobalNav />
       <AppContainer>
-        <GlobalNav />
         <Outlet />
       </AppContainer>
     </>
