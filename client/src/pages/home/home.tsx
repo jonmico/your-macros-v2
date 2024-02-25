@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledHome = styled.div`
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  gap: 2.5rem;
 `;
 
 const Hero = styled.div`
@@ -13,7 +15,7 @@ const Hero = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 25vh;
+  padding-top: 2rem;
   gap: 0.25rem;
 `;
 
@@ -84,8 +86,8 @@ export default function Home() {
           <PremiumText>No premium memberships</PremiumText>
           <Text>Community-driven food database</Text>
         </TextContainer>
-        <StyledLink to={'/register'}>Sign Up Today</StyledLink>
       </SecondaryContainer>
+      <StyledLink to={'/register'}>Sign Up Today</StyledLink>
     </StyledHome>
   );
 }

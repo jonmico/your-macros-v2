@@ -8,6 +8,10 @@ const StyledGlobalNav = styled.nav`
   color: var(--text);
   padding: 0.5rem 5rem;
   border-bottom: 1px solid var(--accent-200);
+
+  @media only screen and (max-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
 `;
 
 const LinkContainer = styled.div`
@@ -19,6 +23,10 @@ const LinkContainer = styled.div`
 const StyledLink = styled(Link)`
   font-weight: 700;
   font-size: 2rem;
+
+  @media only screen and (max-width: 400px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
