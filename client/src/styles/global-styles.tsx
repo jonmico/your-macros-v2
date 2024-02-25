@@ -83,8 +83,21 @@ export const GlobalStyle = createGlobalStyle`
     font-family: system-ui, sans-serif;
   }
 
-  button, input {
-    font-family: inherit;
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  a {
+  color: inherit;
+  text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
   }
 
   /* Chrome, Safari, Edge, Opera */

@@ -17,7 +17,7 @@ const StyledNav = styled.nav`
 
   @media only screen and (max-width: 900px) {
     width: 100%;
-    padding: 0 0.55rem;
+    padding: 0 0.5rem;
   }
 `;
 
