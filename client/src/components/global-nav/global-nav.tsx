@@ -1,14 +1,18 @@
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const StyledGlobalNav = styled.nav`
+const StyledGlobalNav = styled.div`
+  border-bottom: 1px solid var(--accent-200);
+`;
+
+const StyledNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: var(--text);
-  padding: 0.5rem 5rem;
-  border-bottom: 1px solid var(--accent-200);
-
+  padding: 0.5rem 0;
+  width: 85%;
+  margin: 0 auto;
   @media only screen and (max-width: 768px) {
     padding: 0.5rem 1rem;
   }
@@ -44,11 +48,13 @@ const StyledNavLink = styled(NavLink)`
 export default function GlobalNav() {
   return (
     <StyledGlobalNav>
-      <StyledLink to={'/'}>YourMacros</StyledLink>
-      <LinkContainer>
-        <StyledNavLink to={'/login'}>Login</StyledNavLink>
-        <StyledNavLink to={'/register'}>Register</StyledNavLink>
-      </LinkContainer>
+      <StyledNav>
+        <StyledLink to={'/'}>YourMacros</StyledLink>
+        <LinkContainer>
+          <StyledNavLink to={'/login'}>Login</StyledNavLink>
+          <StyledNavLink to={'/register'}>Register</StyledNavLink>
+        </LinkContainer>
+      </StyledNav>
     </StyledGlobalNav>
   );
 }

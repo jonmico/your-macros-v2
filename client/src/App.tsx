@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import GlobalNav from './components/global-nav/global-nav';
 
 const AppContainer = styled.div`
-  width: 75%;
-  max-width: 75rem;
+  width: 85%;
   margin: 0 auto;
 `;
 

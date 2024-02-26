@@ -4,14 +4,20 @@ import AppNav from '../../components/app-nav/app-nav';
 
 const StyledAppLayout = styled.div`
   display: grid;
-  grid-template-columns: 12.5rem 1fr;
+  grid-template-columns: 15rem 1fr;
+`;
+
+const OutletContainer = styled.div`
+  padding: 1rem;
 `;
 
 export default function AppLayout() {
   return (
     <StyledAppLayout>
       <AppNav />
-      <Outlet />
+      <OutletContainer>
+        <Outlet />
+      </OutletContainer>
     </StyledAppLayout>
   );
 }
