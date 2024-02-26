@@ -8,7 +8,7 @@ const StyledAppLayout = styled.div`
 `;
 
 const OutletContainer = styled.div`
-  padding: 1rem;
+  padding: 2rem;
 `;
 
 export default function AppLayout() {
