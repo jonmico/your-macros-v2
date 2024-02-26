@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledGlobalNav = styled.div`
-  border-bottom: 1px solid var(--accent-500);
+  border-bottom: 1px solid var(--color-indigo-300);
 `;
 
 const StyledNav = styled.nav`
@@ -41,7 +41,7 @@ const StyledNavLink = styled(NavLink)`
   &:active,
   &.active:link,
   &.active:visited {
-    color: var(--accent-500);
+    color: var(--color-indigo-600);
   }
 `;
 

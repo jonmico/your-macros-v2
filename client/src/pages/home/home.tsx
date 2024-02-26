@@ -43,11 +43,11 @@ const Text = styled.div`
 `;
 
 const SimpleText = styled(Text)`
-  color: var(--primary-600);
+  color: var(--color-green-600);
 `;
 
 const PremiumText = styled(Text)`
-  color: var(--secondary-500);
+  color: var(--color-blue-600);
 `;
 
 const SecondaryContainer = styled.div`
@@ -59,15 +59,15 @@ const SecondaryContainer = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  border: 1px solid var(--text);
+  border: 1px solid var(--color-gray-900);
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  background-color: var(--primary-400);
+  background-color: var(--color-green-400);
   transition: border-radius 0.2s ease-in-out, background-color 0.2s ease-in-out;
 
   &:hover {
     border-radius: 16px;
-    background-color: var(--primary-300);
+    background-color: var(--color-green-300);
   }
 `;
 

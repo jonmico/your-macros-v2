@@ -1,11 +1,19 @@
 import styled from 'styled-components';
 import { PrimaryButton } from '../button/button';
 import { useState } from 'react';
+import { Input } from '../input/input';
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 50%;
+`;
+
+const FormInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `;
 
 type FormStateType = {
@@ -85,9 +93,9 @@ export default function AddFoodForm() {
   return (
     <StyledForm onSubmit={handleSubmit}>
       <h2>Create a Food</h2>
-      <div>
+      <FormInputContainer>
         <label htmlFor='brand'>Brand</label>
-        <input
+        <Input
           type='text'
           name={'brand'}
           id={'brand'}
@@ -96,10 +104,10 @@ export default function AddFoodForm() {
           onChange={handleFormStateChange}
         />
         {errors.brand && <div>{errors.brand}</div>}
-      </div>
-      <div>
+      </FormInputContainer>
+      <FormInputContainer>
         <label htmlFor='name'>Name</label>
-        <input
+        <Input
           type='text'
           name={'name'}
           id={'name'}
@@ -108,10 +116,10 @@ export default function AddFoodForm() {
           onChange={handleFormStateChange}
         />
         {errors.name && <div>{errors.name}</div>}
-      </div>
-      <div>
-        <label htmlFor='servingSize'>ServingSize</label>
-        <input
+      </FormInputContainer>
+      <FormInputContainer>
+        <label htmlFor='servingSize'>Serving Size</label>
+        <Input
           type='text'
           name={'servingSize'}
           id={'servingSize'}
@@ -120,7 +128,7 @@ export default function AddFoodForm() {
           onChange={handleFormStateChange}
         />
         {errors.servingSize && <div>{errors.servingSize}</div>}
-      </div>
+      </FormInputContainer>
 
       <PrimaryButton type={'submit'}>Create</PrimaryButton>
     </StyledForm>
