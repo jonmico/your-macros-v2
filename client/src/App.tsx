@@ -5,8 +5,8 @@ import GlobalNav from './components/global-nav/global-nav';
 
 const AppContainer = styled.div`
   width: 75%;
+  max-width: 75rem;
   margin: 0 auto;
-  padding: 0.5rem 0 0 0;
 `;
 
 export default function App() {
