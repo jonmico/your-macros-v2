@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { FaHouseChimney } from 'react-icons/fa6';
 
 const StyledAppNav = styled.nav`
-  border-right: 1px solid var(--accent-200);
+  border-right: 1px solid var(--accent-500);
   height: 100vh;
   padding: 1rem 1rem 1rem 0;
 `;
@@ -12,7 +12,7 @@ const StyledUL = styled.ul`
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.25rem;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -22,7 +22,8 @@ const StyledNavLink = styled(NavLink)`
   align-items: center;
   gap: 0.5rem;
   border-radius: 8px;
-  transition: background-color 0.2s ease-in-out;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 
   & svg {
     font-size: 1.5rem;
@@ -32,7 +33,8 @@ const StyledNavLink = styled(NavLink)`
   &:active,
   &.active:link,
   &.active:visited {
-    background-color: var(--accent-200);
+    background-color: var(--accent-500);
+    color: var(--background);
   }
 `;
 

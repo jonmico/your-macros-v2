@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledGlobalNav = styled.div`
-  border-bottom: 1px solid var(--accent-200);
+  border-bottom: 1px solid var(--accent-500);
 `;
 
 const StyledNav = styled.nav`
@@ -11,7 +11,7 @@ const StyledNav = styled.nav`
   justify-content: space-between;
   color: var(--text);
   padding: 0.5rem 0;
-  width: 85%;
+  width: 90%;
   margin: 0 auto;
   @media only screen and (max-width: 768px) {
     padding: 0.5rem 1rem;
