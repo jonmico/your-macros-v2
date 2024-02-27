@@ -15,4 +15,20 @@ export const PrimaryButton = styled.button`
   }
 `;
 
-export const ExitButton = styled.button``;
+export const ExitButton = styled.button`
+  background-color: inherit;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content;
+  font-size: 1.25rem;
+  color: var(--color-indigo-500);
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: var(--color-red-400);
+    cursor: pointer;
+  }
+`;

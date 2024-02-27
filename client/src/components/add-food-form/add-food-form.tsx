@@ -128,7 +128,7 @@ export default function AddFoodForm() {
 
     if (data.food) {
       setIsToastOpen(true);
-      setToastText(`Successfully created food: ${data.food.name}`);
+      setToastText(`Successfully created food ${data.food.name}!`);
       setFormState({
         brand: '',
         name: '',
