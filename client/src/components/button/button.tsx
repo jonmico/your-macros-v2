@@ -14,3 +14,5 @@ export const PrimaryButton = styled.button`
     background-color: var(--color-green-300);
   }
 `;
+
+export const ExitButton = styled.button``;
