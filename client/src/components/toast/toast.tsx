@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { createPortal } from 'react-dom';
 import { FaXmark } from 'react-icons/fa6';
 import { ExitButton } from '../button/button';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const slideIn = keyframes`
   from {
@@ -28,6 +28,7 @@ const StyledToast = styled.div`
   padding: 1rem 2rem;
   gap: 2rem;
   animation: ${slideIn} 0.2s ease-in-out forwards;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
 interface ToastProps {
@@ -36,13 +37,23 @@ interface ToastProps {
 }
 
 export default function Toast(props: ToastProps) {
+  const [isHovering, setIsHovering] = useState(false);
+
   useEffect(() => {
-    const id = setTimeout(props.closeToastWindow, 5000);
+    let id: number;
+
+    if (!isHovering) {
+      id = setTimeout(props.closeToastWindow, 5000);
+    }
 
     return () => clearTimeout(id);
-  }, [props.closeToastWindow]);
+  }, [props.closeToastWindow, isHovering]);
+
   return createPortal(
-    <StyledToast>
+    <StyledToast
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       <div>{props.children}</div>
       <ExitButton onClick={props.closeToastWindow}>
         <FaXmark />
