@@ -35,7 +35,6 @@ type FormStateType = {
 };
 
 // TODO: Make loading spinner
-// TODO: Make some type of toast message that tells user their food was created
 
 export default function AddFoodForm() {
   const [isToastOpen, setIsToastOpen] = useState(false);
@@ -130,7 +129,6 @@ export default function AddFoodForm() {
     if (data.food) {
       setIsToastOpen(true);
       setToastText(`Successfully created food: ${data.food.name}`);
-      // TODO: What if request fails?
       setFormState({
         brand: '',
         name: '',

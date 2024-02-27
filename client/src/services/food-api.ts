@@ -9,6 +9,12 @@ export async function apiCreateFood(food: Food, userId: string) {
     body: JSON.stringify({ food, userId }),
   });
 
+  if (!response.ok) {
+    return {
+      errorMessage: `There was an error: ${response.status} - ${response.statusText}`,
+    };
+  }
+
   const data = await response.json();
 
   return data;
