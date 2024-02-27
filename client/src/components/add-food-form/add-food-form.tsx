@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { PrimaryButton } from '../button/button';
 import { useState } from 'react';
 import { Input } from '../input/input';
+import { calcCalories } from '../../utils/calcCalories';
+import { Food } from '../../types/food';
+import { apiCreateFood } from '../../services/food-api';
 
 const StyledForm = styled.form`
   display: flex;
@@ -16,6 +19,11 @@ const FormInputContainer = styled.div`
   gap: 0.25rem;
 `;
 
+const ErrorText = styled.div`
+  color: var(--color-red-500);
+  font-size: 0.9rem;
+`;
+
 type FormStateType = {
   brand: string;
   name: string;
@@ -23,8 +31,10 @@ type FormStateType = {
   carbs: string;
   fat: string;
   protein: string;
-  calories: string;
 };
+
+// TODO: Make loading spinner
+// TODO: Make some type of toast message that tells user their food was created
 
 export default function AddFoodForm() {
   const [formState, setFormState] = useState<FormStateType>({
@@ -34,7 +44,6 @@ export default function AddFoodForm() {
     carbs: '',
     fat: '',
     protein: '',
-    calories: '',
   });
 
   const [errors, setErrors] = useState<FormStateType>({
@@ -44,7 +53,6 @@ export default function AddFoodForm() {
     carbs: '',
     fat: '',
     protein: '',
-    calories: '',
   });
 
   function handleFormStateChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -63,6 +71,7 @@ export default function AddFoodForm() {
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+
     const errors: FormStateType = {
       brand: '',
       name: '',
@@ -70,7 +79,6 @@ export default function AddFoodForm() {
       carbs: '',
       fat: '',
       protein: '',
-      calories: '',
     };
 
     let hasErrors = false;
@@ -87,7 +95,37 @@ export default function AddFoodForm() {
       return;
     }
 
-    console.log('You tried to submit the form!');
+    const numMacros = {
+      carbs: parseInt(formState.carbs),
+      protein: parseInt(formState.protein),
+      fat: parseInt(formState.fat),
+    };
+
+    const calories = calcCalories(numMacros);
+
+    const food: Food = {
+      brand: formState.brand,
+      name: formState.name,
+      servingSize: formState.servingSize,
+      macros: numMacros,
+      calories,
+    };
+
+    const userId = '65d809272881dbdd5706bf94';
+
+    const data = await apiCreateFood(food, userId);
+
+    // TODO: What if request fails?
+    setFormState({
+      brand: '',
+      name: '',
+      servingSize: '',
+      carbs: '',
+      fat: '',
+      protein: '',
+    });
+
+    console.log(data);
   }
 
   return (
@@ -103,7 +141,7 @@ export default function AddFoodForm() {
           value={formState.brand}
           onChange={handleFormStateChange}
         />
-        {errors.brand && <div>{errors.brand}</div>}
+        {errors.brand && <ErrorText>{errors.brand}</ErrorText>}
       </FormInputContainer>
       <FormInputContainer>
         <label htmlFor='name'>Name</label>
@@ -115,7 +153,7 @@ export default function AddFoodForm() {
           value={formState.name}
           onChange={handleFormStateChange}
         />
-        {errors.name && <div>{errors.name}</div>}
+        {errors.name && <ErrorText>{errors.name}</ErrorText>}
       </FormInputContainer>
       <FormInputContainer>
         <label htmlFor='servingSize'>Serving Size</label>
@@ -127,7 +165,43 @@ export default function AddFoodForm() {
           value={formState.servingSize}
           onChange={handleFormStateChange}
         />
-        {errors.servingSize && <div>{errors.servingSize}</div>}
+        {errors.servingSize && <ErrorText>{errors.servingSize}</ErrorText>}
+      </FormInputContainer>
+      <FormInputContainer>
+        <label htmlFor='fat'>Fat (g)</label>
+        <Input
+          type='number'
+          name={'fat'}
+          id={'fat'}
+          placeholder={'Required field'}
+          value={formState.fat}
+          onChange={handleFormStateChange}
+        />
+        {errors.fat && <ErrorText>{errors.fat}</ErrorText>}
+      </FormInputContainer>
+      <FormInputContainer>
+        <label htmlFor='carbs'>Carbs (g)</label>
+        <Input
+          type='number'
+          name={'carbs'}
+          id={'carbs'}
+          placeholder={'Required field'}
+          value={formState.carbs}
+          onChange={handleFormStateChange}
+        />
+        {errors.carbs && <ErrorText>{errors.carbs}</ErrorText>}
+      </FormInputContainer>
+      <FormInputContainer>
+        <label htmlFor='protein'>Protein (g)</label>
+        <Input
+          type='number'
+          name={'protein'}
+          id={'protein'}
+          placeholder={'Required field'}
+          value={formState.protein}
+          onChange={handleFormStateChange}
+        />
+        {errors.protein && <ErrorText>{errors.protein}</ErrorText>}
       </FormInputContainer>
 
       <PrimaryButton type={'submit'}>Create</PrimaryButton>
