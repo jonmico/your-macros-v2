@@ -6,8 +6,10 @@ import { calcCalories } from '../../utils/calcCalories';
 import { Food } from '../../types/food';
 import { apiCreateFood } from '../../services/food-api';
 import Toast from '../toast/toast';
+import { Spinner } from '../spinner/spinner';
 
 const StyledForm = styled.form`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -25,6 +27,30 @@ const ErrorText = styled.div`
   font-size: 0.9rem;
 `;
 
+const LoadingContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+`;
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-indigo-500);
+  background-color: var(--color-gray-200);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  gap: 0.25rem;
+`;
+
 type FormStateType = {
   brand: string;
   name: string;
@@ -34,10 +60,9 @@ type FormStateType = {
   protein: string;
 };
 
-// TODO: Make loading spinner
-
 export default function AddFoodForm() {
-  const [isToastOpen, setIsToastOpen] = useState(true);
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [toastText, setToastText] = useState('');
   const [formState, setFormState] = useState<FormStateType>({
     brand: '',
@@ -115,10 +140,12 @@ export default function AddFoodForm() {
 
     const userId = '65d809272881dbdd5706bf94';
 
+    setIsLoading(true);
     const data: { food?: Food; errorMessage?: string } = await apiCreateFood(
       food,
       userId
     );
+    setIsLoading(false);
 
     if (data.errorMessage) {
       setIsToastOpen(true);
@@ -143,6 +170,14 @@ export default function AddFoodForm() {
   return (
     <>
       <StyledForm onSubmit={handleSubmit}>
+        {isLoading && (
+          <LoadingContainer>
+            <SpinnerContainer>
+              <Spinner />
+              <div>Creating food...</div>
+            </SpinnerContainer>
+          </LoadingContainer>
+        )}
         <h2>Create a Food</h2>
         <FormInputContainer>
           <label htmlFor='brand'>Brand</label>
