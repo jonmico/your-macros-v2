@@ -37,7 +37,7 @@ type FormStateType = {
 // TODO: Make loading spinner
 
 export default function AddFoodForm() {
-  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [isToastOpen, setIsToastOpen] = useState(true);
   const [toastText, setToastText] = useState('');
   const [formState, setFormState] = useState<FormStateType>({
     brand: '',
