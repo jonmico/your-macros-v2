@@ -100,7 +100,7 @@ export default function Toast({ children, closeToastWindow }: ToastProps) {
       onMouseLeave={() => setIsHovering(false)}
     >
       <ToastContent $isOpen={isOpen}>
-        {children} this is a test{' '}
+        {children}
         <ExitButton onClick={handleCloseClick}>
           <FaXmark />
         </ExitButton>
