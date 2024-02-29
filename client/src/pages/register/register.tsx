@@ -17,6 +17,10 @@ const StyledForm = styled.form`
   gap: 1rem;
 `;
 
+const StyledH2 = styled.h2`
+  text-align: center;
+`;
+
 export default function Register() {
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -24,7 +28,7 @@ export default function Register() {
   }
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+      <StyledH2>Sign Up</StyledH2>
       <FormInputContainer>
         <label htmlFor=''>Email</label>
         <Input />
