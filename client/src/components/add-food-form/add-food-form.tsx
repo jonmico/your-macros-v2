@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { PrimaryButton } from '../button/button';
 import { useState } from 'react';
-import { Input } from '../input/input';
+import { Input } from '../../ui/input/input';
+import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
 import { calcCalories } from '../../utils/calcCalories';
 import { Food } from '../../types/food';
 import { apiCreateFood } from '../../services/food-api';
@@ -14,12 +15,6 @@ const StyledForm = styled.form`
   flex-direction: column;
   gap: 1rem;
   width: 50%;
-`;
-
-const FormInputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
 `;
 
 const ErrorText = styled.div`

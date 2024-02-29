@@ -32,3 +32,7 @@ export const ExitButton = styled.button`
     cursor: pointer;
   }
 `;
+
+export const RegisterButton = styled(PrimaryButton)`
+  width: 100%;
+`;
