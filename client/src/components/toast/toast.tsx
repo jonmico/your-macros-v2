@@ -82,6 +82,7 @@ export default function Toast({ children, closeToastWindow }: ToastProps) {
         timeoutCloseToastWindow = setTimeout(closeToastWindow, 1000);
       }, 3000);
     }
+
     return () => {
       clearTimeout(timeoutToastAnimation);
       clearTimeout(timeoutCloseToastWindow);

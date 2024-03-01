@@ -8,6 +8,7 @@ import { Food } from '../../types/food';
 import { apiCreateFood } from '../../services/food-api';
 import Toast from '../toast/toast';
 import { Spinner } from '../spinner/spinner';
+import { ErrorText } from '../../ui/error-text/error-text';
 
 const StyledForm = styled.form`
   position: relative;
@@ -15,11 +16,6 @@ const StyledForm = styled.form`
   flex-direction: column;
   gap: 1rem;
   width: 50%;
-`;
-
-const ErrorText = styled.div`
-  color: var(--color-red-500);
-  font-size: 0.9rem;
 `;
 
 const LoadingContainer = styled.div`
