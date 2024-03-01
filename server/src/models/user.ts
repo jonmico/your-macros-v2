@@ -19,11 +19,11 @@ const userSchema = new Schema<User>(
     createdFoods: [{ type: Schema.Types.ObjectId, ref: 'Food', default: [] }],
     foodLogs: [{ type: Schema.Types.ObjectId, ref: 'Log', default: [] }],
     dailyIntake: {
-      calories: { type: Number, required: true },
+      calories: { type: Number, default: 0 },
       macros: {
-        carbs: { type: Number, required: true },
-        fat: { type: Number, required: true },
-        protein: { type: Number, required: true },
+        carbs: { type: Number, default: 0 },
+        fat: { type: Number, default: 0 },
+        protein: { type: Number, default: 0 },
       },
     },
     weightLogs: [{ type: weightLogSchema, default: [] }],
