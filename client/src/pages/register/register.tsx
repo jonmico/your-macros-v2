@@ -95,7 +95,7 @@ export default function Register() {
   }
   return (
     <StyledForm onSubmit={handleSubmit}>
-      <StyledH2>Sign Up</StyledH2>
+      <StyledH2>Register</StyledH2>
       <FormInputContainer>
         <label htmlFor='email'>Email</label>
         <Input
