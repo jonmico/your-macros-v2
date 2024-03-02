@@ -37,23 +37,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 
   async function register(user: UserType) {
-    try {
-      dispatch({ type: 'auth/loading' });
-      const data = await apiRegisterUser(user);
+    dispatch({ type: 'auth/loading' });
 
-      if (data.errorMessage) {
-        dispatch({ type: 'auth/error', payload: data.errorMessage });
-      } else {
-        dispatch({ type: 'auth/register' });
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        dispatch({ type: 'auth/error', payload: err.message });
-      }
+    const data = await apiRegisterUser(user);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'auth/error', payload: data.errorMessage });
+    } else {
+      dispatch({ type: 'auth/register' });
     }
   }
 
-  console.log(authState.error);
   const value = { ...authState, register };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

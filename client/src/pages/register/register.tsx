@@ -94,12 +94,11 @@ export default function Register() {
       return;
     }
 
-    console.log('You are trying to register!');
-
     const user = {
       email: registerFormState.email,
       password: registerFormState.password,
     };
+
     await register(user);
   }
   return (
