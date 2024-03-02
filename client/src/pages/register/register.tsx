@@ -1,9 +1,10 @@
-import styled from 'styled-components';
-import { Input } from '../../ui/input/input';
-import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
-import { RegisterButton } from '../../components/button/button';
 import { useState } from 'react';
+import styled from 'styled-components';
+import { RegisterButton } from '../../components/button/button';
 import { ErrorText } from '../../ui/error-text/error-text';
+import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
+import { Input } from '../../ui/input/input';
+import { useAuth } from '../../hooks/useAuth';
 
 const StyledForm = styled.form`
   margin: 2rem auto 0 auto;
@@ -30,6 +31,8 @@ type RegisterFormType = {
 };
 
 export default function Register() {
+  const { register } = useAuth();
+
   const [registerFormState, setRegisterFormState] = useState<RegisterFormType>({
     email: '',
     password: '',
@@ -92,6 +95,12 @@ export default function Register() {
     }
 
     console.log('You are trying to register!');
+
+    const user = {
+      email: registerFormState.email,
+      password: registerFormState.password,
+    };
+    await register({ user });
   }
   return (
     <StyledForm onSubmit={handleSubmit}>

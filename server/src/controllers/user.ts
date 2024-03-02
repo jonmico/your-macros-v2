@@ -22,7 +22,11 @@ export async function createUser(
       throw new AppError(400, 'User with that email already exists.');
     }
 
-    const calories = calcCalories(user.dailyIntake.macros);
+    let calories = 0;
+
+    if (user.dailyIntake) {
+      calories = calcCalories(user.dailyIntake.macros);
+    }
 
     const newUser = await User.create({ ...user, calories: calories });
 
