@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import bcrypt from 'bcrypt';
 import User from '../models/user';
 import { User as UserType } from '../types/user';
 import { AppError } from '../app-error';
@@ -28,16 +29,22 @@ export async function createUser(
       calories = calcCalories(user.dailyIntake.macros);
     }
 
-    const newUser = await User.create({ ...user, calories: calories });
+    bcrypt.hash(user.password, 10, async (err, hash) => {
+      const newUser = await User.create({
+        ...user,
+        password: hash,
+        calories: calories,
+      });
 
-    res.json({
-      user: {
-        id: newUser._id,
-        email: newUser.email,
-        weight: newUser.weight,
-        weightLogs: newUser.weightLogs,
-        dailyIntake: newUser.dailyIntake,
-      },
+      res.json({
+        user: {
+          id: newUser._id,
+          email: newUser.email,
+          weight: newUser.weight,
+          weightLogs: newUser.weightLogs,
+          dailyIntake: newUser.dailyIntake,
+        },
+      });
     });
   } catch (err) {
     next(err);

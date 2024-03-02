@@ -21,6 +21,7 @@ export async function apiRegisterUser(
 
     if (!response.ok) {
       const errorData: { errorMessage: string } = await response.json();
+
       if (errorData) {
         return { errorMessage: errorData.errorMessage };
       }
