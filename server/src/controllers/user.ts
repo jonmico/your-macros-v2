@@ -36,7 +36,7 @@ export async function createUser(
         calories: calories,
       });
 
-      res.json({
+      res.status(201).json({
         user: {
           id: newUser._id,
           email: newUser.email,
@@ -45,6 +45,32 @@ export async function createUser(
           dailyIntake: newUser.dailyIntake,
         },
       });
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function login(req: Request, res: Response, next: NextFunction) {
+  const { email, password }: { email: string; password: string } = req.body;
+
+  try {
+    const user = await User.findOne({ email }).exec();
+
+    if (!user) {
+      throw new AppError(400, 'User does not exist.');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      throw new AppError(400, 'Email or password is incorrect.');
+    }
+
+    res.json({
+      userId: user._id,
+      isAuthenticated: true,
+      successfulLogin: true,
     });
   } catch (err) {
     next(err);
