@@ -35,7 +35,8 @@ app.use(((
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
-  const errorMessage = err instanceof AppError ? err.errorMessage : err.message;
+  // const errorMessage = err instanceof AppError ? err.errorMessage : err.message;
+  const errorMessage = err.message;
   const errorCode = err instanceof AppError ? err.errorCode : 500;
 
   console.error(err);

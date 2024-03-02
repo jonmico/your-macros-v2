@@ -13,10 +13,8 @@ export async function apiRegisterUser(user: UserType) {
   const response = await fetch('/api/user/create', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(user),
+    body: JSON.stringify({ user }),
   });
 
-  const data = await response.json();
-
-  return data;
+  return await response.json();
 }

@@ -19,6 +19,11 @@ export function authReducer(state: AuthState, action: AuthAction) {
         ...state,
         isLoading: false,
       };
+    case 'auth/error':
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       throw new TypeError("We don't recognize that type.");
   }

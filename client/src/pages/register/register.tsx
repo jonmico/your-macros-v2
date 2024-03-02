@@ -100,7 +100,7 @@ export default function Register() {
       email: registerFormState.email,
       password: registerFormState.password,
     };
-    await register({ user });
+    await register(user);
   }
   return (
     <StyledForm onSubmit={handleSubmit}>
