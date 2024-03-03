@@ -1,7 +1,8 @@
 import { createContext, useReducer } from 'react';
 import { AuthState, authReducer } from '../reducers/auth-reducer';
-import { apiRegisterUser } from '../services/auth-api';
+import { apiLogin, apiRegisterUser } from '../services/auth-api';
 import { Macros } from '../types/macros';
+import { UserData } from '../types/user-data';
 
 type UserType = {
   email: string;
@@ -14,10 +15,11 @@ type UserType = {
 
 type AuthContextType = {
   isLoading: boolean;
-  isAuthenticated: boolean;
-  userId: string;
+  isLoggedIn: boolean;
+  userData: UserData | null;
   error: string;
   register: (user: UserType) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -28,8 +30,8 @@ interface AuthProviderProps {
 
 const initialState: AuthState = {
   isLoading: false,
-  isAuthenticated: false,
-  userId: '',
+  isLoggedIn: false,
+  userData: null,
   error: '',
 };
 
@@ -48,7 +50,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  const value = { ...authState, register };
+  async function login(email: string, password: string) {
+    dispatch({ type: 'auth/loading' });
+
+    const data = await apiLogin(email, password);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'auth/error', payload: data.errorMessage });
+    }
+
+    if (data.isLoggedIn && data.userData) {
+      dispatch({
+        type: 'auth/login',
+        payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
+      });
+    }
+  }
+
+  const value = { ...authState, register, login };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
