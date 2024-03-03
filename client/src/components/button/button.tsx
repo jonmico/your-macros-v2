@@ -33,6 +33,6 @@ export const ExitButton = styled.button`
   }
 `;
 
-export const RegisterButton = styled(PrimaryButton)`
+export const WideButton = styled(PrimaryButton)`
   width: 100%;
 `;
