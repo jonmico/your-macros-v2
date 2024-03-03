@@ -68,9 +68,16 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     }
 
     res.json({
-      userId: user._id,
-      isAuthenticated: true,
-      successfulLogin: true,
+      isLoggedIn: true,
+      userData: {
+        userId: user._id,
+        calories: user.dailyIntake.calories,
+        macros: user.dailyIntake.macros,
+        createdFoods: user.createdFoods,
+        foodLogs: user.foodLogs,
+        weightLog: user.weightLogs,
+        weight: user.weight,
+      },
     });
   } catch (err) {
     next(err);
