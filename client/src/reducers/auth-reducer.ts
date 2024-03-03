@@ -28,6 +28,7 @@ export function authReducer(state: AuthState, action: AuthAction) {
     case 'auth/login':
       return {
         ...state,
+        error: '',
         userData: action.payload.userData,
         isLoggedIn: action.payload.isLoggedIn,
         isLoading: false,

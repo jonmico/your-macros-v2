@@ -1,28 +1,10 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { RegisterButton } from '../../components/button/button';
+import { WideButton } from '../../components/button/button';
+import { useAuth } from '../../hooks/useAuth';
 import { ErrorText } from '../../ui/error-text/error-text';
 import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
 import { Input } from '../../ui/input/input';
-import { useAuth } from '../../hooks/useAuth';
-
-const StyledForm = styled.form`
-  margin: 2rem auto 0 auto;
-  width: 50%;
-  max-width: 30rem;
-  min-width: 20rem;
-  border: 1px solid var(--color-indigo-400);
-  border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const StyledH2 = styled.h2`
-  text-align: center;
-`;
+import LoginRegisterForm from '../../ui/login-register-form/login-register-form';
 
 type RegisterFormType = {
   email: string;
@@ -102,8 +84,7 @@ export default function Register() {
     await register(user);
   }
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      <StyledH2>Register</StyledH2>
+    <LoginRegisterForm header={'Register'} handleSubmit={handleSubmit}>
       <FormInputContainer>
         <label htmlFor='email'>Email</label>
         <Input
@@ -137,7 +118,7 @@ export default function Register() {
         )}
       </FormInputContainer>
       {passwordMatchError && <ErrorText>{passwordMatchError}</ErrorText>}
-      <RegisterButton type={'submit'}>Register</RegisterButton>
-    </StyledForm>
+      <WideButton type={'submit'}>Register</WideButton>
+    </LoginRegisterForm>
   );
 }
