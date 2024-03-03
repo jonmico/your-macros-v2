@@ -5,6 +5,19 @@ import { WideButton } from '../../components/button/button';
 import { useState } from 'react';
 import { ErrorText } from '../../ui/error-text/error-text';
 import { useAuth } from '../../hooks/useAuth';
+import { Spinner } from '../../components/spinner/spinner';
+import styled from 'styled-components';
+
+const SpinnerContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 type LoginFormStateType = {
   email: string;
@@ -12,7 +25,7 @@ type LoginFormStateType = {
 };
 
 export default function Login() {
-  const { login, userData, error } = useAuth();
+  const { login, userData, error, isLoading } = useAuth();
   const [loginFormState, setLoginFormState] = useState<LoginFormStateType>({
     email: '',
     password: '',
@@ -56,6 +69,11 @@ export default function Login() {
   console.log(userData, error);
   return (
     <LoginRegisterForm header={'Login'} handleSubmit={handleSubmit}>
+      {isLoading && (
+        <SpinnerContainer>
+          <Spinner></Spinner>
+        </SpinnerContainer>
+      )}
       <FormInputContainer>
         <label htmlFor='email'>Email</label>
         <Input
