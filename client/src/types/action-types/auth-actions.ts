@@ -1,3 +1,5 @@
+import { UserData } from '../user-data';
+
 type Loading = {
   type: 'auth/loading';
 };
@@ -11,4 +13,12 @@ type AuthError = {
   payload: string;
 };
 
-export type AuthAction = Loading | Register | AuthError;
+type Login = {
+  type: 'auth/login';
+  payload: {
+    isLoggedIn: boolean;
+    userData: UserData;
+  };
+};
+
+export type AuthAction = Loading | AuthError | Register | Login;

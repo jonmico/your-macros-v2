@@ -1,4 +1,4 @@
-import { Macros } from '../macros';
+import { UserData } from '../user-data';
 
 type Loading = {
   type: 'user/loading';
@@ -6,14 +6,7 @@ type Loading = {
 
 type CreateUser = {
   type: 'user/create';
-  payload: {
-    calories: number;
-    macros: Macros;
-    createdFoods: string[];
-    foodLogs: string[];
-    weightLog: number[];
-    weight: number;
-  };
+  payload: UserData;
 };
 
 export type UserAction = Loading | CreateUser;
