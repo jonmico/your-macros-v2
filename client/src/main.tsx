@@ -12,6 +12,7 @@ import AddMeal from './pages/add-meal/add-meal.tsx';
 import FoodLogs from './pages/food-logs/food-logs.tsx';
 import WeightLog from './pages/weight-log/weight-log.tsx';
 import { AuthProvider } from './contexts/auth-context.tsx';
+import ProtectedRoute from './pages/protected-route/protected-route.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -28,7 +29,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route index element={<Home />} />
           <Route path={'login'} element={<Login />} />
           <Route path={'register'} element={<Register />} />
-          <Route path={'app'} element={<AppLayout />}>
+          <Route
+            path={'app'}
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Navigate replace to={'dashboard'} />} />
             <Route path={'dashboard'} element={<Dashboard />} />
             <Route path={'add-meal'} element={<AddMeal />} />
