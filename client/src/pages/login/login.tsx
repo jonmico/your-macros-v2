@@ -17,7 +17,7 @@ type LoginFormStateType = {
 };
 
 export default function Login() {
-  const { login, userData, error, isLoading } = useAuth();
+  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
   const [loginFormState, setLoginFormState] = useState<LoginFormStateType>({
     email: '',
@@ -64,7 +64,6 @@ export default function Login() {
     if (isLoggedIn) navigate('/app/dashboard');
   }
 
-  console.log(userData, error);
   return (
     <LoginRegisterForm header={'Login'} handleSubmit={handleSubmit}>
       {isLoading && (

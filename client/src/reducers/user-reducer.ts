@@ -3,6 +3,7 @@ import { Macros } from '../types/macros';
 
 type UserState = {
   isLoading: boolean;
+  userId: string;
   calories: number;
   macros: Macros;
   createdFoods: string[];
@@ -19,7 +20,24 @@ export function userReducer(state: UserState, action: UserAction) {
         ...state,
         isLoading: true,
       };
-
+    case 'user/error':
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+    case 'user/setUser':
+      return {
+        ...state,
+        isLoading: false,
+        userId: action.payload.userId,
+        calories: action.payload.calories,
+        macros: action.payload.macros,
+        createdFoods: action.payload.createdFoods,
+        foodLogs: action.payload.foodLogs,
+        weightLog: action.payload.weightLog,
+        weight: action.payload.weight,
+      };
     default:
       throw new TypeError("We don't know that type.");
   }

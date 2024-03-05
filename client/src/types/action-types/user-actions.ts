@@ -4,9 +4,14 @@ type Loading = {
   type: 'user/loading';
 };
 
-type CreateUser = {
-  type: 'user/create';
+type Error = {
+  type: 'user/error';
+  payload: string;
+};
+
+type SetUser = {
+  type: 'user/setUser';
   payload: UserData;
 };
 
-export type UserAction = Loading | CreateUser;
+export type UserAction = Loading | Error | SetUser;

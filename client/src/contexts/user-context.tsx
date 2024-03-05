@@ -4,6 +4,7 @@ import { userReducer } from '../reducers/user-reducer';
 
 type UserContextType = {
   isLoading: boolean;
+  userId: string;
   calories: number;
   macros: Macros;
   createdFoods: string[];
@@ -21,6 +22,7 @@ interface UserProviderProps {
 
 const initialState = {
   isLoading: false,
+  userId: '',
   calories: 0,
   macros: {
     carbs: 0,
@@ -35,7 +37,8 @@ const initialState = {
 };
 
 export function UserProvider({ children }: UserProviderProps) {
-  const { userState, dispatch } = useReducer(userReducer, initialState);
-  const value = {};
+  const [userState, dispatch] = useReducer(userReducer, initialState);
+  const value = { ...userState };
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
