@@ -5,6 +5,11 @@ import { ErrorText } from '../../ui/error-text/error-text';
 import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
 import { Input } from '../../ui/input/input';
 import LoginRegisterForm from '../../ui/login-register-form/login-register-form';
+import {
+  CenterSpinnerContainer,
+  Spinner,
+} from '../../components/spinner/spinner';
+import { useNavigate } from 'react-router-dom';
 
 type RegisterFormType = {
   email: string;
@@ -13,7 +18,8 @@ type RegisterFormType = {
 };
 
 export default function Register() {
-  const { register } = useAuth();
+  const { register, isLoading, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const [registerFormState, setRegisterFormState] = useState<RegisterFormType>({
     email: '',
@@ -82,9 +88,18 @@ export default function Register() {
     };
 
     await register(user);
+
+    if (isLoggedIn) {
+      navigate('/app/dashboard');
+    }
   }
   return (
     <LoginRegisterForm header={'Register'} handleSubmit={handleSubmit}>
+      {isLoading && (
+        <CenterSpinnerContainer>
+          <Spinner></Spinner>
+        </CenterSpinnerContainer>
+      )}
       <FormInputContainer>
         <label htmlFor='email'>Email</label>
         <Input

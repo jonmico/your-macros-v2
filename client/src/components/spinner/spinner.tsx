@@ -17,3 +17,14 @@ export const Spinner = styled.div`
   border-radius: 50%;
   animation: ${rotate} infinite 1s ease-in-out;
 `;
+
+export const CenterSpinnerContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
