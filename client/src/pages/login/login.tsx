@@ -9,6 +9,7 @@ import {
   Spinner,
   CenterSpinnerContainer,
 } from '../../components/spinner/spinner';
+import { useNavigate } from 'react-router-dom';
 
 type LoginFormStateType = {
   email: string;
@@ -17,6 +18,7 @@ type LoginFormStateType = {
 
 export default function Login() {
   const { login, userData, error, isLoading } = useAuth();
+  const navigate = useNavigate();
   const [loginFormState, setLoginFormState] = useState<LoginFormStateType>({
     email: '',
     password: '',
@@ -54,7 +56,12 @@ export default function Login() {
       return;
     }
 
-    await login(loginFormState.email, loginFormState.password);
+    const isLoggedIn = await login(
+      loginFormState.email,
+      loginFormState.password
+    );
+
+    if (isLoggedIn) navigate('/app/dashboard');
   }
 
   console.log(userData, error);

@@ -18,8 +18,8 @@ type AuthContextType = {
   isLoggedIn: boolean;
   userData: UserData | null;
   error: string;
-  register: (user: UserType) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
+  register: (user: UserType) => Promise<boolean | undefined>;
+  login: (email: string, password: string) => Promise<boolean | undefined>;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -52,6 +52,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/register',
         payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
       });
+      return data.isLoggedIn;
     }
   }
 
@@ -69,6 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/login',
         payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
       });
+      return data.isLoggedIn;
     }
   }
 
