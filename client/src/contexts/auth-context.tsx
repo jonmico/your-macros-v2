@@ -45,8 +45,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     if (data.errorMessage) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
-    } else {
-      dispatch({ type: 'auth/register' });
+    }
+
+    if (data.isLoggedIn && data.userData) {
+      dispatch({
+        type: 'auth/register',
+        payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
+      });
     }
   }
 

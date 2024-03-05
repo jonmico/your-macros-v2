@@ -18,12 +18,16 @@ export function authReducer(state: AuthState, action: AuthAction) {
     case 'auth/error':
       return {
         ...state,
+        isLoading: false,
         error: action.payload,
       };
     case 'auth/register':
       return {
         ...state,
         isLoading: false,
+        error: '',
+        userData: action.payload.userData,
+        isLoggedIn: action.payload.isLoggedIn,
       };
     case 'auth/login':
       return {

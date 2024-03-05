@@ -6,6 +6,10 @@ type Loading = {
 
 type Register = {
   type: 'auth/register';
+  payload: {
+    isLoggedIn: boolean;
+    userData: UserData;
+  };
 };
 
 type AuthError = {

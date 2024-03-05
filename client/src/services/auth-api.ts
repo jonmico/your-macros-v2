@@ -12,7 +12,11 @@ type UserType = {
 
 export async function apiRegisterUser(
   user: UserType
-): Promise<{ errorMessage?: string }> {
+): Promise<{
+  isLoggedIn?: boolean;
+  userData?: UserData;
+  errorMessage?: string;
+}> {
   try {
     const response = await fetch('/api/user/create', {
       method: 'POST',
@@ -36,16 +40,14 @@ export async function apiRegisterUser(
   }
 }
 
-interface ILoginData {
-  isLoggedIn?: boolean;
-  userData?: UserData;
-  errorMessage?: string;
-}
-
 export async function apiLogin(
   email: string,
   password: string
-): Promise<ILoginData> {
+): Promise<{
+  isLoggedIn?: boolean;
+  userData?: UserData;
+  errorMessage?: string;
+}> {
   try {
     const response = await fetch('/api/user/login', {
       method: 'POST',

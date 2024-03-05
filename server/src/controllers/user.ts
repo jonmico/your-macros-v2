@@ -37,12 +37,15 @@ export async function createUser(
       });
 
       res.status(201).json({
-        user: {
-          id: newUser._id,
-          email: newUser.email,
+        isLoggedIn: true,
+        userData: {
+          userId: newUser._id,
+          calories: newUser.dailyIntake.calories,
+          macros: newUser.dailyIntake.macros,
+          createdFoods: newUser.createdFoods,
+          foodLogs: newUser.foodLogs,
+          weightLog: newUser.weightLogs,
           weight: newUser.weight,
-          weightLogs: newUser.weightLogs,
-          dailyIntake: newUser.dailyIntake,
         },
       });
     });
