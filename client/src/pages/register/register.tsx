@@ -18,7 +18,7 @@ type RegisterFormType = {
 };
 
 export default function Register() {
-  const { register, isLoading, isLoggedIn } = useAuth();
+  const { register, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const [registerFormState, setRegisterFormState] = useState<RegisterFormType>({
@@ -87,11 +87,9 @@ export default function Register() {
       password: registerFormState.password,
     };
 
-    await register(user);
+    const isLoggedIn = await register(user);
 
-    if (isLoggedIn) {
-      navigate('/app/dashboard');
-    }
+    if (isLoggedIn) navigate('/app/dashboard');
   }
   return (
     <LoginRegisterForm header={'Register'} handleSubmit={handleSubmit}>
