@@ -81,7 +81,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       throw new AppError(400, 'Email or password is incorrect.');
     }
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
     res
       .cookie('token', token, {
@@ -105,6 +105,10 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+interface IToken {
+  id: string;
+}
+
 export async function checkUserSession(
   req: Request,
   res: Response,
@@ -112,34 +116,40 @@ export async function checkUserSession(
 ) {
   try {
     const token = req.signedCookies.token;
+
     if (!token) {
       throw new AppError(401, 'Token not provided.');
     }
 
-    jwt.verify(token, JWT_SECRET, async (err: any, decode: any) => {
-      if (err) {
-        throw new AppError(400, err);
-      }
+    const decoded = jwt.verify(token, JWT_SECRET) as IToken;
 
-      const user = await User.findById(decode.id).exec();
+    if (decoded.id) {
+      const user = await User.findById(decoded.id).exec();
 
       if (!user) {
         throw new AppError(400, 'User does not exist.');
       }
 
-      res.json({
-        isLoggedIn: true,
-        userData: {
-          userId: user._id,
-          calories: user.dailyIntake.calories,
-          macros: user.dailyIntake.macros,
-          createdFoods: user.createdFoods,
-          foodLogs: user.foodLogs,
-          weightLog: user.weightLogs,
-          weight: user.weight,
-        },
-      });
-    });
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+
+      res
+        .cookie('token', token, {
+          maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+          signed: true,
+        })
+        .json({
+          isLoggedIn: true,
+          userData: {
+            userId: user._id,
+            calories: user.dailyIntake.calories,
+            macros: user.dailyIntake.macros,
+            createdFoods: user.createdFoods,
+            foodLogs: user.foodLogs,
+            weightLog: user.weightLogs,
+            weight: user.weight,
+          },
+        });
+    }
   } catch (err) {
     next(err);
   }

@@ -6,6 +6,7 @@ import express, {
 } from 'express';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import { connectDb } from './db';
 import { AppError } from './app-error';
 import { router as userRouter } from './routes/user';
@@ -18,6 +19,7 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api/user', userRouter);
