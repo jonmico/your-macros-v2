@@ -1,6 +1,7 @@
 import { createContext, useReducer } from 'react';
 import { Macros } from '../types/macros';
 import { userReducer } from '../reducers/user-reducer';
+import { UserData } from '../types/user-data';
 
 type UserContextType = {
   isLoading: boolean;
@@ -18,26 +19,16 @@ export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
   children: React.ReactNode;
+  userData: UserData;
 }
 
-const initialState = {
-  isLoading: false,
-  userId: '',
-  calories: 0,
-  macros: {
-    carbs: 0,
-    protein: 0,
-    fat: 0,
-  },
-  createdFoods: [],
-  foodLogs: [],
-  weightLog: [],
-  weight: 0,
-  error: '',
-};
+export function UserProvider({ children, userData }: UserProviderProps) {
+  const [userState, dispatch] = useReducer(userReducer, {
+    isLoading: false,
+    error: '',
+    ...userData,
+  });
 
-export function UserProvider({ children }: UserProviderProps) {
-  const [userState, dispatch] = useReducer(userReducer, initialState);
   const value = { ...userState };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

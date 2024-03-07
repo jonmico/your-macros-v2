@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { UserProvider } from '../../contexts/user-context';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isLoading, isLoggedIn } = useAuth();
+  const { isLoading, isLoggedIn, userData } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,5 +21,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     return 'LOADING';
   }
 
-  return children;
+  if (userData === null) return null;
+
+  return <UserProvider userData={userData}>{children}</UserProvider>;
 }

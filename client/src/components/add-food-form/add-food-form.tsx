@@ -9,6 +9,7 @@ import { apiCreateFood } from '../../services/food-api';
 import Toast from '../toast/toast';
 import { Spinner } from '../spinner/spinner';
 import { ErrorText } from '../../ui/error-text/error-text';
+import { useUser } from '../../hooks/useUser';
 
 const StyledForm = styled.form`
   position: relative;
@@ -52,6 +53,7 @@ type FormStateType = {
 };
 
 export default function AddFoodForm() {
+  const { userId } = useUser();
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastText, setToastText] = useState('');
@@ -128,8 +130,6 @@ export default function AddFoodForm() {
       macros: numMacros,
       calories,
     };
-
-    const userId = '65d809272881dbdd5706bf94';
 
     setIsLoading(true);
     const data: {
