@@ -10,9 +10,7 @@ type UserType = {
   };
 };
 
-export async function apiRegisterUser(
-  user: UserType
-): Promise<{
+export async function apiRegisterUser(user: UserType): Promise<{
   isLoggedIn?: boolean;
   userData?: UserData;
   errorMessage?: string;
@@ -66,6 +64,37 @@ export async function apiLogin(
     }
 
     return await response.json();
+  } catch (err) {
+    return {
+      errorMessage: 'There is a very strong possibility the server is down.',
+    };
+  }
+}
+
+export async function apiCheckUserSession(): Promise<{
+  isLoggedIn?: boolean;
+  userData?: UserData;
+  errorMessage?: string;
+}> {
+  try {
+    const res = await fetch('/api/user', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Accept': 'application/json',
+        'credentials': 'include',
+      },
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return { errorMessage: errorData.errorMessage };
+      }
+    }
+
+    return await res.json();
   } catch (err) {
     return {
       errorMessage: 'There is a very strong possibility the server is down.',
