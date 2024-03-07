@@ -1,6 +1,12 @@
-import styled from 'styled-components';
+import {
+  FaBook,
+  FaHouseChimney,
+  FaPenToSquare,
+  FaUtensils,
+  FaWeightScale,
+} from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
-import { FaHouseChimney } from 'react-icons/fa6';
+import styled from 'styled-components';
 
 const StyledAppNav = styled.nav`
   border-right: 1px solid var(--color-indigo-300);
@@ -47,19 +53,19 @@ export default function AppNav() {
           Dashboard
         </StyledNavLink>
         <StyledNavLink to={'add-meal'}>
-          <FaHouseChimney />
+          <FaUtensils />
           Add Meal
         </StyledNavLink>
         <StyledNavLink to={'food-logs'}>
-          <FaHouseChimney />
+          <FaBook />
           Food Logs
         </StyledNavLink>
         <StyledNavLink to={'weight-log'}>
-          <FaHouseChimney />
+          <FaWeightScale />
           Weight Log
         </StyledNavLink>
         <StyledNavLink to={'add-food'}>
-          <FaHouseChimney />
+          <FaPenToSquare />
           Create Food
         </StyledNavLink>
       </StyledUL>
