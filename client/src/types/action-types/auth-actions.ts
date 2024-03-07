@@ -9,22 +9,6 @@ type AuthError = {
   payload: string;
 };
 
-type Register = {
-  type: 'auth/register';
-  payload: {
-    isLoggedIn: boolean;
-    userData: UserData;
-  };
-};
-
-type Login = {
-  type: 'auth/login';
-  payload: {
-    isLoggedIn: boolean;
-    userData: UserData;
-  };
-};
-
 type SetUser = {
   type: 'auth/setUser';
   payload: {
@@ -33,4 +17,8 @@ type SetUser = {
   };
 };
 
-export type AuthAction = Loading | AuthError | Register | Login | SetUser;
+export type Logout = {
+  type: 'auth/logout';
+};
+
+export type AuthAction = Loading | AuthError | SetUser | Logout;
