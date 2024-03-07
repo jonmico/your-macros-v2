@@ -21,23 +21,30 @@ export function authReducer(state: AuthState, action: AuthAction) {
         isLoading: false,
         error: action.payload,
       };
-    case 'auth/register':
+    // case 'auth/register':
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: '',
+    //     userData: action.payload.userData,
+    //     isLoggedIn: action.payload.isLoggedIn,
+    //   };
+    // case 'auth/login':
+    //   return {
+    //     ...state,
+    //     error: '',
+    //     userData: action.payload.userData,
+    //     isLoggedIn: action.payload.isLoggedIn,
+    //     isLoading: false,
+    //   };
+    case 'auth/setUser':
       return {
         ...state,
-        isLoading: false,
         error: '',
         userData: action.payload.userData,
         isLoggedIn: action.payload.isLoggedIn,
-      };
-    case 'auth/login':
-      return {
-        ...state,
-        error: '',
-        userData: action.payload.userData,
-        isLoggedIn: action.payload.isLoggedIn,
         isLoading: false,
       };
-
     default:
       throw new TypeError("We don't recognize that type.");
   }
