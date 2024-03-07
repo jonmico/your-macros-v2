@@ -1,5 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth } from '../../hooks/useAuth';
+import { useCookies } from 'react-cookie';
 
 const StyledGlobalNav = styled.div`
   border-bottom: 1px solid var(--color-indigo-300);
@@ -45,7 +47,29 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const NavButton = styled.button`
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  background-color: inherit;
+
+  &:hover,
+  &:active {
+    cursor: pointer;
+    color: var(--color-indigo-600);
+  }
+`;
+
 export default function GlobalNav() {
+  const { logout } = useAuth();
+  const [cookies, , removeCookie] = useCookies(['token']);
+
+  console.log(cookies);
+
+  function handleLogoutClick() {
+    logout();
+    removeCookie('token', { path: '/' });
+  }
   return (
     <StyledGlobalNav>
       <StyledNav>
@@ -53,6 +77,9 @@ export default function GlobalNav() {
         <LinkContainer>
           <StyledNavLink to={'/login'}>Login</StyledNavLink>
           <StyledNavLink to={'/register'}>Register</StyledNavLink>
+          <NavButton as={'button'} onClick={handleLogoutClick}>
+            Logout
+          </NavButton>
         </LinkContainer>
       </StyledNav>
     </StyledGlobalNav>

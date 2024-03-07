@@ -24,6 +24,7 @@ type AuthContextType = {
   error: string;
   register: (user: UserType) => Promise<boolean | undefined>;
   login: (email: string, password: string) => Promise<boolean | undefined>;
+  logout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -97,7 +98,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  const value = { ...authState, register, login };
+  function logout() {
+    dispatch({ type: 'auth/logout' });
+  }
+
+  const value = { ...authState, register, login, logout };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -7,14 +7,18 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isLoading, isLoggedIn, userData } = useAuth();
+  const { isLoading, isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoading === false && isLoggedIn === false && !userData) {
+    if (!isLoading && !isLoggedIn) {
       navigate('/login');
     }
-  }, [isLoading, isLoggedIn, userData, navigate]);
+  }, [isLoading, isLoggedIn, navigate]);
+
+  if (isLoading) {
+    return 'LOADING';
+  }
 
   return children;
 }
