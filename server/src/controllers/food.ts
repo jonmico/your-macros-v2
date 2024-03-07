@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import Food from '../models/food';
-import { Food as FoodType } from '../types/food';
-import User from '../models/user';
+import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../app-error';
+import Food from '../models/food';
+import User from '../models/user';
+import { Food as FoodType } from '../types/food';
 import { calcCalories } from '../utils/calcCalories';
 
 export async function createFood(
@@ -27,7 +27,10 @@ export async function createFood(
       author: user._id,
     });
 
-    res.json({ food: newFood });
+    user.createdFoods.push(newFood._id);
+    await user.save();
+
+    res.json({ food: newFood, createdFoods: user.createdFoods });
   } catch (err) {
     next(err);
   }

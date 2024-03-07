@@ -132,10 +132,11 @@ export default function AddFoodForm() {
     const userId = '65d809272881dbdd5706bf94';
 
     setIsLoading(true);
-    const data: { food?: Food; errorMessage?: string } = await apiCreateFood(
-      food,
-      userId
-    );
+    const data: {
+      food?: Food;
+      createdFoods?: string[];
+      errorMessage?: string;
+    } = await apiCreateFood(food, userId);
     setIsLoading(false);
 
     if (data.errorMessage) {
