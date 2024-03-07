@@ -1,15 +1,15 @@
-import styled from 'styled-components';
-import { PrimaryButton } from '../button/button';
 import { useState } from 'react';
-import { Input } from '../../ui/input/input';
-import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
-import { calcCalories } from '../../utils/calcCalories';
-import { Food } from '../../types/food';
-import { apiCreateFood } from '../../services/food-api';
-import Toast from '../toast/toast';
-import { Spinner } from '../spinner/spinner';
-import { ErrorText } from '../../ui/error-text/error-text';
+import styled from 'styled-components';
 import { useUser } from '../../hooks/useUser';
+import { apiCreateFood } from '../../services/food-api';
+import { Food } from '../../types/food';
+import { ErrorText } from '../../ui/error-text/error-text';
+import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
+import { Input } from '../../ui/input/input';
+import { calcCalories } from '../../utils/calcCalories';
+import { PrimaryButton } from '../button/button';
+import { Spinner } from '../spinner/spinner';
+import Toast from '../toast/toast';
 
 const StyledForm = styled.form`
   position: relative;
@@ -53,7 +53,7 @@ type FormStateType = {
 };
 
 export default function AddFoodForm() {
-  const { userId } = useUser();
+  const { userId, dispatch: userDispatch } = useUser();
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [toastText, setToastText] = useState('');
@@ -156,6 +156,10 @@ export default function AddFoodForm() {
         fat: '',
         protein: '',
       });
+
+      if (data.food._id) {
+        userDispatch({ type: 'user/setCreatedFoods', payload: data.food._id });
+      }
     }
   }
 

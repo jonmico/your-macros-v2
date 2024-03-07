@@ -38,6 +38,11 @@ export function userReducer(state: UserState, action: UserAction) {
         weightLog: action.payload.weightLog,
         weight: action.payload.weight,
       };
+    case 'user/setCreatedFoods':
+      return {
+        ...state,
+        createdFoods: [...state.createdFoods, action.payload],
+      };
     default:
       throw new TypeError("We don't know that type.");
   }

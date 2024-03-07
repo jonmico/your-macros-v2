@@ -30,7 +30,7 @@ export async function createFood(
     user.createdFoods.push(newFood._id);
     await user.save();
 
-    res.json({ food: newFood, createdFoods: user.createdFoods });
+    res.json({ food: newFood });
   } catch (err) {
     next(err);
   }

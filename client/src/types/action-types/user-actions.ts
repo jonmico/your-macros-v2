@@ -14,4 +14,9 @@ type SetUser = {
   payload: UserData;
 };
 
-export type UserAction = Loading | Error | SetUser;
+type SetCreatedFoods = {
+  type: 'user/setCreatedFoods';
+  payload: string;
+};
+
+export type UserAction = Loading | Error | SetUser | SetCreatedFoods;
