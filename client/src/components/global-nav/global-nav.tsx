@@ -61,7 +61,7 @@ const NavButton = styled.button`
 `;
 
 export default function GlobalNav() {
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
   const [cookies, , removeCookie] = useCookies(['token']);
 
   console.log(cookies);
@@ -75,11 +75,16 @@ export default function GlobalNav() {
       <StyledNav>
         <StyledLink to={'/'}>YourMacros</StyledLink>
         <LinkContainer>
-          <StyledNavLink to={'/login'}>Login</StyledNavLink>
-          <StyledNavLink to={'/register'}>Register</StyledNavLink>
-          <NavButton as={'button'} onClick={handleLogoutClick}>
-            Logout
-          </NavButton>
+          {isLoggedIn ? (
+            <NavButton as={'button'} onClick={handleLogoutClick}>
+              Logout
+            </NavButton>
+          ) : (
+            <>
+              <StyledNavLink to={'/login'}>Login</StyledNavLink>
+              <StyledNavLink to={'/register'}>Register</StyledNavLink>
+            </>
+          )}
         </LinkContainer>
       </StyledNav>
     </StyledGlobalNav>
