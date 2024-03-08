@@ -11,6 +11,8 @@ import { connectDb } from './db';
 import { AppError } from './app-error';
 import { router as userRouter } from './routes/user';
 import { router as foodRouter } from './routes/food';
+import { router as logRouter } from './routes/food-log';
+
 connectDb();
 
 const PORT = process.env.PORT;
@@ -24,6 +26,7 @@ app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api/user', userRouter);
 app.use('/api/food', foodRouter);
+app.use('/api/food-log', logRouter);
 
 // 404 Error handler
 app.use((req, res) => {
