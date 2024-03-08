@@ -134,7 +134,6 @@ export default function AddFoodForm() {
     setIsLoading(true);
     const data: {
       food?: Food;
-      createdFoods?: string[];
       errorMessage?: string;
     } = await apiCreateFood(food, userId);
     setIsLoading(false);
