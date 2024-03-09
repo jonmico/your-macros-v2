@@ -9,9 +9,9 @@ export async function createLog(
   next: NextFunction
 ) {
   try {
-    const { author, name }: { author: string; name: string } = req.body;
+    const { userId, name }: { userId: string; name: string } = req.body;
 
-    const user = await User.findById(author).exec();
+    const user = await User.findById(userId).exec();
 
     if (!user) {
       throw new AppError(400, 'User does not exist.');
@@ -23,6 +23,18 @@ export async function createLog(
     user.save();
 
     return res.status(201).json({ log });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getLogs(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { userId } = req.params;
+
+    const logs = await FoodLog.find({ author: userId }).exec();
+
+    res.json({ logs });
   } catch (err) {
     next(err);
   }
