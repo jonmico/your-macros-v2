@@ -34,7 +34,7 @@ export async function getLogs(req: Request, res: Response, next: NextFunction) {
 
     const logs = await FoodLog.find({ author: userId }).exec();
 
-    res.json({ logs });
+    res.json({ foodLogs: logs });
   } catch (err) {
     next(err);
   }

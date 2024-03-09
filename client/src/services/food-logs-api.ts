@@ -28,3 +28,32 @@ export async function apiCreateLog(
     };
   }
 }
+
+export async function apiFetchLogs(
+  userId: string
+): Promise<{ foodLogs?: FoodLog[]; errorMessage?: string }> {
+  try {
+    const res = await fetch(`/api/food-log/${userId}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return {
+      errorMessage: 'The server is most likely down.',
+    };
+  }
+}
