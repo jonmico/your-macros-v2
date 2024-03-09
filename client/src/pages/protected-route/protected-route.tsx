@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { UserProvider } from '../../contexts/user-context';
+import { FoodLogProvider } from '../../contexts/food-log-context';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -23,5 +24,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (userData === null) return null;
 
-  return <UserProvider userData={userData}>{children}</UserProvider>;
+  return (
+    <UserProvider userData={userData}>
+      <FoodLogProvider userId={userData.userId}>{children}</FoodLogProvider>
+    </UserProvider>
+  );
 }
