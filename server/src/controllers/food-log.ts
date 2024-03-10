@@ -22,7 +22,7 @@ export async function createLog(
     user.foodLogs.push(log._id);
     user.save();
 
-    return res.status(201).json({ log });
+    return res.status(201).json({ foodLog: log });
   } catch (err) {
     next(err);
   }

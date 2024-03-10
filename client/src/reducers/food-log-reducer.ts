@@ -26,6 +26,12 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         isLoading: false,
         foodLogs: action.payload,
       };
+    case 'foodLog/createLog':
+      return {
+        ...state,
+        isLoading: false,
+        foodLogs: [...state.foodLogs, action.payload],
+      };
     default:
       throw new TypeError('We do not recognize that type.');
   }

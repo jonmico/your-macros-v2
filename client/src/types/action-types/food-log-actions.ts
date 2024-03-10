@@ -14,4 +14,9 @@ type SetLogs = {
   payload: FoodLog[];
 };
 
-export type FoodLogAction = Loading | Error | SetLogs;
+type CreateLog = {
+  type: 'foodLog/createLog';
+  payload: FoodLog;
+};
+
+export type FoodLogAction = Loading | Error | SetLogs | CreateLog;

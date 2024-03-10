@@ -62,9 +62,7 @@ const NavButton = styled.button`
 
 export default function GlobalNav() {
   const { logout, isLoggedIn } = useAuth();
-  const [cookies, , removeCookie] = useCookies(['token']);
-
-  console.log(cookies);
+  const [, , removeCookie] = useCookies(['token']);
 
   function handleLogoutClick() {
     logout();

@@ -1,16 +1,15 @@
 import { useState } from 'react';
+import { useFoodLog } from '../../hooks/useFoodLog';
 import { useUser } from '../../hooks/useUser';
-import { apiCreateLog } from '../../services/food-logs-api';
 
 export default function FoodLogs() {
   const { userId } = useUser();
+  const { createLog } = useFoodLog();
   const [logName, setLogName] = useState('');
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    const data = await apiCreateLog(userId, logName);
-
-    console.log(data);
+    await createLog(userId, logName);
   }
 
   return (
