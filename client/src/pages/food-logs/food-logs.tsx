@@ -4,8 +4,10 @@ import { useUser } from '../../hooks/useUser';
 
 export default function FoodLogs() {
   const { userId } = useUser();
-  const { createLog } = useFoodLog();
+  const { foodLogs, createLog } = useFoodLog();
   const [logName, setLogName] = useState('');
+
+  const foodLogList = foodLogs.map((log) => <li key={log._id}>{log.name}</li>);
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -25,6 +27,7 @@ export default function FoodLogs() {
         />
         <button type={'submit'}>Submit</button>
       </form>
+      <ul>{foodLogList}</ul>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { FoodLog } from '../types/food-log';
 
 export type FoodLogState = {
   foodLogs: FoodLog[];
+  currentLog: FoodLog | null;
   isLoading: boolean;
   error: string;
 };
@@ -31,6 +32,13 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         ...state,
         isLoading: false,
         foodLogs: [...state.foodLogs, action.payload],
+        currentLog: action.payload,
+        error: '',
+      };
+    case 'foodLog/setCurrentLog':
+      return {
+        ...state,
+        currentLog: action.payload,
       };
     default:
       throw new TypeError('We do not recognize that type.');

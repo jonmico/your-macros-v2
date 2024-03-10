@@ -5,6 +5,7 @@ import { apiCreateLog, apiFetchLogs } from '../services/food-logs-api';
 
 type FoodLogContextType = {
   foodLogs: FoodLog[];
+  currentLog: FoodLog | null;
   isLoading: boolean;
   error: string;
   createLog: (userId: string, logName: string) => Promise<void>;
@@ -14,6 +15,7 @@ export const FoodLogContext = createContext<FoodLogContextType | null>(null);
 
 const initialState: FoodLogState = {
   foodLogs: [],
+  currentLog: null,
   isLoading: true,
   error: '',
 };
@@ -37,6 +39,10 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
 
       if (data.foodLogs) {
         dispatch({ type: 'foodLog/setLogs', payload: data.foodLogs });
+        dispatch({
+          type: 'foodLog/setCurrentLog',
+          payload: data.foodLogs[data.foodLogs.length - 1],
+        });
       }
     }
     fetchLogs();
