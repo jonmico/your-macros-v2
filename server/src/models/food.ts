@@ -17,6 +17,8 @@ export const foodSchema = new Schema<Food>(
   { timestamps: true }
 );
 
+foodSchema.index({ name: 'text', brand: 'text' });
+
 const Food = mongoose.model('Food', foodSchema);
 
 export default Food;

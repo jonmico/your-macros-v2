@@ -35,3 +35,25 @@ export async function createFood(
     next(err);
   }
 }
+
+export async function searchFoodByText(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { searchText } = req.params;
+
+    if (!searchText) {
+      throw new AppError(400, 'No search text provided.');
+    }
+
+    const searchedFoods = await Food.find({
+      $text: { $search: searchText },
+    }).exec();
+
+    res.json({ searchedFoods });
+  } catch (err) {
+    next(err);
+  }
+}
