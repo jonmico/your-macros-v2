@@ -33,7 +33,7 @@ export async function apiSearchFoodsByText(
   searchText: string
 ): Promise<{ searchedFoods?: Food[]; errorMessage?: string }> {
   try {
-    const res = await fetch(`/api/food/${searchText}`, {
+    const res = await fetch(`/api/food/search/${searchText}`, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     });

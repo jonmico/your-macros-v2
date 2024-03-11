@@ -37,7 +37,7 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         ...state,
         isLoading: false,
         error: '',
-        selectedFoods: action.payload,
+        searchedFoods: action.payload,
       };
     default:
       throw new TypeError("We don't know that type.");
