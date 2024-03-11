@@ -32,7 +32,9 @@ app.use('/api/food-log', logRouter);
 app.use((req, res) => {
   res
     .status(404)
-    .json({ message: 'Sorry, but we cannot find what you are looking for!' });
+    .json({
+      errorMessage: 'Sorry, but we cannot find what you are looking for!',
+    });
 });
 
 // Catch-all error handler
