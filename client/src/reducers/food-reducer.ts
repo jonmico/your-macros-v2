@@ -1,6 +1,9 @@
 import { FoodActions } from '../types/action-types/food-actions';
+import { Food } from '../types/food';
 
 type FoodState = {
+  searchedFoods: Food[];
+  selectedFood: Food | null;
   isLoading: boolean;
   error: string;
 };
@@ -22,6 +25,12 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         ...state,
         isLoading: false,
         error: action.payload,
+      };
+    case 'food/create':
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
       };
 
     default:

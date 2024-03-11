@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useFood } from '../../hooks/useFood';
 import { useUser } from '../../hooks/useUser';
-import { apiCreateFood } from '../../services/food-api';
 import { Food } from '../../types/food';
 import { ErrorText } from '../../ui/error-text/error-text';
 import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
@@ -54,8 +54,8 @@ type FormStateType = {
 
 export default function AddFoodForm() {
   const { userId, dispatch: userDispatch } = useUser();
+  const { isLoading: isCreatingFood, createFood } = useFood();
   const [isToastOpen, setIsToastOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [toastText, setToastText] = useState('');
   const [formState, setFormState] = useState<FormStateType>({
     brand: '',
@@ -131,12 +131,10 @@ export default function AddFoodForm() {
       calories,
     };
 
-    setIsLoading(true);
     const data: {
       food?: Food;
       errorMessage?: string;
-    } = await apiCreateFood(food, userId);
-    setIsLoading(false);
+    } = await createFood(food, userId);
 
     if (data.errorMessage) {
       setIsToastOpen(true);
@@ -165,7 +163,7 @@ export default function AddFoodForm() {
   return (
     <>
       <StyledForm onSubmit={handleSubmit}>
-        {isLoading && (
+        {isCreatingFood && (
           <LoadingContainer>
             <SpinnerContainer>
               <Spinner />

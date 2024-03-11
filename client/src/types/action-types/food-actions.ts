@@ -11,4 +11,8 @@ type FoodError = {
   payload: string;
 };
 
-export type FoodActions = Loading | Loaded | FoodError;
+type CreateFood = {
+  type: 'food/create';
+};
+
+export type FoodActions = Loading | Loaded | FoodError | CreateFood;
