@@ -32,7 +32,13 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         isLoading: false,
         error: '',
       };
-
+    case 'food/setSelectedFoods':
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        selectedFoods: action.payload,
+      };
     default:
       throw new TypeError("We don't know that type.");
   }

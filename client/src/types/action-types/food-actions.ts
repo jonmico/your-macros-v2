@@ -1,3 +1,5 @@
+import { Food } from '../food';
+
 type Loading = {
   type: 'food/loading';
 };
@@ -15,4 +17,14 @@ type CreateFood = {
   type: 'food/create';
 };
 
-export type FoodActions = Loading | Loaded | FoodError | CreateFood;
+type SetSelectedFoods = {
+  type: 'food/setSelectedFoods';
+  payload: Food[];
+};
+
+export type FoodActions =
+  | Loading
+  | Loaded
+  | FoodError
+  | CreateFood
+  | SetSelectedFoods;
