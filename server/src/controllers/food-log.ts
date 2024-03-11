@@ -32,7 +32,9 @@ export async function getLogs(req: Request, res: Response, next: NextFunction) {
   try {
     const { userId } = req.params;
 
-    const logs = await FoodLog.find({ author: userId }).exec();
+    const logs = await FoodLog.find({ author: userId }, null, {
+      sort: { createdAt: -1 },
+    }).exec();
 
     res.json({ foodLogs: logs });
   } catch (err) {

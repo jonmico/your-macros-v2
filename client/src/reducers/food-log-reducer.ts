@@ -31,7 +31,7 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
       return {
         ...state,
         isLoading: false,
-        foodLogs: [...state.foodLogs, action.payload],
+        foodLogs: [action.payload, ...state.foodLogs],
         currentLog: action.payload,
         error: '',
       };

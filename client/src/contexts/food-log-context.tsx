@@ -41,7 +41,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
         dispatch({ type: 'foodLog/setLogs', payload: data.foodLogs });
         dispatch({
           type: 'foodLog/setCurrentLog',
-          payload: data.foodLogs[data.foodLogs.length - 1],
+          payload: data.foodLogs[0],
         });
       }
     }
