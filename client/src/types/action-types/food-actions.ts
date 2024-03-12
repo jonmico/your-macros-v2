@@ -22,9 +22,19 @@ type SetSelectedFoods = {
   payload: Food[];
 };
 
+type ClearError = {
+  type: 'food/clearError';
+};
+
+type ClearSearchedFoods = {
+  type: 'food/clearSearchedFoods';
+};
+
 export type FoodActions =
   | Loading
   | Loaded
   | FoodError
   | CreateFood
-  | SetSelectedFoods;
+  | SetSelectedFoods
+  | ClearError
+  | ClearSearchedFoods;

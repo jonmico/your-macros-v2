@@ -39,6 +39,17 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         error: '',
         searchedFoods: action.payload,
       };
+    case 'food/clearError':
+      return {
+        ...state,
+        error: '',
+      };
+    case 'food/clearSearchedFoods': {
+      return {
+        ...state,
+        searchedFoods: [],
+      };
+    }
     default:
       throw new TypeError("We don't know that type.");
   }

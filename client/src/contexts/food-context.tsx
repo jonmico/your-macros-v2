@@ -2,6 +2,7 @@ import { createContext, useReducer } from 'react';
 import { Food } from '../types/food';
 import { foodReducer } from '../reducers/food-reducer';
 import { apiCreateFood, apiSearchFoodsByText } from '../services/food-api';
+import { FoodActions } from '../types/action-types/food-actions';
 
 type FoodContextType = {
   searchedFoods: Food[];
@@ -13,6 +14,7 @@ type FoodContextType = {
     userId: string
   ) => Promise<{ food?: Food; errorMessage?: string }>;
   searchFoodsByText: (searchText: string) => Promise<void>;
+  dispatch: React.Dispatch<FoodActions>;
 };
 
 export const FoodContext = createContext<FoodContextType | null>(null);
@@ -52,7 +54,7 @@ export function FoodProvider({ children }: FoodProviderProps) {
     }
   }
 
-  const value = { ...foodState, createFood, searchFoodsByText };
+  const value = { ...foodState, createFood, searchFoodsByText, dispatch };
 
   return <FoodContext.Provider value={value}>{children}</FoodContext.Provider>;
 }
