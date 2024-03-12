@@ -52,6 +52,10 @@ export async function searchFoodByText(
       $text: { $search: searchText },
     }).exec();
 
+    if (!searchedFoods.length || !searchedFoods) {
+      throw new AppError(400, 'No foods found.');
+    }
+
     res.json({ searchedFoods });
   } catch (err) {
     next(err);
