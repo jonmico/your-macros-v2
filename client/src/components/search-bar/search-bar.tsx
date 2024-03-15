@@ -33,6 +33,7 @@ interface SearchBarProps {
   id: string;
   value: string;
   onChangeFn: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 }
 
 export default function SearchBar({
@@ -40,6 +41,7 @@ export default function SearchBar({
   id,
   value,
   onChangeFn,
+  placeholder,
 }: SearchBarProps) {
   return (
     <StyledSearchBar>
@@ -51,6 +53,7 @@ export default function SearchBar({
         id={id}
         value={value}
         onChange={onChangeFn}
+        placeholder={placeholder}
       />
     </StyledSearchBar>
   );
