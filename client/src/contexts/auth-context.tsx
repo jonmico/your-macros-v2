@@ -40,6 +40,7 @@ const initialState: AuthState = {
   error: '',
 };
 
+// TODO: Fix duplicated state between different providers.
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
 

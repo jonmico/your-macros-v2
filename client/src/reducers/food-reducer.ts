@@ -32,7 +32,7 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         isLoading: false,
         error: '',
       };
-    case 'food/setSelectedFoods':
+    case 'food/setSearchedFoods':
       return {
         ...state,
         isLoading: false,
@@ -44,12 +44,22 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         ...state,
         error: '',
       };
-    case 'food/clearSearchedFoods': {
+    case 'food/clearSearchedFoods':
       return {
         ...state,
         searchedFoods: [],
       };
-    }
+    case 'food/setSelectedFood':
+      return {
+        ...state,
+        selectedFood: action.payload,
+      };
+    case 'food/clearSelectedFood':
+      return {
+        ...state,
+        selectedFood: null,
+      };
+
     default:
       throw new TypeError("We don't know that type.");
   }

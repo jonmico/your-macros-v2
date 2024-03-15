@@ -17,8 +17,8 @@ type CreateFood = {
   type: 'food/create';
 };
 
-type SetSelectedFoods = {
-  type: 'food/setSelectedFoods';
+type SetSearchedFoods = {
+  type: 'food/setSearchedFoods';
   payload: Food[];
 };
 
@@ -30,11 +30,22 @@ type ClearSearchedFoods = {
   type: 'food/clearSearchedFoods';
 };
 
+type SetSelectedFood = {
+  type: 'food/setSelectedFood';
+  payload: Food;
+};
+
+type ClearSelectedFood = {
+  type: 'food/clearSelectedFood';
+};
+
 export type FoodActions =
   | Loading
   | Loaded
   | FoodError
   | CreateFood
-  | SetSelectedFoods
+  | SetSearchedFoods
   | ClearError
-  | ClearSearchedFoods;
+  | ClearSearchedFoods
+  | SetSelectedFood
+  | ClearSelectedFood;
