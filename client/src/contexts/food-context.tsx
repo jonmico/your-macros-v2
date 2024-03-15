@@ -50,7 +50,7 @@ export function FoodProvider({ children }: FoodProviderProps) {
     }
 
     if (data.searchedFoods) {
-      dispatch({ type: 'food/setSelectedFoods', payload: data.searchedFoods });
+      dispatch({ type: 'food/setSearchedFoods', payload: data.searchedFoods });
     }
   }
 

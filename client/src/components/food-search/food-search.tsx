@@ -12,7 +12,14 @@ export default function FoodSearch() {
   } = useFood();
 
   const searchedFoodsList = searchedFoods.map((food) => (
-    <li key={food._id}>{food.name}</li>
+    <li
+      onClick={() =>
+        foodDispatch({ type: 'food/setSelectedFood', payload: food })
+      }
+      key={food._id}
+    >
+      {food.name}
+    </li>
   ));
 
   function handleSearchBarChange(evt: React.ChangeEvent<HTMLInputElement>) {
