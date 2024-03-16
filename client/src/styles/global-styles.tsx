@@ -102,6 +102,11 @@ export const GlobalStyle = createGlobalStyle`
     --color-purple-800: #6b21a8;
     --color-purple-900: #581c87;
 
+    // Border radius variables
+    --sm-radius: .25rem;
+    --md-radius: 0.5rem;
+    --lg-radius: 0.75rem;
+    --xlg-radius: 1rem;
 
   }
 
