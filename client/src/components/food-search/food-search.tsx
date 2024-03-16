@@ -23,6 +23,17 @@ const ListContainer = styled.div`
   border: 1px solid var(--color-blue-400);
 `;
 
+const SearchText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 5rem;
+  font-weight: 500;
+  color: var(--color-gray-700);
+  font-size: 1.15rem;
+`;
+
 export default function FoodSearch() {
   const [searchText, setSearchText] = useState('');
   const {
@@ -58,7 +69,9 @@ export default function FoodSearch() {
       </form>
       <ListContainer>
         {!searchedFoods.length && !error ? (
-          <div>Foods you search for populate here</div>
+          <SearchText>
+            Search the database for foods and add them to a meal.
+          </SearchText>
         ) : (
           <SearchedFoodsList
             foodDispatch={foodDispatch}
@@ -70,12 +83,6 @@ export default function FoodSearch() {
     </StyledFoodSearch>
   );
 }
-
-const StyledSearchedFoodsList = styled.ul`
-  /* border-radius: 4px;
-  background-color: var(--color-blue-100);
-  border: 1px solid var(--color-blue-400); */
-`;
 
 const StyledListItem = styled.li`
   padding: 1rem;
@@ -122,7 +129,7 @@ function SearchedFoodsList({
     return <Error error={error} />;
   }
 
-  return <StyledSearchedFoodsList>{searchedFoodsList}</StyledSearchedFoodsList>;
+  return <ul>{searchedFoodsList}</ul>;
 }
 
 const StyledError = styled.div`
