@@ -130,13 +130,8 @@ const StyledError = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 1rem;
-`;
-
-const ErrorText = styled.div`
-  color: var(--color-gray-700);
-  font-weight: 700;
 `;
 
 const AddMealLinkContainer = styled.div`
@@ -148,10 +143,22 @@ const AddMealLinkContainer = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  border: 1px solid var(--color-green-500);
+  border: 1px solid var(--color-green-600);
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
-  background-color: var(--color-green-200);
+  background-color: var(--color-green-300);
+  transition: border-radius 0.25s ease-in-out,
+    background-color 0.25s ease-in-out;
+
+  &:hover {
+    border-radius: 20px;
+  }
+`;
+
+const ErrorText = styled.div`
+  color: var(--color-gray-700);
+  font-weight: 700;
+  font-size: 1.25rem;
 `;
 
 interface ErrorProps {
