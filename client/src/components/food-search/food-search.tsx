@@ -31,7 +31,8 @@ const SearchText = styled.div`
   min-height: 5rem;
   font-weight: 500;
   color: var(--color-gray-700);
-  font-size: 1.15rem;
+  font-size: 1rem;
+  padding: 1rem;
 `;
 
 export default function FoodSearch() {
@@ -70,7 +71,7 @@ export default function FoodSearch() {
       <ListContainer>
         {!searchedFoods.length && !error ? (
           <SearchText>
-            Search the database for foods and add them to a meal.
+            Search the database for foods and add them to a meal
           </SearchText>
         ) : (
           <SearchedFoodsList
