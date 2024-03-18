@@ -11,6 +11,7 @@ const StyledFoodData = styled.div`
   padding: 1.5rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  position: relative;
 `;
 
 const NoFoodSelectedText = styled.div`
@@ -19,6 +20,10 @@ const NoFoodSelectedText = styled.div`
   justify-content: center;
   text-align: center;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 `;
 
 const ExitButtonContainer = styled.div`

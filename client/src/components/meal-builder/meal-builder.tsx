@@ -13,7 +13,7 @@ const StyledMealBuilder = styled.div<StyledMealBuilderProps>`
   grid-template-columns: ${(props) =>
     props.$isSearchedFoods ? '1fr 1fr' : '1fr 0fr'};
   gap: 1rem;
-  transition: grid-template-columns 0.5s;
+  transition: grid-template-columns 1s;
 `;
 
 // TODO: Figure out a way to make the FoodData placeholder text not show the way it is.
