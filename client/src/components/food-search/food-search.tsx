@@ -6,7 +6,11 @@ import { FoodActions } from '../../types/action-types/food-actions';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const StyledFoodSearch = styled.div`
+interface StyledFoodSearchProps {
+  $isSearchedFoods: boolean;
+}
+
+const StyledFoodSearch = styled.div<StyledFoodSearchProps>`
   padding: 1.5rem;
   border: 1px solid var(--color-indigo-500);
   border-radius: 8px;
@@ -15,6 +19,7 @@ const StyledFoodSearch = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  grid-column: ${(props) => (props.$isSearchedFoods ? '' : '1 / -1')};
 `;
 
 const ListContainer = styled.div`
@@ -44,6 +49,8 @@ export default function FoodSearch() {
     dispatch: foodDispatch,
   } = useFood();
 
+  const isSearchedFoods = !!searchedFoods.length;
+
   function handleSearchBarChange(evt: React.ChangeEvent<HTMLInputElement>) {
     foodDispatch({ type: 'food/clearError' });
     setSearchText(evt.target.value);
@@ -58,7 +65,7 @@ export default function FoodSearch() {
   }
 
   return (
-    <StyledFoodSearch>
+    <StyledFoodSearch $isSearchedFoods={isSearchedFoods}>
       <form onSubmit={handleSubmit}>
         <SearchBar
           name={'searchText'}
