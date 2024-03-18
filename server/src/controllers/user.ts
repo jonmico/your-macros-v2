@@ -46,7 +46,10 @@ export async function createUser(
 
       res
         .status(201)
-        .cookie('token', token, { maxAge: 60 * 60, signed: true })
+        .cookie('token', token, {
+          maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+          signed: true,
+        })
         .json({
           isLoggedIn: true,
           userData: {
