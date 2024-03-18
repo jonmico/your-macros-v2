@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useMeal } from '../../hooks/useMeal';
 
 const StyledMeal = styled.div`
   background-color: var(--color-blue-100);
@@ -9,5 +10,6 @@ const StyledMeal = styled.div`
 `;
 
 export default function Meal() {
-  return <StyledMeal>This is the Meal Component</StyledMeal>;
+  const { foods } = useMeal();
+  return <StyledMeal>Number of foods in meal: {foods.length}</StyledMeal>;
 }
