@@ -1,3 +1,4 @@
+import { MealProvider } from '../../contexts/meal-context';
 import { useFood } from '../../hooks/useFood';
 import FoodData from '../food-data/food-data';
 import FoodSearch from '../food-search/food-search';
@@ -25,9 +26,11 @@ export default function MealBuilder() {
 
   return (
     <StyledMealBuilder $isSearchedFoods={isSearchedFoods}>
-      <Meal />
-      <FoodSearch />
-      <FoodData />
+      <MealProvider>
+        <Meal />
+        <FoodSearch />
+        <FoodData />
+      </MealProvider>
     </StyledMealBuilder>
   );
 }
