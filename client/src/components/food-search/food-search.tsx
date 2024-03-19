@@ -19,7 +19,6 @@ const StyledFoodSearch = styled.div<StyledFoodSearchProps>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  grid-column: ${(props) => (props.$isSearchedFoods ? '' : '1 / -1')};
 `;
 
 const ListContainer = styled.div`
