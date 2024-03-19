@@ -58,8 +58,6 @@ export default function FoodSearch() {
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
     if (!searchText) return;
-
-    foodDispatch({ type: 'food/clearSearchedFoods' });
     await searchFoodsByText(searchText);
   }
 

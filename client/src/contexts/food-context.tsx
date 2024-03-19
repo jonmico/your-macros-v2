@@ -46,7 +46,10 @@ export function FoodProvider({ children }: FoodProviderProps) {
     const data = await apiSearchFoodsByText(searchText);
 
     if (data.errorMessage) {
+      // TODO: Look into consolidating these into a 'food/searchFoodsByTextError' action
       dispatch({ type: 'food/error', payload: data.errorMessage });
+      dispatch({ type: 'food/clearSearchedFoods' });
+      dispatch({ type: 'food/clearSelectedFood' });
     }
 
     if (data.searchedFoods) {
