@@ -11,19 +11,16 @@ const StyledFoodData = styled.div`
   padding: 1.5rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  position: relative;
+  overflow: hidden;
 `;
 
 const NoFoodSelectedText = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  margin: auto;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 25rem;
 `;
 
 const ExitButtonContainer = styled.div`
