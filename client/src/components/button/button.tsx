@@ -13,6 +13,11 @@ export const PrimaryButton = styled.button`
     border-radius: 16px;
     background-color: var(--color-green-300);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-gray-300);
+  }
 `;
 
 export const ExitButton = styled.button`
