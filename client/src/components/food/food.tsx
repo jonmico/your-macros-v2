@@ -4,6 +4,7 @@ import { useMeal } from '../../hooks/useMeal';
 import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
 import { WideButton } from '../button/button';
+import { ServingsInput } from '../../ui/input/input';
 
 const StyledFood = styled.div`
   display: flex;
@@ -32,6 +33,11 @@ const ServingsContainer = styled.div`
   justify-content: space-between;
 `;
 
+const CardLabel = styled.div`
+  color: var(--color-slate-600);
+  font-weight: 500;
+`;
+
 interface FoodProps {
   food: FoodType;
 }
@@ -54,12 +60,14 @@ export default function Food({ food }: FoodProps) {
         <FoodBrand>{food.brand}</FoodBrand>
       </div>
       <ServingSizeContainer>
-        <div>Serving Size:</div>
+        <CardLabel>Serving size:</CardLabel>
         <div>{food.servingSize}</div>
       </ServingSizeContainer>
       <ServingsContainer>
-        <label htmlFor='servings'>Servings:</label>
-        <input
+        <CardLabel as={'label'} htmlFor='servings'>
+          Servings:
+        </CardLabel>
+        <ServingsInput
           name={'servings'}
           id={'servings'}
           type='number'
@@ -79,15 +87,14 @@ export default function Food({ food }: FoodProps) {
 
 const StyledMacroDisplay = styled.div`
   padding: 1rem;
-  /* border: 1px solid var(--color-blue-400); */
-
-  background-color: var(--color-slate-300);
   border-radius: var(--lg-radius);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+    rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 `;
 
 const MacroContainer = styled.div`
@@ -95,6 +102,13 @@ const MacroContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2rem;
+`;
+
+const NutritionFacts = styled.div`
+  color: var(--color-slate-600);
+  font-weight: 500;
+  padding: 0 0.75rem 1px 0.75rem;
+  border-bottom: 1px solid var(--color-slate-600);
 `;
 
 interface MacroDisplayProps {
@@ -113,6 +127,7 @@ function MacroDisplay({ calories, macros, servings = 1 }: MacroDisplayProps) {
 
   return (
     <StyledMacroDisplay>
+      <NutritionFacts>Nutrition Facts</NutritionFacts>
       <MacroContainer>
         <Macro macro={'calories'} macroAmount={calorieAmount} />
         <Macro macro={'fat'} macroAmount={fatAmount} />
@@ -125,6 +140,7 @@ function MacroDisplay({ calories, macros, servings = 1 }: MacroDisplayProps) {
 
 const StyledMacro = styled.div`
   display: flex;
+  color: var(--color-indigo-800);
   flex-direction: column;
   justify-content: center;
   align-items: center;
