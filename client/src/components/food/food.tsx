@@ -43,8 +43,10 @@ interface FoodProps {
 }
 
 export default function Food({ food }: FoodProps) {
-  const { addFood } = useMeal();
+  const { addFood, foods } = useMeal();
   const [servings, setServings] = useState('1');
+
+  const isInMeal = foods.map((f) => f.food._id).includes(food._id);
 
   function handleClick() {
     const newFood = {
@@ -53,6 +55,7 @@ export default function Food({ food }: FoodProps) {
     };
     addFood(newFood);
   }
+
   return (
     <StyledFood>
       <div>
@@ -80,7 +83,9 @@ export default function Food({ food }: FoodProps) {
         calories={food.calories}
         macros={food.macros}
       />
-      <WideButton onClick={handleClick}>Add to meal</WideButton>
+      <WideButton disabled={isInMeal} onClick={handleClick}>
+        Add to meal
+      </WideButton>
     </StyledFood>
   );
 }
