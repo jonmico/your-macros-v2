@@ -6,6 +6,7 @@ import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { FoodLog } from '../../types/food-log';
 import { ExitButton, PrimaryButton } from '../button/button';
+import { Link } from 'react-router-dom';
 
 const StyledMeal = styled.div`
   background-color: var(--color-blue-100);
@@ -193,11 +194,17 @@ const LogSelectList = styled.ul`
 
 interface LogSelectProps {
   logs: FoodLog[];
-  currentLog: FoodLog;
+  currentLog: FoodLog | null;
 }
 
 function LogSelect({ logs, currentLog }: LogSelectProps) {
   const [isLogListOpen, setIsLogListOpen] = useState(false);
+
+  // TODO: Look at null case.
+  if (!logs.length || currentLog === null) {
+    return <Link to={'/app/food-logs'}>Create a log</Link>;
+  }
+
   const logList = logs.map((log) => (
     <LogSelectListItem
       key={log._id}
