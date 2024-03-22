@@ -43,6 +43,21 @@ const MealDataContainer = styled.div`
   justify-content: space-between;
 `;
 
+const Input = styled.input`
+  background-color: inherit;
+  border: 1px solid var(--color-blue-500);
+  border-radius: var(--sm-radius);
+  padding: 0.25rem;
+  width: 15rem;
+  transition: background-color 250ms, padding 350ms;
+
+  &:focus-visible {
+    background-color: var(--color-slate-200);
+    outline: 1px solid var(--color-indigo-500);
+    padding-left: 0.5rem;
+  }
+`;
+
 interface MealHeaderProps {
   foods: { food: Food; servings: number }[];
   handleDropDownClick: () => void;
@@ -77,7 +92,7 @@ function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
         </ExitButton>
       </ButtonContainer>
       <MealDataContainer>
-        <input
+        <Input
           type='text'
           placeholder={'Meal name'}
           value={mealName}
