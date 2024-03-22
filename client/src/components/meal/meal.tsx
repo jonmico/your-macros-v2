@@ -1,6 +1,10 @@
-import styled from 'styled-components';
-import { useMeal } from '../../hooks/useMeal';
 import { useState } from 'react';
+import { FaCaretLeft } from 'react-icons/fa6';
+import styled from 'styled-components';
+import { useFoodLog } from '../../hooks/useFoodLog';
+import { useMeal } from '../../hooks/useMeal';
+import { Food } from '../../types/food';
+import { ExitButton, PrimaryButton } from '../button/button';
 
 const StyledMeal = styled.div`
   background-color: var(--color-blue-100);
@@ -20,30 +24,112 @@ export default function Meal() {
 
   return (
     <StyledMeal>
-      <MealHeader handleDropDownClick={handleDropDownClick} />
+      <MealHeader foods={foods} handleDropDownClick={handleDropDownClick} />
       <MealDropDown isDropDownOpen={isDropDownOpen} />
     </StyledMeal>
   );
 }
 
-const StyledMealHeader = styled.div`
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+
+const MealDataContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
 interface MealHeaderProps {
+  foods: { food: Food; servings: number }[];
   handleDropDownClick: () => void;
 }
 
-function MealHeader({ handleDropDownClick }: MealHeaderProps) {
+function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
+  const [mealName, setMealName] = useState('');
+
+  const mealCalories = foods.reduce(
+    (prev, curr) => prev + curr.food.calories * curr.servings,
+    0
+  );
+  const mealFat = foods.reduce(
+    (prev, curr) => prev + curr.food.macros.fat * curr.servings,
+    0
+  );
+  const mealCarbs = foods.reduce(
+    (prev, curr) => prev + curr.food.macros.carbs * curr.servings,
+    0
+  );
+  const mealProtein = foods.reduce(
+    (prev, curr) => prev + curr.food.macros.protein * curr.servings,
+    0
+  );
+
   return (
-    <StyledMealHeader>
-      <div>Stuff here</div>
-      <div>That is</div>
-      <div>Spaced out</div>
-      <button onClick={handleDropDownClick}>I am a button</button>
-    </StyledMealHeader>
+    <div>
+      <ButtonContainer>
+        <ExitButton onClick={handleDropDownClick}>
+          <FaCaretLeft />
+        </ExitButton>
+      </ButtonContainer>
+      <MealDataContainer>
+        <input
+          type='text'
+          placeholder={'Meal name'}
+          value={mealName}
+          onChange={(evt) => setMealName(evt.target.value)}
+        />
+        <MealMacros
+          calories={mealCalories}
+          fat={mealFat}
+          carbs={mealCarbs}
+          protein={mealProtein}
+        />
+        <LogSelect />
+        <PrimaryButton>Add to log</PrimaryButton>
+      </MealDataContainer>
+    </div>
+  );
+}
+
+const MacroContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+interface MealMacrosProps {
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+}
+
+function MealMacros({ calories, protein, fat, carbs }: MealMacrosProps) {
+  return (
+    <div>
+      <div>{calories} calories</div>
+      <MacroContainer>
+        <div>{fat} fat</div>
+        <div>{carbs} carbs</div>
+        <div>{protein} protein</div>
+      </MacroContainer>
+    </div>
+  );
+}
+
+function LogSelect() {
+  const { foodLogs } = useFoodLog();
+
+  const foodLogOptionList = foodLogs.map((log) => (
+    <option key={log._id}>{log.name}</option>
+  ));
+
+  return (
+    <select name='logSelect' id='logSelect'>
+      {foodLogOptionList}
+    </select>
   );
 }
 
