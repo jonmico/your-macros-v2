@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
+import { FoodLog } from '../../types/food-log';
 import { ExitButton, PrimaryButton } from '../button/button';
 
 const StyledMeal = styled.div`
@@ -48,6 +49,7 @@ interface MealHeaderProps {
 
 function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
+  const { foodLogs } = useFoodLog();
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -86,7 +88,7 @@ function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
           carbs={mealCarbs}
           protein={mealProtein}
         />
-        <LogSelect />
+        <LogSelect logs={foodLogs} />
         <PrimaryButton>Add to log</PrimaryButton>
       </MealDataContainer>
     </div>
@@ -119,11 +121,15 @@ function MealMacros({ calories, protein, fat, carbs }: MealMacrosProps) {
   );
 }
 
-function LogSelect() {
-  const { foodLogs } = useFoodLog();
-
-  const foodLogOptionList = foodLogs.map((log) => (
-    <option key={log._id}>{log.name}</option>
+interface LogSelectProps {
+  logs: FoodLog[];
+}
+// TODO: Make LogSelect custom dropdown.
+function LogSelect({ logs }: LogSelectProps) {
+  const foodLogOptionList = logs.map((log) => (
+    <option key={log._id} value={log._id}>
+      {log.name}
+    </option>
   ));
 
   return (
