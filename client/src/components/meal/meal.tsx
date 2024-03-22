@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FaCaretLeft } from 'react-icons/fa6';
-import styled from 'styled-components';
+import { FaAngleLeft, FaCaretLeft } from 'react-icons/fa6';
+import styled, { css, keyframes } from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
@@ -49,7 +49,7 @@ interface MealHeaderProps {
 
 function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
-  const { foodLogs } = useFoodLog();
+  const { foodLogs, currentLog } = useFoodLog();
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -88,7 +88,7 @@ function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
           carbs={mealCarbs}
           protein={mealProtein}
         />
-        <LogSelect logs={foodLogs} />
+        <LogSelect logs={foodLogs} currentLog={currentLog} />
         <PrimaryButton>Add to log</PrimaryButton>
       </MealDataContainer>
     </div>
@@ -121,22 +121,133 @@ function MealMacros({ calories, protein, fat, carbs }: MealMacrosProps) {
   );
 }
 
+const rotate90 = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-90deg);
+  }
+`;
+
+const StyledLogSelect = styled.div`
+  position: relative;
+`;
+
+interface LogSelectMainProps {
+  $isLogListOpen: boolean;
+}
+
+const LogSelectMain = styled.div<LogSelectMainProps>`
+  border: 1px solid var(--color-blue-500);
+  border-radius: var(--sm-radius);
+  background-color: var(--color-slate-100);
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 10rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  & svg {
+    animation: ${(props) =>
+      props.$isLogListOpen
+        ? css`
+             250ms forwards ${rotate90}
+          `
+        : ''};
+  }
+`;
+
+const LogSelectName = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const scaleList = keyframes`
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  } to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+`;
+
+const LogSelectList = styled.ul`
+  border: 1px solid var(--color-blue-500);
+  padding: 0.25rem;
+  border-radius: var(--sm-radius);
+  position: absolute;
+  width: max-content;
+  background-color: var(--color-slate-100);
+  transform: scaleY(0);
+  opacity: 0;
+  animation: ${css`100ms forwards ${scaleList}`};
+`;
+
 interface LogSelectProps {
   logs: FoodLog[];
+  currentLog: FoodLog;
 }
-// TODO: Make LogSelect custom dropdown.
-function LogSelect({ logs }: LogSelectProps) {
-  const foodLogOptionList = logs.map((log) => (
-    <option key={log._id} value={log._id}>
-      {log.name}
-    </option>
+
+function LogSelect({ logs, currentLog }: LogSelectProps) {
+  const [isLogListOpen, setIsLogListOpen] = useState(false);
+  const logList = logs.map((log) => (
+    <LogSelectListItem
+      key={log._id}
+      log={log}
+      closeLogList={() => setIsLogListOpen(false)}
+    />
   ));
 
+  function handleLogListClick() {
+    setIsLogListOpen((prevState) => !prevState);
+  }
+
   return (
-    <select name='logSelect' id='logSelect'>
-      {foodLogOptionList}
-    </select>
+    <StyledLogSelect>
+      <LogSelectMain
+        $isLogListOpen={isLogListOpen}
+        onClick={handleLogListClick}
+      >
+        <LogSelectName>{currentLog?.name}</LogSelectName> <FaAngleLeft />
+      </LogSelectMain>
+      {isLogListOpen && <LogSelectList>{logList}</LogSelectList>}
+    </StyledLogSelect>
   );
+}
+
+const ListItem = styled.li`
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--sm-radius);
+  transition: background-color 250ms;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-blue-200);
+  }
+`;
+
+interface LogSelectListItemProps {
+  log: FoodLog;
+  closeLogList: () => void;
+}
+
+function LogSelectListItem({ log, closeLogList }: LogSelectListItemProps) {
+  const { foodLogDispatch } = useFoodLog();
+
+  function handleClick() {
+    foodLogDispatch({ type: 'foodLog/setCurrentLog', payload: log });
+    closeLogList();
+  }
+
+  return <ListItem onClick={handleClick}>{log.name}</ListItem>;
 }
 
 interface StyledMealDropDownProps {

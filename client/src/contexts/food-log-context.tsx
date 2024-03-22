@@ -2,6 +2,7 @@ import { createContext, useEffect, useReducer } from 'react';
 import { FoodLog } from '../types/food-log';
 import { FoodLogState, foodLogReducer } from '../reducers/food-log-reducer';
 import { apiCreateLog, apiFetchLogs } from '../services/food-logs-api';
+import { FoodLogAction } from '../types/action-types/food-log-actions';
 
 type FoodLogContextType = {
   foodLogs: FoodLog[];
@@ -9,6 +10,7 @@ type FoodLogContextType = {
   isLoading: boolean;
   error: string;
   createLog: (userId: string, logName: string) => Promise<void>;
+  foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
 export const FoodLogContext = createContext<FoodLogContextType | null>(null);
@@ -61,7 +63,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     }
   }
 
-  const value = { ...foodLogState, createLog };
+  const value = { ...foodLogState, createLog, foodLogDispatch: dispatch };
 
   return (
     <FoodLogContext.Provider value={value}>{children}</FoodLogContext.Provider>
