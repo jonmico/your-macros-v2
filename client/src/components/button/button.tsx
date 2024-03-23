@@ -38,6 +38,20 @@ export const ExitButton = styled.button`
   }
 `;
 
+export const IconButton = styled(ExitButton)`
+  color: var(--color-blue-500);
+  font-size: 1.5rem;
+
+  &:hover {
+    color: var(--color-blue-400);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-gray-400);
+  }
+`;
+
 export const WideButton = styled(PrimaryButton)`
   width: 100%;
 `;
