@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Food } from '../../types/food';
+import MealTable from '../meal-table/meal-table';
 
 interface StyledMealDropDownProps {
   $isDropDownOpen: boolean;
@@ -8,27 +8,29 @@ interface StyledMealDropDownProps {
 const StyledMealDropDown = styled.div<StyledMealDropDownProps>`
   display: grid;
   grid-template-rows: ${(props) => (props.$isDropDownOpen ? '1fr' : '0fr')};
-  overflow: hidden;
   transition: grid-template-rows 500ms;
 `;
 
-const DropDownContent = styled.div`
+const DropDownContentWrapper = styled.div`
   overflow: hidden;
+`;
+
+const DropDownContent = styled.div`
+  padding-top: 1rem;
 `;
 
 interface MealDropDownProps {
   isDropDownOpen: boolean;
-  foods: { food: Food; servings: number }[];
 }
 
-export default function MealDropDown({
-  isDropDownOpen,
-  foods,
-}: MealDropDownProps) {
-  const foodList = foods.map((f) => <div key={f.food._id}>{f.food.name}</div>);
+export default function MealDropDown({ isDropDownOpen }: MealDropDownProps) {
   return (
     <StyledMealDropDown $isDropDownOpen={isDropDownOpen}>
-      <DropDownContent>{foodList}</DropDownContent>
+      <DropDownContentWrapper>
+        <DropDownContent>
+          <MealTable />
+        </DropDownContent>
+      </DropDownContentWrapper>
     </StyledMealDropDown>
   );
 }
