@@ -27,7 +27,7 @@ export default function Meal() {
         handleDropDownClick={handleDropDownClick}
         isDropDownOpen={isDropDownOpen}
       />
-      <MealDropDown foods={foods} isDropDownOpen={isDropDownOpen} />
+      <MealDropDown isDropDownOpen={isDropDownOpen} />
     </StyledMeal>
   );
 }
