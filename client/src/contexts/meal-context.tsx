@@ -1,15 +1,18 @@
-import { createContext, useState } from 'react';
-import { Meal } from '../types/meal';
+import React, { createContext, useReducer } from 'react';
+import { MealState, mealReducer } from '../reducers/meal-reducer';
 import { Food } from '../types/food';
+import { Meal } from '../types/meal';
+import { MealAction } from '../types/action-types/meal-actions';
 
 type MealContextType = {
   foods: {
     food: Food;
     servings: number;
   }[];
-  addFood: (food: { food: Food; servings: number }) => void;
-  removeFood: (foodId: string | undefined) => void;
-  clearFoods: () => void;
+  dispatch: React.Dispatch<MealAction>;
+  // addFood: (food: { food: Food; servings: number }) => void;
+  // removeFood: (foodId: string | undefined) => void;
+  // clearFoods: () => void;
 };
 
 export const MealContext = createContext<MealContextType | null>(null);
@@ -19,27 +22,19 @@ interface MealProviderProps {
   meal?: Meal;
 }
 
+const initialState: MealState = {
+  foods: [],
+};
+
 export function MealProvider({ children, meal: editMeal }: MealProviderProps) {
-  const [foods, setFoods] = useState<{ food: Food; servings: number }[]>(() =>
-    editMeal ? [...editMeal.foods] : []
-  );
+  const [mealState, dispatch] = useReducer(mealReducer, initialState, () => {
+    if (editMeal) {
+      return { foods: [...editMeal.foods] };
+    } else {
+      return { foods: [] };
+    }
+  });
 
-  function addFood(food: { food: Food; servings: number }) {
-    setFoods((prevState) => [...prevState, food]);
-  }
-
-  function removeFood(foodId: string | undefined) {
-    if (!foodId) return;
-
-    setFoods((prevState) => {
-      return prevState.filter((food) => food.food._id !== foodId);
-    });
-  }
-
-  function clearFoods() {
-    setFoods([]);
-  }
-
-  const value = { foods, addFood, removeFood, clearFoods };
+  const value = { ...mealState, dispatch };
   return <MealContext.Provider value={value}>{children}</MealContext.Provider>;
 }

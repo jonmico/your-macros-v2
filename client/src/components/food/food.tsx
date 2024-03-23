@@ -43,7 +43,7 @@ interface FoodProps {
 }
 
 export default function Food({ food }: FoodProps) {
-  const { addFood, foods } = useMeal();
+  const { foods, dispatch } = useMeal();
   const [servings, setServings] = useState('1');
 
   const isInMeal = foods.map((f) => f.food._id).includes(food._id);
@@ -53,7 +53,8 @@ export default function Food({ food }: FoodProps) {
       food,
       servings: Number(servings),
     };
-    addFood(newFood);
+
+    dispatch({ type: 'meal/addFood', payload: newFood });
   }
 
   return (

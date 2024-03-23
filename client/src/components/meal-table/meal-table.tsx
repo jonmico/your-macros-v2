@@ -65,14 +65,16 @@ const ClearAllButton = styled.button`
 `;
 
 function MealTableHeader() {
-  const { clearFoods } = useMeal();
+  const { dispatch } = useMeal();
 
   return (
     <StyledMealTableHeader>
       <div>Name & Brand</div>
       <div>Servings</div>
       <div>Nutrition</div>
-      <ClearAllButton onClick={clearFoods}>Clear all</ClearAllButton>
+      <ClearAllButton onClick={() => dispatch({ type: 'meal/clearFoods' })}>
+        Clear all
+      </ClearAllButton>
     </StyledMealTableHeader>
   );
 }
@@ -94,8 +96,14 @@ interface MealTableRowProps {
 }
 
 function MealTableRow({ food }: MealTableRowProps) {
-  const { removeFood } = useMeal();
+  const { dispatch } = useMeal();
   const { food: foodItem, servings } = food;
+
+  function handleRemoveFoodClick() {
+    if (foodItem._id) {
+      dispatch({ type: 'meal/removeFood', payload: foodItem._id });
+    }
+  }
   return (
     <StyledMealTableRow>
       <div>
@@ -107,7 +115,7 @@ function MealTableRow({ food }: MealTableRowProps) {
         {foodItem.calories}cals/{foodItem.macros.fat}f/{foodItem.macros.carbs}c/
         {foodItem.macros.protein}
       </div>
-      <ExitButton onClick={() => removeFood(foodItem._id)}>
+      <ExitButton onClick={handleRemoveFoodClick}>
         <FaCircleXmark />
       </ExitButton>
     </StyledMealTableRow>
