@@ -62,6 +62,12 @@ const ClearAllButton = styled.button`
   font-size: 0.85rem;
   width: fit-content;
   margin: auto;
+  transition: background-color 250ms;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-red-200);
+  }
 `;
 
 function MealTableHeader() {
@@ -73,7 +79,7 @@ function MealTableHeader() {
       <div>Servings</div>
       <div>Nutrition</div>
       <ClearAllButton onClick={() => dispatch({ type: 'meal/clearFoods' })}>
-        Clear all
+        CLEAR ALL
       </ClearAllButton>
     </StyledMealTableHeader>
   );
