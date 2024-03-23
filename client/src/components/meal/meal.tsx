@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { FaAngleLeft, FaCaretLeft } from 'react-icons/fa6';
+import { FaAngleLeft } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { FoodLog } from '../../types/food-log';
-import { ExitButton, PrimaryButton } from '../button/button';
-import { Link } from 'react-router-dom';
+import { PrimaryButton, SmallButton } from '../button/button';
 
 const StyledMeal = styled.div`
   background-color: var(--color-blue-100);
@@ -26,15 +26,20 @@ export default function Meal() {
 
   return (
     <StyledMeal>
-      <MealHeader foods={foods} handleDropDownClick={handleDropDownClick} />
+      <MealHeader
+        foods={foods}
+        handleDropDownClick={handleDropDownClick}
+        isDropDownOpen={isDropDownOpen}
+      />
       <MealDropDown isDropDownOpen={isDropDownOpen} />
     </StyledMeal>
   );
 }
 
-const ButtonContainer = styled.div`
+const StyledMealHeader = styled.div`
   display: flex;
-  justify-content: end;
+  flex-direction: column;
+  gap: 0.25rem;
 `;
 
 const MealDataContainer = styled.div`
@@ -61,9 +66,14 @@ const Input = styled.input`
 interface MealHeaderProps {
   foods: { food: Food; servings: number }[];
   handleDropDownClick: () => void;
+  isDropDownOpen: boolean;
 }
 
-function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
+function MealHeader({
+  handleDropDownClick,
+  isDropDownOpen,
+  foods,
+}: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
   const { foodLogs, currentLog } = useFoodLog();
 
@@ -84,13 +94,10 @@ function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
     0
   );
 
+  const buttonText = isDropDownOpen ? 'Show less' : 'Show more';
+
   return (
-    <div>
-      <ButtonContainer>
-        <ExitButton onClick={handleDropDownClick}>
-          <FaCaretLeft />
-        </ExitButton>
-      </ButtonContainer>
+    <StyledMealHeader>
       <MealDataContainer>
         <Input
           type='text'
@@ -107,7 +114,8 @@ function MealHeader({ handleDropDownClick, foods }: MealHeaderProps) {
         <LogSelect logs={foodLogs} currentLog={currentLog} />
         <PrimaryButton>Add to log</PrimaryButton>
       </MealDataContainer>
-    </div>
+      <SmallButton onClick={handleDropDownClick}>{buttonText}</SmallButton>
+    </StyledMealHeader>
   );
 }
 

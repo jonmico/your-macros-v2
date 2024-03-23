@@ -41,3 +41,15 @@ export const ExitButton = styled.button`
 export const WideButton = styled(PrimaryButton)`
   width: 100%;
 `;
+
+export const SmallButton = styled(PrimaryButton)`
+  width: fit-content;
+  background-color: var(--color-indigo-300);
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--lg-radius);
+
+  &:hover {
+    background-color: var(--color-indigo-200);
+  }
+`;
