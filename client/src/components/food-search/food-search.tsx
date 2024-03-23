@@ -1,10 +1,13 @@
-import { useState } from 'react';
-import { useFood } from '../../hooks/useFood';
-import SearchBar from '../search-bar/search-bar';
-import { Food } from '../../types/food';
-import { FoodActions } from '../../types/action-types/food-actions';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { useFood } from '../../hooks/useFood';
+import { FoodActions } from '../../types/action-types/food-actions';
+import { Food } from '../../types/food';
+import SearchBar from '../search-bar/search-bar';
+import { FaCirclePlus } from 'react-icons/fa6';
+import { IconButton } from '../button/button';
+import { useMeal } from '../../hooks/useMeal';
 
 interface StyledFoodSearchProps {
   $isSearchedFoods: boolean;
@@ -89,7 +92,28 @@ export default function FoodSearch() {
   );
 }
 
-const StyledListItem = styled.li`
+interface SearchedFoodsListProps {
+  searchedFoods: Food[];
+  error: string;
+  foodDispatch: React.Dispatch<FoodActions>;
+}
+
+function SearchedFoodsList({ searchedFoods, error }: SearchedFoodsListProps) {
+  const searchedFoodsList = searchedFoods.map((food) => (
+    <SearchedFoodListItem food={food} key={food._id} />
+  ));
+
+  if (error) {
+    return <Error error={error} />;
+  }
+
+  return <ul>{searchedFoodsList}</ul>;
+}
+
+const StyledSearchedFoodListItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 1rem;
 
   &:hover {
@@ -108,33 +132,44 @@ const StyledListItem = styled.li`
   }
 `;
 
-interface SearchedFoodsListProps {
-  searchedFoods: Food[];
-  error: string;
-  foodDispatch: React.Dispatch<FoodActions>;
+const FoodName = styled.div`
+  font-weight: 500;
+`;
+
+const FoodBrand = styled.div`
+  color: var(--color-slate-600);
+`;
+
+interface SearchedFoodListItemProps {
+  food: Food;
 }
 
-function SearchedFoodsList({
-  searchedFoods,
-  error,
-  foodDispatch,
-}: SearchedFoodsListProps) {
-  const searchedFoodsList = searchedFoods.map((food) => (
-    <StyledListItem
-      onClick={() =>
-        foodDispatch({ type: 'food/setSelectedFood', payload: food })
-      }
-      key={food._id}
-    >
-      {food.name}
-    </StyledListItem>
-  ));
+function SearchedFoodListItem({ food }: SearchedFoodListItemProps) {
+  const { dispatch: foodDispatch } = useFood();
+  const { dispatch: mealDispatch, foods } = useMeal();
 
-  if (error) {
-    return <Error error={error} />;
+  const isInMeal = foods.map(({ food }) => food._id).includes(food._id);
+
+  function handleSelectClick() {
+    foodDispatch({ type: 'food/setSelectedFood', payload: food });
   }
 
-  return <ul>{searchedFoodsList}</ul>;
+  function handleAddClick(evt: React.MouseEvent<HTMLButtonElement>) {
+    evt.stopPropagation();
+    mealDispatch({ type: 'meal/addFood', payload: { food, servings: 1 } });
+  }
+
+  return (
+    <StyledSearchedFoodListItem onClick={handleSelectClick}>
+      <div>
+        <FoodName>{food.name}</FoodName>
+        <FoodBrand>{food.brand}</FoodBrand>
+      </div>
+      <IconButton disabled={isInMeal} onClick={handleAddClick}>
+        <FaCirclePlus />
+      </IconButton>
+    </StyledSearchedFoodListItem>
+  );
 }
 
 const StyledError = styled.div`
