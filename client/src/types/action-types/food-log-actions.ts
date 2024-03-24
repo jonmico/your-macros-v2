@@ -24,9 +24,15 @@ type SetCurrentLog = {
   payload: FoodLog;
 };
 
+type AddMealToLog = {
+  type: 'foodLog/addMealToLog';
+  payload: FoodLog;
+};
+
 export type FoodLogAction =
   | Loading
   | Error
   | SetLogs
   | CreateLog
-  | SetCurrentLog;
+  | SetCurrentLog
+  | AddMealToLog;

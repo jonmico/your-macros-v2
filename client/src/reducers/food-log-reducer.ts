@@ -40,6 +40,19 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         ...state,
         currentLog: action.payload,
       };
+    case 'foodLog/addMealToLog': {
+      return {
+        ...state,
+        foodLogs: state.foodLogs.map((log) => {
+          if (log._id === action.payload._id) {
+            return { ...action.payload };
+          }
+          return log;
+        }),
+        currentLog: action.payload,
+        error: '',
+      };
+    }
     default:
       throw new TypeError('We do not recognize that type.');
   }
