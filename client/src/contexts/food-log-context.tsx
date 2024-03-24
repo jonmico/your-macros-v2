@@ -1,8 +1,13 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { FoodLog } from '../types/food-log';
 import { FoodLogState, foodLogReducer } from '../reducers/food-log-reducer';
-import { apiCreateLog, apiFetchLogs } from '../services/food-logs-api';
+import {
+  apiAddMealToLog,
+  apiCreateLog,
+  apiFetchLogs,
+} from '../services/food-logs-api';
 import { FoodLogAction } from '../types/action-types/food-log-actions';
+import { Meal } from '../types/meal';
 
 type FoodLogContextType = {
   foodLogs: FoodLog[];
@@ -10,6 +15,7 @@ type FoodLogContextType = {
   isLoading: boolean;
   error: string;
   createLog: (userId: string, logName: string) => Promise<void>;
+  addMealToLog: (logId: string, meal: Meal) => Promise<void>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
@@ -63,7 +69,26 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     }
   }
 
-  const value = { ...foodLogState, createLog, foodLogDispatch: dispatch };
+  async function addMealToLog(logId: string, meal: Meal) {
+    const data = await apiAddMealToLog(logId, meal);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'foodLog/error', payload: data.errorMessage });
+    }
+
+    if (data.updatedLog) {
+      dispatch({ type: 'foodLog/addMealToLog', payload: data.updatedLog });
+    }
+
+    console.log(data);
+  }
+
+  const value = {
+    ...foodLogState,
+    createLog,
+    addMealToLog,
+    foodLogDispatch: dispatch,
+  };
 
   return (
     <FoodLogContext.Provider value={value}>{children}</FoodLogContext.Provider>
