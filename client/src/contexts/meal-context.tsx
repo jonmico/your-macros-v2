@@ -10,9 +10,6 @@ type MealContextType = {
     servings: number;
   }[];
   dispatch: React.Dispatch<MealAction>;
-  // addFood: (food: { food: Food; servings: number }) => void;
-  // removeFood: (foodId: string | undefined) => void;
-  // clearFoods: () => void;
 };
 
 export const MealContext = createContext<MealContextType | null>(null);
