@@ -69,6 +69,8 @@ export default function MealHeader({
 
   const buttonText = isDropDownOpen ? 'Show less' : 'Show more';
 
+  // TODO: Error handling for empty meal name. Error handling/disabled states
+  // for cases where no foods are in the meal. Do some styling or something.
   async function handleAddToLog() {
     if (!currentLog || !currentLog._id) return; // Check to see if both exist.
 
