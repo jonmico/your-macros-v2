@@ -5,6 +5,8 @@ import { Food } from '../../types/food';
 import { PrimaryButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import MealMacros from '../meal-macros/meal-macros';
+import { Meal } from '../../types/meal';
+import { useUser } from '../../hooks/useUser';
 
 const StyledMealHeader = styled.div`
   display: flex;
@@ -45,7 +47,8 @@ export default function MealHeader({
   foods,
 }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
-  const { foodLogs, currentLog } = useFoodLog();
+  const { foodLogs, currentLog, addMealToLog } = useFoodLog();
+  const { userId } = useUser();
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -66,6 +69,26 @@ export default function MealHeader({
 
   const buttonText = isDropDownOpen ? 'Show less' : 'Show more';
 
+  async function handleAddToLog() {
+    if (!currentLog || !currentLog._id) return; // Check to see if both exist.
+
+    const meal: Meal = {
+      foods,
+      name: mealName,
+      author: userId,
+      mealTotals: {
+        calories: mealCalories,
+        macros: {
+          fat: mealFat,
+          carbs: mealCarbs,
+          protein: mealProtein,
+        },
+      },
+    };
+
+    await addMealToLog(currentLog._id, meal);
+  }
+
   return (
     <StyledMealHeader>
       <MealDataContainer>
@@ -82,7 +105,7 @@ export default function MealHeader({
           protein={mealProtein}
         />
         <LogSelect logs={foodLogs} currentLog={currentLog} />
-        <PrimaryButton>Add to log</PrimaryButton>
+        <PrimaryButton onClick={handleAddToLog}>Add to log</PrimaryButton>
       </MealDataContainer>
       <SmallButton onClick={handleDropDownClick}>{buttonText}</SmallButton>
     </StyledMealHeader>
