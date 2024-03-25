@@ -14,4 +14,12 @@ type ClearFoods = {
   type: 'meal/clearFoods';
 };
 
-export type MealAction = AddFood | RemoveFood | ClearFoods;
+type ChangeFoodServings = {
+  type: 'meal/changeFoodServings';
+  payload: {
+    foodId: string;
+    servings: number;
+  };
+};
+
+export type MealAction = AddFood | RemoveFood | ClearFoods | ChangeFoodServings;

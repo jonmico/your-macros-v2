@@ -28,6 +28,18 @@ export function mealReducer(state: MealState, action: MealAction) {
         foods: [] as { food: Food; servings: number }[],
       };
     }
+    case 'meal/changeFoodServings': {
+      return {
+        ...state,
+        foods: state.foods.map((f) => {
+          if (f.food._id === action.payload.foodId) {
+            return { ...f, servings: action.payload.servings };
+          } else {
+            return f;
+          }
+        }),
+      };
+    }
     default: {
       throw new TypeError('We do not recognize that type!');
     }
