@@ -92,6 +92,11 @@ export default function FoodSearch() {
   );
 }
 
+const StyledUL = styled.ul`
+  max-height: 20rem;
+  overflow: auto;
+`;
+
 interface SearchedFoodsListProps {
   searchedFoods: Food[];
   error: string;
@@ -107,7 +112,7 @@ function SearchedFoodsList({ searchedFoods, error }: SearchedFoodsListProps) {
     return <Error error={error} />;
   }
 
-  return <ul>{searchedFoodsList}</ul>;
+  return <StyledUL>{searchedFoodsList}</StyledUL>;
 }
 
 const StyledSearchedFoodListItem = styled.div`
@@ -115,6 +120,7 @@ const StyledSearchedFoodListItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
+  border-bottom: 1px solid var(--color-blue-300);
 
   &:hover {
     cursor: pointer;
@@ -124,6 +130,7 @@ const StyledSearchedFoodListItem = styled.div`
   &:last-of-type {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    border-bottom: none;
   }
 
   &:first-of-type {
