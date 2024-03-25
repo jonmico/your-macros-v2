@@ -51,6 +51,7 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         }),
         currentLog: action.payload,
         error: '',
+        isLoading: false,
       };
     }
     default:

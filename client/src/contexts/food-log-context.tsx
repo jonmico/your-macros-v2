@@ -70,6 +70,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
   }
 
   async function addMealToLog(logId: string, meal: Meal) {
+    dispatch({ type: 'foodLog/loading' });
     const data = await apiAddMealToLog(logId, meal);
 
     if (data.errorMessage) {
