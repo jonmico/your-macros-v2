@@ -113,6 +113,13 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
+const FoodName = styled.div`
+  font-weight: 500;
+`;
+const FoodBrand = styled.div`
+  color: var(--color-slate-700);
+`;
+
 interface MealTableRowProps {
   food: { food: Food; servings: number };
 }
@@ -146,8 +153,8 @@ function MealTableRow({ food }: MealTableRowProps) {
   return (
     <StyledMealTableRow>
       <div>
-        <div>{foodItem.name}</div>
-        <div>{foodItem.brand}</div>
+        <FoodName>{foodItem.name}</FoodName>
+        <FoodBrand>{foodItem.brand}</FoodBrand>
       </div>
       <StyledForm onSubmit={handleServingsChange}>
         <ServingsInput
