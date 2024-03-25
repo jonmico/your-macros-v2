@@ -47,7 +47,12 @@ export default function MealHeader({
   foods,
 }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
-  const { foodLogs, currentLog, addMealToLog } = useFoodLog();
+  const {
+    foodLogs,
+    currentLog,
+    addMealToLog,
+    isLoading: isFoodLogLoading,
+  } = useFoodLog();
   const { userId } = useUser();
 
   const mealCalories = foods.reduce(
@@ -107,7 +112,9 @@ export default function MealHeader({
           protein={mealProtein}
         />
         <LogSelect logs={foodLogs} currentLog={currentLog} />
-        <PrimaryButton onClick={handleAddToLog}>Add to log</PrimaryButton>
+        <PrimaryButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
+          Add to log
+        </PrimaryButton>
       </MealDataContainer>
       <SmallButton onClick={handleDropDownClick}>{buttonText}</SmallButton>
     </StyledMealHeader>

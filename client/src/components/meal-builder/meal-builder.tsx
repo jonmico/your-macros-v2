@@ -1,9 +1,9 @@
-import { MealProvider } from '../../contexts/meal-context';
+import { useFoodLog } from '../../hooks/useFoodLog';
 
+import styled from 'styled-components';
 import FoodData from '../food-data/food-data';
 import FoodSearch from '../food-search/food-search';
 import Meal from '../meal/meal';
-import styled from 'styled-components';
 
 const StyledMealBuilder = styled.div`
   display: grid;
@@ -12,8 +12,10 @@ const StyledMealBuilder = styled.div`
 `;
 
 export default function MealBuilder() {
+  const { isLoading: isFoodLogLoading } = useFoodLog();
   return (
     <StyledMealBuilder>
+      {isFoodLogLoading && <div>LOADING...</div>}
       <Meal />
       <FoodSearch />
       <FoodData />
