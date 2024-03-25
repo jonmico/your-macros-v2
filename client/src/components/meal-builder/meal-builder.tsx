@@ -14,11 +14,9 @@ const StyledMealBuilder = styled.div`
 export default function MealBuilder() {
   return (
     <StyledMealBuilder>
-      <MealProvider>
-        <Meal />
-        <FoodSearch />
-        <FoodData />
-      </MealProvider>
+      <Meal />
+      <FoodSearch />
+      <FoodData />
     </StyledMealBuilder>
   );
 }
