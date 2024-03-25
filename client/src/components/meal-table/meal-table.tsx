@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Food } from '../../types/food';
 import { ExitButton } from '../button/button';
 import { FaCircleXmark } from 'react-icons/fa6';
+import { ServingsInput } from '../../ui/input/input';
+import React, { useState } from 'react';
 
 const StyledMealTable = styled.div`
   background-color: var(--color-blue-200);
@@ -89,9 +91,14 @@ const StyledMealTableRow = styled.li`
   display: grid;
   grid-template-columns: 1.5fr 1fr 2fr 0.75fr;
   gap: 1rem;
-  padding: 0.25rem 1.25rem 0.25rem 1.25rem;
+  padding: 0.5rem 1.25rem 0.5rem 1.25rem;
   align-items: center;
+  border-bottom: 1px solid var(--color-blue-300);
 
+  &:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
   & button {
     margin: auto;
   }
@@ -102,24 +109,47 @@ interface MealTableRowProps {
 }
 
 function MealTableRow({ food }: MealTableRowProps) {
-  const { dispatch } = useMeal();
+  const { dispatch: mealDispatch } = useMeal();
   const { food: foodItem, servings } = food;
+  const [foodServings, setFoodServings] = useState(String(servings));
+
+  const foodServingsNum = Number(foodServings);
 
   function handleRemoveFoodClick() {
     if (foodItem._id) {
-      dispatch({ type: 'meal/removeFood', payload: foodItem._id });
+      mealDispatch({ type: 'meal/removeFood', payload: foodItem._id });
     }
   }
+
+  function handleServingsChange(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
+    if (!foodItem._id) return;
+
+    mealDispatch({
+      type: 'meal/changeFoodServings',
+      payload: { foodId: foodItem._id, servings: foodServingsNum },
+    });
+  }
+
   return (
     <StyledMealTableRow>
       <div>
         <div>{foodItem.name}</div>
         <div>{foodItem.brand}</div>
       </div>
-      <div>{servings}</div>
+      <form onSubmit={handleServingsChange}>
+        <ServingsInput
+          type={'number'}
+          value={foodServings}
+          step={0.01}
+          onChange={(evt) => setFoodServings(evt.target.value)}
+        />
+      </form>
       <div>
-        {foodItem.calories}cals/{foodItem.macros.fat}f/{foodItem.macros.carbs}c/
-        {foodItem.macros.protein}
+        {foodServingsNum * foodItem.calories}cals/
+        {foodServingsNum * foodItem.macros.fat}f/
+        {foodServingsNum * foodItem.macros.carbs}c/
+        {foodServingsNum * foodItem.macros.protein}
       </div>
       <ExitButton onClick={handleRemoveFoodClick}>
         <FaCircleXmark />
