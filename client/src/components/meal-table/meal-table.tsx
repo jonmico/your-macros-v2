@@ -1,10 +1,10 @@
-import { useMeal } from '../../hooks/useMeal';
-import styled from 'styled-components';
-import { Food } from '../../types/food';
-import { ExitButton } from '../button/button';
-import { FaCircleXmark } from 'react-icons/fa6';
-import { ServingsInput } from '../../ui/input/input';
 import React, { useState } from 'react';
+import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6';
+import styled from 'styled-components';
+import { useMeal } from '../../hooks/useMeal';
+import { Food } from '../../types/food';
+import { ServingsInput } from '../../ui/input/input';
+import { ExitButton, MealTableCheckButton } from '../button/button';
 
 const StyledMealTable = styled.div`
   background-color: var(--color-blue-200);
@@ -99,9 +99,18 @@ const StyledMealTableRow = styled.li`
     border-bottom: none;
     padding-bottom: 0;
   }
-  & button {
-    margin: auto;
-  }
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 interface MealTableRowProps {
@@ -112,6 +121,7 @@ function MealTableRow({ food }: MealTableRowProps) {
   const { dispatch: mealDispatch } = useMeal();
   const { food: foodItem, servings } = food;
   const [foodServings, setFoodServings] = useState(String(servings));
+  const [isEditActive, setIsEditActive] = useState(false);
 
   const foodServingsNum = Number(foodServings);
 
@@ -129,6 +139,8 @@ function MealTableRow({ food }: MealTableRowProps) {
       type: 'meal/changeFoodServings',
       payload: { foodId: foodItem._id, servings: foodServingsNum },
     });
+
+    setIsEditActive(false);
   }
 
   return (
@@ -137,23 +149,31 @@ function MealTableRow({ food }: MealTableRowProps) {
         <div>{foodItem.name}</div>
         <div>{foodItem.brand}</div>
       </div>
-      <form onSubmit={handleServingsChange}>
+      <StyledForm onSubmit={handleServingsChange}>
         <ServingsInput
           type={'number'}
           value={foodServings}
           step={0.01}
           onChange={(evt) => setFoodServings(evt.target.value)}
+          onClick={() => setIsEditActive(true)}
         />
-      </form>
+        {isEditActive && (
+          <MealTableCheckButton>
+            <FaCircleCheck />
+          </MealTableCheckButton>
+        )}
+      </StyledForm>
       <div>
         {foodServingsNum * foodItem.calories}cals/
         {foodServingsNum * foodItem.macros.fat}f/
         {foodServingsNum * foodItem.macros.carbs}c/
         {foodServingsNum * foodItem.macros.protein}
       </div>
-      <ExitButton onClick={handleRemoveFoodClick}>
-        <FaCircleXmark />
-      </ExitButton>
+      <ButtonContainer>
+        <ExitButton onClick={handleRemoveFoodClick}>
+          <FaCircleXmark />
+        </ExitButton>
+      </ButtonContainer>
     </StyledMealTableRow>
   );
 }

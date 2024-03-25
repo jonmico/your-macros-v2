@@ -38,6 +38,13 @@ export const ExitButton = styled.button`
   }
 `;
 
+export const MealTableCheckButton = styled(ExitButton)`
+  font-size: 1.5rem;
+  &:hover {
+    color: var(--color-indigo-400);
+  }
+`;
+
 export const IconButton = styled(ExitButton)`
   color: var(--color-blue-500);
   font-size: 1.5rem;
