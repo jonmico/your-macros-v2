@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import { useUser } from '../../hooks/useUser';
 import { Food } from '../../types/food';
-import { PrimaryButton, SmallButton } from '../button/button';
+import { Meal } from '../../types/meal';
+import { AddMealToLogButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import MealMacros from '../meal-macros/meal-macros';
-import { Meal } from '../../types/meal';
-import { useUser } from '../../hooks/useUser';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -22,7 +22,6 @@ const Input = styled.input`
   border: 1px solid var(--color-blue-500);
   border-radius: var(--sm-radius);
   padding: 0.25rem;
-  width: 25%;
   transition: background-color 250ms, padding 350ms;
 
   &:focus-visible {
@@ -95,24 +94,22 @@ export default function MealHeader({
 
   return (
     <StyledMealHeader>
-      <MealDataContainer>
-        <Input
-          type='text'
-          placeholder={'Meal name'}
-          value={mealName}
-          onChange={(evt) => setMealName(evt.target.value)}
-        />
-        <MealMacros
-          calories={mealCalories}
-          fat={mealFat}
-          carbs={mealCarbs}
-          protein={mealProtein}
-        />
-        <LogSelect logs={foodLogs} currentLog={currentLog} />
-        <PrimaryButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
-          Add to log
-        </PrimaryButton>
-      </MealDataContainer>
+      <Input
+        type='text'
+        placeholder={'Meal name'}
+        value={mealName}
+        onChange={(evt) => setMealName(evt.target.value)}
+      />
+      <LogSelect logs={foodLogs} currentLog={currentLog} />
+      <AddMealToLogButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
+        Add to log
+      </AddMealToLogButton>
+      <MealMacros
+        calories={mealCalories}
+        fat={mealFat}
+        carbs={mealCarbs}
+        protein={mealProtein}
+      />
       <SmallButton onClick={handleDropDownClick}>{buttonText}</SmallButton>
     </StyledMealHeader>
   );
