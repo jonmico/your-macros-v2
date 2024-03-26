@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useUser } from '../../hooks/useUser';
@@ -7,6 +7,7 @@ import { Meal } from '../../types/meal';
 import { PurpleWideButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import MealMacros from '../meal-macros/meal-macros';
+import { ErrorText } from '../../ui/error-text/error-text';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -24,6 +25,7 @@ const Input = styled.input`
   padding: 0.25rem;
   transition: background-color 250ms, padding 350ms;
   height: 2rem;
+  width: 100%;
 
   &:focus-visible {
     background-color: var(--color-slate-200);
@@ -44,6 +46,7 @@ export default function MealHeader({
   foods,
 }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
+  const [mealNameError, setMealNameError] = useState('');
   const {
     foodLogs,
     currentLog,
@@ -74,6 +77,11 @@ export default function MealHeader({
   // TODO: Error handling for empty meal name. Error handling/disabled states
   // for cases where no foods are in the meal. Do some styling or something.
   async function handleAddToLog() {
+    if (!mealName) {
+      setMealNameError('Please provide a name for the meal.');
+      return;
+    }
+
     if (!currentLog || !currentLog._id) return; // Check to see if both exist.
 
     const meal: Meal = {
@@ -93,14 +101,22 @@ export default function MealHeader({
     await addMealToLog(currentLog._id, meal);
   }
 
+  function handleMealNameChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    setMealNameError('');
+    setMealName(evt.target.value);
+  }
+
   return (
     <StyledMealHeader>
-      <Input
-        type='text'
-        placeholder={'Meal name'}
-        value={mealName}
-        onChange={(evt) => setMealName(evt.target.value)}
-      />
+      <div>
+        <Input
+          type='text'
+          placeholder={'Meal name'}
+          value={mealName}
+          onChange={handleMealNameChange}
+        />
+        {mealNameError && <ErrorText>{mealNameError}</ErrorText>}
+      </div>
       <LogSelect logs={foodLogs} currentLog={currentLog} />
       <PurpleWideButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
         Add to log
