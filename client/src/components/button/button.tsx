@@ -69,8 +69,14 @@ export const SmallButton = styled(PrimaryButton)`
   font-size: 0.9rem;
   padding: 0.25rem 0.5rem;
   border-radius: var(--lg-radius);
+  justify-self: center;
 
   &:hover {
     background-color: var(--color-indigo-200);
   }
+`;
+
+export const AddMealToLogButton = styled(PrimaryButton)`
+  justify-self: center;
+  padding: 0.5rem 1.5rem;
 `;
