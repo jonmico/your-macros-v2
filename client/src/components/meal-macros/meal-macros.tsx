@@ -41,9 +41,9 @@ export default function MealMacros({
     <StyledMealMacros>
       <MealTotals>Meal Totals:</MealTotals>
       <MealMacro>{calories} calories</MealMacro>
-      <MealMacro>{fat} fat</MealMacro>
-      <MealMacro>{carbs} carbs</MealMacro>
-      <MealMacro>{protein} protein</MealMacro>
+      <MealMacro>{fat}g fat</MealMacro>
+      <MealMacro>{carbs}g carbs</MealMacro>
+      <MealMacro>{protein}g protein</MealMacro>
     </StyledMealMacros>
   );
 }
