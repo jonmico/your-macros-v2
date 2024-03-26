@@ -4,13 +4,13 @@ import { useFoodLog } from '../../hooks/useFoodLog';
 import { useUser } from '../../hooks/useUser';
 import { Food } from '../../types/food';
 import { Meal } from '../../types/meal';
-import { AddMealToLogButton, SmallButton } from '../button/button';
+import { PurpleWideButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import MealMacros from '../meal-macros/meal-macros';
 
 const StyledMealHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 0.75fr;
   grid-template-rows: auto;
   align-items: center;
   column-gap: 1rem;
@@ -23,6 +23,7 @@ const Input = styled.input`
   border-radius: var(--sm-radius);
   padding: 0.25rem;
   transition: background-color 250ms, padding 350ms;
+  height: 2rem;
 
   &:focus-visible {
     background-color: var(--color-slate-200);
@@ -101,9 +102,9 @@ export default function MealHeader({
         onChange={(evt) => setMealName(evt.target.value)}
       />
       <LogSelect logs={foodLogs} currentLog={currentLog} />
-      <AddMealToLogButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
+      <PurpleWideButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
         Add to log
-      </AddMealToLogButton>
+      </PurpleWideButton>
       <MealMacros
         calories={mealCalories}
         fat={mealFat}

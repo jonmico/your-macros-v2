@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useMeal } from '../../hooks/useMeal';
 import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
-import { WideButton } from '../button/button';
 import { ServingsInput } from '../../ui/input/input';
+import { PurpleWideButton } from '../button/button';
 
 const StyledFood = styled.div`
   display: flex;
@@ -84,9 +84,9 @@ export default function Food({ food }: FoodProps) {
         calories={food.calories}
         macros={food.macros}
       />
-      <WideButton disabled={isInMeal} onClick={handleClick}>
+      <PurpleWideButton disabled={isInMeal} onClick={handleClick}>
         Add to meal
-      </WideButton>
+      </PurpleWideButton>
     </StyledFood>
   );
 }

@@ -76,7 +76,13 @@ export const SmallButton = styled(PrimaryButton)`
   }
 `;
 
-export const AddMealToLogButton = styled(PrimaryButton)`
-  justify-self: center;
+export const PurpleWideButton = styled(PrimaryButton)`
+  width: 100%;
+  background-color: var(--color-indigo-600);
+  color: var(--color-slate-100);
   padding: 0.5rem 1.5rem;
+
+  &:hover {
+    background-color: var(--color-indigo-500);
+  }
 `;

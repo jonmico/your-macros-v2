@@ -150,6 +150,13 @@ function MealTableRow({ food }: MealTableRowProps) {
     setIsEditActive(false);
   }
 
+  const macroDisplayData = {
+    calories: foodServingsNum * foodItem.calories,
+    fat: foodServingsNum * foodItem.macros.fat,
+    carbs: foodServingsNum * foodItem.macros.carbs,
+    protein: foodServingsNum * foodItem.macros.protein,
+  };
+
   return (
     <StyledMealTableRow>
       <div>
@@ -170,17 +177,42 @@ function MealTableRow({ food }: MealTableRowProps) {
           </MealTableCheckButton>
         )}
       </StyledForm>
-      <div>
-        {foodServingsNum * foodItem.calories}cals/
-        {foodServingsNum * foodItem.macros.fat}f/
-        {foodServingsNum * foodItem.macros.carbs}c/
-        {foodServingsNum * foodItem.macros.protein}
-      </div>
+      <MacroDisplay data={macroDisplayData} />
       <ButtonContainer>
         <ExitButton onClick={handleRemoveFoodClick}>
           <FaCircleXmark />
         </ExitButton>
       </ButtonContainer>
     </StyledMealTableRow>
+  );
+}
+
+const StyledMacroDisplay = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+  color: var(--color-slate-700);
+  flex-wrap: wrap;
+`;
+
+interface MacroDisplayProps {
+  data: {
+    calories: number;
+    fat: number;
+    carbs: number;
+    protein: number;
+  };
+}
+
+function MacroDisplay({ data }: MacroDisplayProps) {
+  const { calories, fat, carbs, protein } = data;
+  return (
+    <StyledMacroDisplay>
+      <div>{calories} cals</div>
+      <div>{fat}f</div>
+      <div>{carbs}c</div>
+      <div>{protein}p</div>
+    </StyledMacroDisplay>
   );
 }

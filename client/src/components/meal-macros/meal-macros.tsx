@@ -11,11 +11,17 @@ const StyledMealMacros = styled.div`
   justify-content: space-between;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  font-size: 1.25rem;
 `;
 
 const MealTotals = styled.div`
   font-weight: 600;
-  color: var(--color-slate-700);
+  color: var(--color-indigo-800);
+`;
+
+const MealMacro = styled.div`
+  font-weight: 500;
+  color: var(--color-slate-800);
 `;
 
 interface MealMacrosProps {
@@ -34,10 +40,10 @@ export default function MealMacros({
   return (
     <StyledMealMacros>
       <MealTotals>Meal Totals:</MealTotals>
-      <div>{calories} calories</div>
-      <div>{fat} fat</div>
-      <div>{carbs} carbs</div>
-      <div>{protein} protein</div>
+      <MealMacro>{calories} calories</MealMacro>
+      <MealMacro>{fat} fat</MealMacro>
+      <MealMacro>{carbs} carbs</MealMacro>
+      <MealMacro>{protein} protein</MealMacro>
     </StyledMealMacros>
   );
 }
