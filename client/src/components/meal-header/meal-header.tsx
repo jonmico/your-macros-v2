@@ -8,6 +8,8 @@ import { PurpleWideButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import MealMacros from '../meal-macros/meal-macros';
 import { ErrorText } from '../../ui/error-text/error-text';
+import Toast from '../toast/toast';
+import { FoodLog } from '../../types/food-log';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -47,6 +49,8 @@ export default function MealHeader({
 }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
   const [mealNameError, setMealNameError] = useState('');
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [foodLog, setFoodLog] = useState<FoodLog | null>(null);
   const {
     foodLogs,
     currentLog,
@@ -98,7 +102,9 @@ export default function MealHeader({
       },
     };
 
-    await addMealToLog(currentLog._id, meal);
+    const log = await addMealToLog(currentLog._id, meal);
+    if (log) setFoodLog(log);
+    setIsToastOpen(true);
   }
 
   function handleMealNameChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -108,6 +114,12 @@ export default function MealHeader({
 
   return (
     <StyledMealHeader>
+      {isToastOpen && (
+        <Toast closeToastWindow={() => setIsToastOpen(false)}>
+          Added {foodLog?.meals[foodLog.meals.length - 1].name} to{' '}
+          {foodLog?.name}!
+        </Toast>
+      )}
       <div>
         <Input
           type='text'

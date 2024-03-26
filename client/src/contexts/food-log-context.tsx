@@ -15,7 +15,7 @@ type FoodLogContextType = {
   isLoading: boolean;
   error: string;
   createLog: (userId: string, logName: string) => Promise<void>;
-  addMealToLog: (logId: string, meal: Meal) => Promise<void>;
+  addMealToLog: (logId: string, meal: Meal) => Promise<FoodLog | undefined>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
@@ -79,9 +79,8 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
 
     if (data.updatedLog) {
       dispatch({ type: 'foodLog/addMealToLog', payload: data.updatedLog });
+      return data.updatedLog;
     }
-
-    console.log(data);
   }
 
   const value = {
