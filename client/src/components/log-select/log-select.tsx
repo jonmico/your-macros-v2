@@ -31,8 +31,7 @@ const LogSelectMain = styled.div<LogSelectMainProps>`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  width: 10rem;
-
+  width: 100%;
   &:hover {
     cursor: pointer;
   }
