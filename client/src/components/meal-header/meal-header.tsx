@@ -9,15 +9,12 @@ import { Meal } from '../../types/meal';
 import { useUser } from '../../hooks/useUser';
 
 const StyledMealHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-`;
-
-const MealDataContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
   align-items: center;
-  justify-content: space-between;
+  column-gap: 1rem;
+  row-gap: 0.5rem;
 `;
 
 const Input = styled.input`
