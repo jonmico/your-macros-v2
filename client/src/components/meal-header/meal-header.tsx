@@ -36,6 +36,13 @@ const Input = styled.input`
   }
 `;
 
+const ToastContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+`;
+
 const ToastFoodText = styled.span`
   font-weight: 500;
   color: var(--color-indigo-600);
@@ -121,13 +128,16 @@ export default function MealHeader({
     <StyledMealHeader>
       {isToastOpen && (
         <Toast closeToastWindow={() => setIsToastOpen(false)}>
-          <div>
-            Added{' '}
-            <ToastFoodText>
-              {foodLog?.meals[foodLog.meals.length - 1].name}
-            </ToastFoodText>{' '}
-            meal to <ToastFoodText>{foodLog?.name}</ToastFoodText> log
-          </div>
+          <ToastContent>
+            <div>
+              Added{' '}
+              <ToastFoodText>
+                {foodLog?.meals[foodLog.meals.length - 1].name}
+              </ToastFoodText>{' '}
+              meal to <ToastFoodText>{foodLog?.name}</ToastFoodText> log
+            </div>
+            <div>Check it out here (NYI)</div>
+          </ToastContent>
         </Toast>
       )}
       <div>
