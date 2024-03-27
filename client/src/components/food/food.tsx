@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useFood } from '../../hooks/useFood';
 import { useMeal } from '../../hooks/useMeal';
 import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
@@ -43,18 +43,22 @@ interface FoodProps {
 }
 
 export default function Food({ food }: FoodProps) {
-  const { foods, dispatch } = useMeal();
-  const [servings, setServings] = useState('1');
+  const { foods, dispatch: mealDispatch } = useMeal();
+  const {
+    dispatch: foodDispatch,
+    foodState: { foodServings },
+  } = useFood();
 
   const isInMeal = foods.map((f) => f.food._id).includes(food._id);
 
   function handleClick() {
     const newFood = {
       food,
-      servings: Number(servings),
+      servings: Number(foodServings),
     };
 
-    dispatch({ type: 'meal/addFood', payload: newFood });
+    mealDispatch({ type: 'meal/addFood', payload: newFood });
+    foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
   }
 
   return (
@@ -75,12 +79,17 @@ export default function Food({ food }: FoodProps) {
           name={'servings'}
           id={'servings'}
           type='number'
-          value={servings}
-          onChange={(evt) => setServings(evt.target.value)}
+          value={foodServings}
+          onChange={(evt) =>
+            foodDispatch({
+              type: 'food/changeServings',
+              payload: { servings: evt.target.value },
+            })
+          }
         />
       </ServingsContainer>
       <MacroDisplay
-        servings={Number(servings)}
+        servings={Number(foodServings)}
         calories={food.calories}
         macros={food.macros}
       />

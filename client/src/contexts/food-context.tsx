@@ -19,7 +19,7 @@ export const FoodContext = createContext<FoodContextType | null>(null);
 const initialState: FoodState = {
   searchedFoods: [],
   selectedFood: null,
-  foodServings: '',
+  foodServings: '1',
   isLoading: false,
   error: '',
 };

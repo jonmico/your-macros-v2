@@ -160,6 +160,7 @@ function SearchedFoodListItem({ food }: SearchedFoodListItemProps) {
   function handleAddClick(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.stopPropagation();
     mealDispatch({ type: 'meal/addFood', payload: { food, servings: 1 } });
+    foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
   }
 
   return (
