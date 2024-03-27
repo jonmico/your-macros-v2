@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useUser } from '../../hooks/useUser';
 
@@ -7,7 +8,11 @@ export default function FoodLogs() {
   const { foodLogs, createLog } = useFoodLog();
   const [logName, setLogName] = useState('');
 
-  const foodLogList = foodLogs.map((log) => <li key={log._id}>{log.name}</li>);
+  const foodLogList = foodLogs.map((log) => (
+    <li key={log._id}>
+      <Link to={`${log._id}`}>{log.name}</Link>
+    </li>
+  ));
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
