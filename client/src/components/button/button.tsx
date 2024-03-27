@@ -85,4 +85,10 @@ export const PurpleWideButton = styled(PrimaryButton)`
   &:hover {
     background-color: var(--color-indigo-500);
   }
+
+  &:disabled {
+    background-color: var(--color-slate-500);
+    color: var(--color-slate-900);
+    opacity: 0.4;
+  }
 `;
