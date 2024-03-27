@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { UserProvider } from '../../contexts/user-context';
 import { FoodLogProvider } from '../../contexts/food-log-context';
 import { FoodProvider } from '../../contexts/food-context';
+import { MealProvider } from '../../contexts/meal-context';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -28,7 +29,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   return (
     <UserProvider userData={userData}>
       <FoodProvider>
-        <FoodLogProvider userId={userData.userId}>{children}</FoodLogProvider>
+        <FoodLogProvider userId={userData.userId}>
+          <MealProvider>{children}</MealProvider>
+        </FoodLogProvider>
       </FoodProvider>
     </UserProvider>
   );

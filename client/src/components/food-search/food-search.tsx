@@ -22,6 +22,7 @@ const StyledFoodSearch = styled.div<StyledFoodSearchProps>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: min-content;
 `;
 
 const ListContainer = styled.div`
