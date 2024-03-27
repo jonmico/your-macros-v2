@@ -36,6 +36,11 @@ const Input = styled.input`
   }
 `;
 
+const ToastFoodText = styled.span`
+  font-weight: 500;
+  color: var(--color-indigo-600);
+`;
+
 interface MealHeaderProps {
   foods: { food: Food; servings: number }[];
   handleDropDownClick: () => void;
@@ -116,8 +121,13 @@ export default function MealHeader({
     <StyledMealHeader>
       {isToastOpen && (
         <Toast closeToastWindow={() => setIsToastOpen(false)}>
-          Added {foodLog?.meals[foodLog.meals.length - 1].name} to{' '}
-          {foodLog?.name}!
+          <div>
+            Added{' '}
+            <ToastFoodText>
+              {foodLog?.meals[foodLog.meals.length - 1].name}
+            </ToastFoodText>{' '}
+            meal to <ToastFoodText>{foodLog?.name}</ToastFoodText> log
+          </div>
         </Toast>
       )}
       <div>
