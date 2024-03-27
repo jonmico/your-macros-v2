@@ -44,6 +44,11 @@ type ChangeFoodServings = {
   payload: { servings: string };
 };
 
+type SearchFoodsByTextError = {
+  type: 'food/searchFoodsByTextError';
+  payload: { errorMessage: string };
+};
+
 export type FoodActions =
   | Loading
   | Loaded
@@ -54,4 +59,5 @@ export type FoodActions =
   | ClearSearchedFoods
   | SetSelectedFood
   | ClearSelectedFood
-  | ChangeFoodServings;
+  | ChangeFoodServings
+  | SearchFoodsByTextError;

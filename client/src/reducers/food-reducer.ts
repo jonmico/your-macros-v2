@@ -75,6 +75,14 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         foodServings: action.payload.servings,
       };
     }
+    case 'food/searchFoodsByTextError': {
+      return {
+        ...state,
+        error: action.payload.errorMessage,
+        searchedFoods: [],
+        selectedFood: null,
+      };
+    }
     default:
       throw new TypeError("We don't know that type.");
   }
