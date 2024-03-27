@@ -1,14 +1,11 @@
 import { createContext, useReducer } from 'react';
 import { Food } from '../types/food';
-import { foodReducer } from '../reducers/food-reducer';
+import { FoodState, foodReducer } from '../reducers/food-reducer';
 import { apiCreateFood, apiSearchFoodsByText } from '../services/food-api';
 import { FoodActions } from '../types/action-types/food-actions';
 
 type FoodContextType = {
-  searchedFoods: Food[];
-  selectedFood: Food | null;
-  isLoading: boolean;
-  error: string;
+  foodState: FoodState;
   createFood: (
     food: Food,
     userId: string
@@ -19,9 +16,10 @@ type FoodContextType = {
 
 export const FoodContext = createContext<FoodContextType | null>(null);
 
-const initialState = {
+const initialState: FoodState = {
   searchedFoods: [],
   selectedFood: null,
+  foodServings: '',
   isLoading: false,
   error: '',
 };
@@ -57,7 +55,7 @@ export function FoodProvider({ children }: FoodProviderProps) {
     }
   }
 
-  const value = { ...foodState, createFood, searchFoodsByText, dispatch };
+  const value = { foodState, createFood, searchFoodsByText, dispatch };
 
   return <FoodContext.Provider value={value}>{children}</FoodContext.Provider>;
 }
