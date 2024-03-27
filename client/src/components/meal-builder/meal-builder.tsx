@@ -26,6 +26,8 @@ const Loading = styled.div`
   z-index: 2;
 `;
 
+// FIXME: isFoodLogLoading is showing 'Adding meal to log...' on page refresh.
+
 export default function MealBuilder() {
   const { isLoading: isFoodLogLoading } = useFoodLog();
   return (
