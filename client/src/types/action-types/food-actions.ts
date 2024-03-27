@@ -39,6 +39,11 @@ type ClearSelectedFood = {
   type: 'food/clearSelectedFood';
 };
 
+type ChangeFoodServings = {
+  type: 'food/changeServings';
+  payload: { servings: string };
+};
+
 export type FoodActions =
   | Loading
   | Loaded
@@ -48,4 +53,5 @@ export type FoodActions =
   | ClearError
   | ClearSearchedFoods
   | SetSelectedFood
-  | ClearSelectedFood;
+  | ClearSelectedFood
+  | ChangeFoodServings;
