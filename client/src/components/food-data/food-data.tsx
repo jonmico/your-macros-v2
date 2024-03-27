@@ -27,7 +27,8 @@ const ExitButtonContainer = styled.div`
 `;
 
 export default function FoodData() {
-  const { selectedFood, searchedFoods, dispatch } = useFood();
+  const { foodState, dispatch } = useFood();
+  const { selectedFood, searchedFoods } = foodState;
 
   if (!searchedFoods.length) return null;
 

@@ -44,12 +44,8 @@ const SearchText = styled.div`
 
 export default function FoodSearch() {
   const [searchText, setSearchText] = useState('');
-  const {
-    error,
-    searchedFoods,
-    searchFoodsByText,
-    dispatch: foodDispatch,
-  } = useFood();
+  const { foodState, searchFoodsByText, dispatch: foodDispatch } = useFood();
+  const { searchedFoods, error } = foodState;
 
   const isSearchedFoods = !!searchedFoods.length;
 
