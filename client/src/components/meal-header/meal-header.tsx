@@ -108,7 +108,7 @@ export default function MealHeader({
     };
 
     const log = await addMealToLog(currentLog._id, meal);
-    if (log) setFoodLog(log);
+
     setIsToastOpen(true);
   }
 
