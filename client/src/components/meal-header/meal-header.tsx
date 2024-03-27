@@ -10,6 +10,7 @@ import MealMacros from '../meal-macros/meal-macros';
 import { ErrorText } from '../../ui/error-text/error-text';
 import Toast from '../toast/toast';
 import { FoodLog } from '../../types/food-log';
+import { useMeal } from '../../hooks/useMeal';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -70,6 +71,7 @@ export default function MealHeader({
     isLoading: isFoodLogLoading,
   } = useFoodLog();
   const { userId } = useUser();
+  const { dispatch: mealDispatch } = useMeal();
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -90,8 +92,6 @@ export default function MealHeader({
 
   const buttonText = isDropDownOpen ? 'Show less' : 'Show more';
 
-  // TODO: Error handling for empty meal name. Error handling/disabled states
-  // for cases where no foods are in the meal. Do some styling or something.
   async function handleAddToLog() {
     if (!mealName) {
       setMealNameError('Please provide a name for the meal.');
@@ -116,6 +116,11 @@ export default function MealHeader({
 
     const log = await addMealToLog(currentLog._id, meal);
 
+    if (!log) return;
+
+    setFoodLog(log);
+    mealDispatch({ type: 'meal/clearFoods' });
+    setMealName('');
     setIsToastOpen(true);
   }
 
