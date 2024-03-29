@@ -5,6 +5,7 @@ import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { ServingsInput } from '../../ui/input/input';
 import { ExitButton, MealTableCheckButton } from '../button/button';
+import MacroDisplay from '../macro-display/macro-display';
 
 const StyledMealTable = styled.div`
   background-color: var(--color-blue-200);
@@ -184,35 +185,5 @@ function MealTableRow({ food }: MealTableRowProps) {
         </ExitButton>
       </ButtonContainer>
     </StyledMealTableRow>
-  );
-}
-
-const StyledMacroDisplay = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-weight: 500;
-  color: var(--color-slate-700);
-  flex-wrap: wrap;
-`;
-
-interface MacroDisplayProps {
-  data: {
-    calories: number;
-    fat: number;
-    carbs: number;
-    protein: number;
-  };
-}
-
-function MacroDisplay({ data }: MacroDisplayProps) {
-  const { calories, fat, carbs, protein } = data;
-  return (
-    <StyledMacroDisplay>
-      <div>{calories} cals</div>
-      <div>{fat}f</div>
-      <div>{carbs}c</div>
-      <div>{protein}p</div>
-    </StyledMacroDisplay>
   );
 }
