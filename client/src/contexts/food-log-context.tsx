@@ -14,7 +14,10 @@ type FoodLogContextType = {
   currentLog: FoodLog | null;
   isLoading: boolean;
   error: string;
-  createLog: (userId: string, logName: string) => Promise<void>;
+  createLog: (
+    userId: string,
+    logName: string
+  ) => Promise<{ createdLog: boolean } | undefined>;
   addMealToLog: (logId: string, meal: Meal) => Promise<FoodLog | undefined>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
@@ -56,16 +59,19 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     fetchLogs();
   }, [userId]);
 
+  // TODO: Look at these returns. See if there is a better way to handle this.
   async function createLog(userId: string, logName: string) {
     dispatch({ type: 'foodLog/loading' });
     const data = await apiCreateLog(userId, logName);
 
     if (data.errorMessage) {
       dispatch({ type: 'foodLog/error', payload: data.errorMessage });
+      return { createdLog: false };
     }
 
     if (data.foodLog) {
       dispatch({ type: 'foodLog/createLog', payload: data.foodLog });
+      return { createdLog: true };
     }
   }
 
