@@ -81,11 +81,7 @@ const StyledLogHistoryTableListItem = styled.li`
 
   &:nth-of-type(even) {
     background-color: var(--color-blue-300);
-  }
-
-  &:last-of-type {
-    border-bottom-left-radius: var(--sm-radius);
-    border-bottom-right-radius: var(--sm-radius);
+    border-radius: var(--sm-radius);
   }
 `;
 
