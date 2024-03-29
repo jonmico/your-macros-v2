@@ -75,6 +75,7 @@ export default function Register() {
 
     if (registerFormState.password !== registerFormState.repeatPassword) {
       setPasswordMatchError('Passwords must match.');
+      return;
     }
 
     if (hasErrors) {
