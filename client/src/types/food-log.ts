@@ -10,4 +10,5 @@ export type FoodLog = {
     calories: number;
     macros: Macros;
   };
+  createdAt: string;
 };
