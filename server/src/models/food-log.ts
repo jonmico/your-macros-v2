@@ -31,11 +31,11 @@ const foodLogSchema = new Schema<FoodLog>(
     name: { type: String, required: true },
     meals: [mealSchema],
     logTotals: {
-      calories: Number,
+      calories: { type: Number, default: 0 },
       macros: {
-        carbs: Number,
-        fat: Number,
-        protein: Number,
+        carbs: { type: Number, default: 0 },
+        fat: { type: Number, default: 0 },
+        protein: { type: Number, default: 0 },
       },
     },
   },
