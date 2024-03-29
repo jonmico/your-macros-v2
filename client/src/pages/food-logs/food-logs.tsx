@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import { PrimaryButton } from '../../components/button/button';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import { FoodLog } from '../../types/food-log';
+import MacroDisplay from '../../components/macro-display/macro-display';
 import { Input } from '../../ui/input/input';
 import { useUser } from '../../hooks/useUser';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const StyledFoodLogs = styled.div`
   display: flex;
@@ -90,9 +93,14 @@ const StyledLogHistoryTable = styled.div`
 function LogHistoryTable() {
   const { foodLogs } = useFoodLog();
 
+  const foodLogList = foodLogs.map((log) => (
+    <LogHistoryTableListItem key={log._id} log={log} />
+  ));
+
   return (
     <StyledLogHistoryTable>
       <LogHistoryTableHeader />
+      <ul>{foodLogList}</ul>
     </StyledLogHistoryTable>
   );
 }
@@ -117,6 +125,38 @@ function LogHistoryTableHeader() {
   );
 }
 
-const StyledLogHistoryTableListItem = styled.li``;
+const StyledLogHistoryTableListItem = styled.li`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 1rem;
 
-function LogHistoryTableListItem() {}
+  &:nth-of-type(even) {
+    background-color: var(--color-blue-300);
+  }
+`;
+
+interface LogHistoryTableListItemProps {
+  log: FoodLog;
+}
+
+function LogHistoryTableListItem({ log }: LogHistoryTableListItemProps) {
+  const {
+    calories,
+    macros: { carbs, fat, protein },
+  } = log.logTotals;
+  const data = { calories, fat, carbs, protein };
+
+  const formattedCreatedAt = new Date(log.createdAt).toDateString();
+
+  return (
+    <StyledLogHistoryTableListItem>
+      <div>{log.name}</div>
+      <div>{log.meals.length}</div>
+      <MacroDisplay data={data} />
+      <div>{formattedCreatedAt}</div>
+      <div>
+        <Link to={`${log._id}`}>VIEW</Link>
+      </div>
+    </StyledLogHistoryTableListItem>
+  );
+}
