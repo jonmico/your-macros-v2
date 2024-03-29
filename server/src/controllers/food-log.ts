@@ -4,6 +4,7 @@ import FoodLog from '../models/food-log';
 import User from '../models/user';
 import mongoose from 'mongoose';
 import { Meal } from '../types/meal';
+import { calcMacros } from '../utils/calcMacros';
 
 export async function createLog(
   req: Request,
@@ -46,6 +47,10 @@ export async function addMealToLog(
     if (!log) throw new AppError(400, 'Log does not exist.');
 
     log.meals.push(meal);
+
+    const { logTotals } = calcMacros(log.meals);
+    log.logTotals = logTotals;
+
     log.save();
 
     res.json({ updatedLog: log });
