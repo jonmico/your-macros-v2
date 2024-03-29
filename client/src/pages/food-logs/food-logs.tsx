@@ -111,7 +111,7 @@ const StyledLogHistoryTableHeader = styled.div`
   gap: 1rem;
   font-weight: 600;
   border-bottom: 1px solid var(--color-blue-400);
-  padding: 0 1rem;
+  padding: 0 1rem 0.25rem 1rem;
 `;
 
 function LogHistoryTableHeader() {
@@ -134,6 +134,11 @@ const StyledLogHistoryTableListItem = styled.li`
 
   &:nth-of-type(even) {
     background-color: var(--color-blue-300);
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: var(--sm-radius);
+    border-bottom-right-radius: var(--sm-radius);
   }
 `;
 
