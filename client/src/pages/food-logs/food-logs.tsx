@@ -70,7 +70,7 @@ const StyledLogHistory = styled.div`
 `;
 
 const StyledH3 = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: var(--color-indigo-700);
 `;
 
@@ -107,8 +107,9 @@ function LogHistoryTable() {
 
 const StyledLogHistoryTableHeader = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  font-weight: 500;
+  grid-template-columns: 1fr 0.35fr 1fr 1fr 0.25fr;
+  gap: 1rem;
+  font-weight: 600;
   border-bottom: 1px solid var(--color-blue-400);
   padding: 0 1rem;
 `;
@@ -127,11 +128,29 @@ function LogHistoryTableHeader() {
 
 const StyledLogHistoryTableListItem = styled.li`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 1fr 0.35fr 1fr 1fr 0.25fr;
+  gap: 1rem;
   padding: 1rem;
 
   &:nth-of-type(even) {
     background-color: var(--color-blue-300);
+  }
+`;
+
+const LogName = styled.div`
+  font-weight: 500;
+`;
+
+const StyledLink = styled(Link)`
+  background-color: var(--color-indigo-600);
+  border-radius: var(--lg-radius);
+  padding: 0.25rem 0.5rem;
+  color: var(--color-slate-100);
+  font-size: 0.85rem;
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-indigo-500);
   }
 `;
 
@@ -150,12 +169,12 @@ function LogHistoryTableListItem({ log }: LogHistoryTableListItemProps) {
 
   return (
     <StyledLogHistoryTableListItem>
-      <div>{log.name}</div>
+      <LogName>{log.name}</LogName>
       <div>{log.meals.length}</div>
       <MacroDisplay data={data} />
       <div>{formattedCreatedAt}</div>
       <div>
-        <Link to={`${log._id}`}>VIEW</Link>
+        <StyledLink to={`${log._id}`}>VIEW</StyledLink>
       </div>
     </StyledLogHistoryTableListItem>
   );
