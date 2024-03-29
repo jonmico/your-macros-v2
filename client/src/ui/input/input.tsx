@@ -5,7 +5,7 @@ export const Input = styled.input`
   padding: 0.25rem;
   border-radius: 4px;
   border: 1px solid var(--color-slate-400);
-  /* outline: none; */
+  width: 100%;
 
   &:focus-visible {
     outline: 1px solid var(--color-indigo-600);
