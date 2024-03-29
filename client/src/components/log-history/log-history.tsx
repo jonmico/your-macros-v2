@@ -24,7 +24,7 @@ const StyledH3 = styled.h3`
 export default function LogHistory() {
   return (
     <StyledLogHistory>
-      <StyledH3>Log History</StyledH3>
+      <StyledH3>Food Log History</StyledH3>
       <LogHistoryTable />
     </StyledLogHistory>
   );
