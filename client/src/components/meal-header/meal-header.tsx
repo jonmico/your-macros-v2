@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import { useMeal } from '../../hooks/useMeal';
 import { useUser } from '../../hooks/useUser';
 import { Food } from '../../types/food';
+import { FoodLog } from '../../types/food-log';
 import { Meal } from '../../types/meal';
+import { ErrorText } from '../../ui/error-text/error-text';
 import { PurpleWideButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
-import MealMacros from '../meal-macros/meal-macros';
-import { ErrorText } from '../../ui/error-text/error-text';
 import Toast from '../toast/toast';
-import { FoodLog } from '../../types/food-log';
-import { useMeal } from '../../hooks/useMeal';
+import TotalsDisplay from '../totals-display/totals-display';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -158,7 +158,8 @@ export default function MealHeader({
       <PurpleWideButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
         Add to log
       </PurpleWideButton>
-      <MealMacros
+      <TotalsDisplay
+        totalsText={'Log Totals:'}
         calories={mealCalories}
         fat={mealFat}
         carbs={mealCarbs}
