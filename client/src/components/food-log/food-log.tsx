@@ -52,11 +52,20 @@ const StyledMealList = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 `;
 
 const MealListHeader = styled.h3`
   color: var(--color-blue-600);
+  font-size: 1.25rem;
+`;
+
+const StyledList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 `;
 
 interface MealListProps {
@@ -69,7 +78,7 @@ function MealList({ meals }: MealListProps) {
   return (
     <StyledMealList>
       <MealListHeader>Meals in this log:</MealListHeader>
-      <ul>{mealList}</ul>
+      <StyledList>{mealList}</StyledList>
     </StyledMealList>
   );
 }
