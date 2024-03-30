@@ -83,10 +83,37 @@ function MealList({ meals }: MealListProps) {
   );
 }
 
+const StyledMealListItem = styled.li`
+  border: 1px solid var(--color-indigo-400);
+  border-radius: var(--md-radius);
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+`;
+
+const MealName = styled.h4`
+  color: var(--color-slate-600);
+`;
+
 interface MealListItemProps {
   meal: Meal;
 }
 
 function MealListItem({ meal }: MealListItemProps) {
-  return <li>{meal.name}</li>;
+  const {
+    calories,
+    macros: { fat, carbs, protein },
+  } = meal.mealTotals;
+
+  return (
+    <StyledMealListItem>
+      <TotalsDisplay
+        totalsText={'Meal Totals:'}
+        calories={calories}
+        fat={fat}
+        carbs={carbs}
+        protein={protein}
+      />
+      <MealName>{meal.name}</MealName>
+    </StyledMealListItem>
+  );
 }
