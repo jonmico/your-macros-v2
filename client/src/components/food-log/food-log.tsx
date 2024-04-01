@@ -1,15 +1,35 @@
-import { useParams } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa6';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
-import TotalsDisplay from '../totals-display/totals-display';
-import { Meal } from '../../types/meal';
 import { Food } from '../../types/food';
+import { Meal } from '../../types/meal';
 import MacroDisplay from '../macro-display/macro-display';
+import TotalsDisplay from '../totals-display/totals-display';
 
 const StyledFoodLog = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+
+const StyledLink = styled(Link)`
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--lg-radius);
+  background-color: var(--color-indigo-600);
+  color: var(--color-slate-100);
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: underline transparent;
+  transition: background-color 300ms ease-in-out,
+    text-decoration 200ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-indigo-500);
+    text-decoration-color: var(--color-slate-100);
+  }
 `;
 
 const StyledH2 = styled.h2`
@@ -32,6 +52,10 @@ export default function FoodLog() {
 
   return (
     <StyledFoodLog>
+      <StyledLink to={'/app/food-logs'}>
+        <FaArrowLeft />
+        Back to logs
+      </StyledLink>
       <StyledH2>{foodLog.name}</StyledH2>
       <TotalsDisplay
         backgroundColor={'var(--color-blue-100)'}
