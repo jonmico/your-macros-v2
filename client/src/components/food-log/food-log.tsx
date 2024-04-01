@@ -133,8 +133,11 @@ function MealListItem({ meal }: MealListItemProps) {
 }
 
 const StyledMealListFoodTable = styled.div`
-  border-radius: var(--md-radius);
+  border: 1px solid var(--color-indigo-300);
+  border-radius: var(--sm-radius);
   background-color: var(--color-blue-100);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 `;
 
 interface MealListFoodTableProps {
