@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface StyledTotalsDisplayProps {
   $border?: string;
   $backgroundColor?: string;
+  $fontSize?: string;
 }
 
 const StyledTotalsDisplay = styled.div<StyledTotalsDisplayProps>`
@@ -20,7 +21,7 @@ const StyledTotalsDisplay = styled.div<StyledTotalsDisplayProps>`
   justify-content: space-between;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  font-size: 1.25rem;
+  font-size: ${(props) => (props.$fontSize ? props.$fontSize : '1.25rem')};
 `;
 
 const Totals = styled.div`
@@ -41,6 +42,7 @@ interface TotalsDisplayProps {
   totalsText: string;
   backgroundColor?: string;
   border?: string;
+  fontSize?: string;
 }
 
 export default function TotalsDisplay({
@@ -51,9 +53,14 @@ export default function TotalsDisplay({
   totalsText,
   backgroundColor,
   border,
+  fontSize,
 }: TotalsDisplayProps) {
   return (
-    <StyledTotalsDisplay $backgroundColor={backgroundColor} $border={border}>
+    <StyledTotalsDisplay
+      $fontSize={fontSize}
+      $backgroundColor={backgroundColor}
+      $border={border}
+    >
       <Totals>{totalsText}</Totals>
       <Macro>{calories} calories</Macro>
       <Macro>{fat}g fat</Macro>

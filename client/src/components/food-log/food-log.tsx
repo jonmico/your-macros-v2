@@ -108,6 +108,8 @@ function MealListItem({ meal }: MealListItemProps) {
     <StyledMealListItem>
       <TotalsDisplay
         totalsText={'Meal Totals:'}
+        fontSize={'1rem'}
+        backgroundColor={'var(--color-indigo-200)'}
         calories={calories}
         fat={fat}
         carbs={carbs}
