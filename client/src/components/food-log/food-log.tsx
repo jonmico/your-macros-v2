@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import TotalsDisplay from '../totals-display/totals-display';
 import { Meal } from '../../types/meal';
+import { Food } from '../../types/food';
+import MacroDisplay from '../macro-display/macro-display';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -88,10 +90,9 @@ const StyledMealListItem = styled.li`
   border-radius: var(--md-radius);
   padding: 1rem;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-`;
-
-const MealName = styled.h4`
-  color: var(--color-slate-600);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 interface MealListItemProps {
@@ -110,12 +111,123 @@ function MealListItem({ meal }: MealListItemProps) {
         totalsText={'Meal Totals:'}
         fontSize={'1rem'}
         backgroundColor={'var(--color-indigo-200)'}
+        border={'1px solid var(--color-indigo-300)'}
         calories={calories}
         fat={fat}
         carbs={carbs}
         protein={protein}
       />
-      <MealName>{meal.name}</MealName>
+      <MealInfo meal={meal} />
     </StyledMealListItem>
+  );
+}
+
+const StyledMealInfo = styled.div`
+  border: 1px solid var(--color-indigo-300);
+  border-radius: var(--sm-radius);
+  padding: 1rem;
+  background-color: var(--color-indigo-200);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const MealName = styled.h4`
+  color: var(--color-slate-700);
+  font-size: 1.25rem;
+`;
+
+interface MealInfoProps {
+  meal: Meal;
+}
+
+function MealInfo({ meal }: MealInfoProps) {
+  return (
+    <StyledMealInfo>
+      <MealName>{meal.name}</MealName>
+      <MealInfoFoodTable foods={meal.foods} />
+    </StyledMealInfo>
+  );
+}
+
+const StyledMealInfoFoodTable = styled.div`
+  border-radius: var(--md-radius);
+  background-color: var(--color-blue-100);
+`;
+
+interface MealInfoFoodTableProps {
+  foods: { food: Food; servings: number }[];
+}
+
+function MealInfoFoodTable({ foods }: MealInfoFoodTableProps) {
+  const foodList = foods.map((f) => (
+    <MealInfoFoodTableListItem key={f.food._id} food={f} />
+  ));
+
+  return (
+    <StyledMealInfoFoodTable>
+      <MealInfoFoodTableHeader />
+      <ul>{foodList}</ul>
+    </StyledMealInfoFoodTable>
+  );
+}
+
+const StyledMealInfoFoodTableHeader = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  font-weight: 500;
+  padding: 0.5rem 1rem 0.25rem 1rem;
+  border-bottom: 1px solid var(--color-indigo-200);
+`;
+
+function MealInfoFoodTableHeader() {
+  return (
+    <StyledMealInfoFoodTableHeader>
+      <div>Name & Brand</div>
+      <div>Servings</div>
+      <div>Nutrition</div>
+    </StyledMealInfoFoodTableHeader>
+  );
+}
+
+const StyledMealInfoFoodTableListItem = styled.li`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  padding: 1rem;
+`;
+
+const FoodName = styled.div`
+  font-weight: 500;
+`;
+
+const FoodBrand = styled.div`
+  font-weight: 500;
+  color: var(--color-slate-600);
+`;
+
+interface MealInfoFoodTableListItemProps {
+  food: { food: Food; servings: number };
+}
+
+function MealInfoFoodTableListItem({ food }: MealInfoFoodTableListItemProps) {
+  const { food: foodItem, servings } = food;
+  const {
+    calories,
+    macros: { fat, carbs, protein },
+  } = foodItem;
+
+  const macroDisplayData = { calories, fat, carbs, protein };
+
+  return (
+    <StyledMealInfoFoodTableListItem>
+      <div>
+        <FoodName>{foodItem.name}</FoodName>
+        <FoodBrand>{foodItem.brand}</FoodBrand>
+      </div>
+      <div>{servings}</div>
+      <MacroDisplay data={macroDisplayData} />
+    </StyledMealInfoFoodTableListItem>
   );
 }
