@@ -105,9 +105,70 @@ function MealList({ meals }: MealListProps) {
 
   return (
     <StyledMealList>
-      <MealListHeader>Meals in this log:</MealListHeader>
-      <StyledList>{mealList}</StyledList>
+      {mealList.length === 0 ? (
+        <NoMealsInLog />
+      ) : (
+        <>
+          <MealListHeader>Meals in this log:</MealListHeader>
+          <StyledList>{mealList}</StyledList>
+        </>
+      )}
     </StyledMealList>
+  );
+}
+
+const StyledNoMealsInLog = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  height: 5rem;
+`;
+
+const NoMealsInLogText = styled.div`
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: var(--color-slate-600);
+`;
+
+const AddToLogLink = styled(Link)`
+  padding: 0.5rem 1.25rem;
+  color: var(--color-slate-100);
+  border-radius: var(--sm-radius);
+  background-color: var(--color-indigo-600);
+  text-decoration: underline transparent;
+  transition: border-radius 300ms ease-in-out,
+    text-decoration-color 200ms ease-in-out, background-color 300ms ease-in-out;
+
+  &:hover {
+    border-radius: var(--xlg-radius);
+    background-color: var(--color-indigo-500);
+    text-decoration-color: var(--color-slate-100);
+  }
+`;
+
+function NoMealsInLog() {
+  const { foodLogId } = useParams();
+  const { foodLogDispatch, foodLogs } = useFoodLog();
+
+  const foodLog = foodLogs.find((log) => log._id === foodLogId);
+
+  if (!foodLog) return null;
+
+  return (
+    <StyledNoMealsInLog>
+      <NoMealsInLogText>There are no meals in this log</NoMealsInLogText>
+      <AddToLogLink
+        to={'/app/add-meal'}
+        onClick={() =>
+          foodLogDispatch({ type: 'foodLog/setCurrentLog', payload: foodLog })
+        }
+      >
+        Click here to add to this log
+      </AddToLogLink>
+    </StyledNoMealsInLog>
   );
 }
 
