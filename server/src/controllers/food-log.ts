@@ -73,14 +73,42 @@ export async function getLogs(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function deleteLog(
+interface DeleteLogReqBody {
+  userId: mongoose.Types.ObjectId;
+  logId: mongoose.Types.ObjectId;
+  mealId: mongoose.Types.ObjectId;
+}
+
+export async function deleteMealFromLog(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    console.log('you are in deleteLog function');
-    res.json({ message: 'you are in the deleteLog function!' });
+    const { userId, logId, mealId }: DeleteLogReqBody = req.body;
+
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+      throw new AppError(400, 'User does not exist.');
+    }
+
+    const foodLog = await FoodLog.findById(logId).exec();
+
+    if (!foodLog) {
+      throw new AppError(400, 'Log not found.');
+    }
+
+    console.log(foodLog.author, user._id);
+
+    if (foodLog.author.toString() !== user._id.toString()) {
+      throw new AppError(403, 'You do not have permission to do that.');
+    }
+
+    foodLog.meals.pull(mealId);
+    foodLog.save();
+
+    res.json({ updatedLog: foodLog });
   } catch (err) {
     next(err);
   }
