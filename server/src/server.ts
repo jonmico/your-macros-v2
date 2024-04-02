@@ -30,11 +30,9 @@ app.use('/api/food-log', logRouter);
 
 // 404 Error handler
 app.use((req, res) => {
-  res
-    .status(404)
-    .json({
-      errorMessage: 'Sorry, but we cannot find what you are looking for!',
-    });
+  res.status(404).json({
+    errorMessage: 'Sorry, but we cannot find what you are looking for!',
+  });
 });
 
 // Catch-all error handler
@@ -45,7 +43,6 @@ app.use(((
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
-  // const errorMessage = err instanceof AppError ? err.errorMessage : err.message;
   const errorMessage = err.message;
   const errorCode = err instanceof AppError ? err.errorCode : 500;
 
