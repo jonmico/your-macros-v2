@@ -4,8 +4,8 @@ import { Macros } from './macros';
 export type User = {
   email: string;
   password: string;
-  createdFoods: mongoose.Schema.Types.ObjectId[];
-  foodLogs: mongoose.Schema.Types.ObjectId[];
+  createdFoods: mongoose.Types.ObjectId[];
+  foodLogs: mongoose.Types.ObjectId[];
   dailyIntake: {
     calories: number;
     macros: Macros;

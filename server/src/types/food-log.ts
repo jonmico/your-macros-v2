@@ -3,10 +3,10 @@ import { Macros } from './macros';
 import { Meal } from './meal';
 
 export type FoodLog = {
-  _id?: mongoose.Schema.Types.ObjectId;
-  author: mongoose.Schema.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
+  author: mongoose.Types.ObjectId;
   name: string;
-  meals: Meal[];
+  meals: mongoose.Types.DocumentArray<Meal>;
   logTotals: {
     calories: number;
     macros: Macros;
