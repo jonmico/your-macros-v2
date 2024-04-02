@@ -1,8 +1,8 @@
-import { Macros } from '../types/macros';
 import { Meal } from '../types/meal';
 
 export function calcMacros(meals: Meal[]): {
-  logTotals: { calories: number; macros: Macros };
+  calories: number;
+  macros: { fat: number; carbs: number; protein: number };
 } {
   const calories = meals.reduce(
     (prev, curr) => prev + curr.mealTotals.calories,
@@ -24,5 +24,5 @@ export function calcMacros(meals: Meal[]): {
     0
   );
 
-  return { logTotals: { calories, macros: { fat, carbs, protein } } };
+  return { calories, macros: { fat, carbs, protein } };
 }

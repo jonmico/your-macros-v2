@@ -48,7 +48,7 @@ export async function addMealToLog(
 
     log.meals.push(meal);
 
-    const { logTotals } = calcMacros(log.meals);
+    const logTotals = calcMacros(log.meals);
     log.logTotals = logTotals;
 
     log.save();
@@ -99,13 +99,16 @@ export async function deleteMealFromLog(
       throw new AppError(400, 'Log not found.');
     }
 
-    console.log(foodLog.author, user._id);
-
     if (foodLog.author.toString() !== user._id.toString()) {
       throw new AppError(403, 'You do not have permission to do that.');
     }
 
     foodLog.meals.pull(mealId);
+
+    const logTotals = calcMacros(foodLog.meals);
+
+    foodLog.logTotals = logTotals;
+
     foodLog.save();
 
     res.json({ updatedLog: foodLog });
