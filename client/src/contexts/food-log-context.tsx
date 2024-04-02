@@ -1,12 +1,13 @@
 import { createContext, useEffect, useReducer } from 'react';
-import { FoodLog } from '../types/food-log';
 import { FoodLogState, foodLogReducer } from '../reducers/food-log-reducer';
 import {
   apiAddMealToLog,
   apiCreateLog,
+  apiDeleteMealFromLog,
   apiFetchLogs,
 } from '../services/food-logs-api';
 import { FoodLogAction } from '../types/action-types/food-log-actions';
+import { FoodLog } from '../types/food-log';
 import { Meal } from '../types/meal';
 
 type FoodLogContextType = {
@@ -19,6 +20,11 @@ type FoodLogContextType = {
     logName: string
   ) => Promise<{ createdLog: boolean } | undefined>;
   addMealToLog: (logId: string, meal: Meal) => Promise<FoodLog | undefined>;
+  deleteMealFromLog: (
+    userId: string,
+    foodLogId: string,
+    mealId: string
+  ) => Promise<void>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
@@ -89,10 +95,31 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     }
   }
 
+  async function deleteMealFromLog(
+    userId: string,
+    foodLogId: string,
+    mealId: string
+  ) {
+    dispatch({ type: 'foodLog/loading' });
+    const data = await apiDeleteMealFromLog(userId, foodLogId, mealId);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'foodLog/error', payload: data.errorMessage });
+    }
+
+    if (data.updatedLog) {
+      dispatch({
+        type: 'foodLog/deleteMealFromLog',
+        payload: { updatedLog: data.updatedLog },
+      });
+    }
+  }
+
   const value = {
     ...foodLogState,
     createLog,
     addMealToLog,
+    deleteMealFromLog,
     foodLogDispatch: dispatch,
   };
 

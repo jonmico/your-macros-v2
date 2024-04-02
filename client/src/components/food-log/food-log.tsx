@@ -2,13 +2,12 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import { useUser } from '../../hooks/useUser';
 import { Food } from '../../types/food';
 import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
-import { apiDeleteLog } from '../../services/food-logs-api';
-import { useUser } from '../../hooks/useUser';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -159,12 +158,13 @@ function MealListItem({ meal }: MealListItemProps) {
     macros: { fat, carbs, protein },
   } = meal.mealTotals;
   const { userId } = useUser();
+  const { deleteMealFromLog } = useFoodLog();
   const { foodLogId } = useParams();
 
-  function handleDeleteClick() {
-    console.log('You are trying to delete this meal.');
-    const data = apiDeleteLog(userId, foodLogId, meal._id);
-    console.log(data.message);
+  async function handleDeleteClick() {
+    if (!foodLogId || !meal._id) return;
+
+    await deleteMealFromLog(userId, foodLogId, meal._id);
   }
   return (
     <StyledMealListItem>
