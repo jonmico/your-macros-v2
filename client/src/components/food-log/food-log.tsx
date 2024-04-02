@@ -7,6 +7,8 @@ import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
+import { apiDeleteLog } from '../../services/food-logs-api';
+import { useUser } from '../../hooks/useUser';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -156,6 +158,14 @@ function MealListItem({ meal }: MealListItemProps) {
     calories,
     macros: { fat, carbs, protein },
   } = meal.mealTotals;
+  const { userId } = useUser();
+  const { foodLogId } = useParams();
+
+  function handleDeleteClick() {
+    console.log('You are trying to delete this meal.');
+    const data = apiDeleteLog(userId, foodLogId, meal._id);
+    console.log(data.message);
+  }
   return (
     <StyledMealListItem>
       <MealName>{meal.name}</MealName>
@@ -172,7 +182,7 @@ function MealListItem({ meal }: MealListItemProps) {
       <MealListFoodTable foods={meal.foods} />
       <ButtonContainer>
         <EditLink to={'edit'}>Edit</EditLink>
-        <DeleteButton>Delete</DeleteButton>
+        <DeleteButton onClick={handleDeleteClick}>Delete</DeleteButton>
       </ButtonContainer>
     </StyledMealListItem>
   );

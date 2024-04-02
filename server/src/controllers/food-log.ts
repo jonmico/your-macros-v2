@@ -72,3 +72,16 @@ export async function getLogs(req: Request, res: Response, next: NextFunction) {
     next(err);
   }
 }
+
+export async function deleteLog(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    console.log('you are in deleteLog function');
+    res.json({ message: 'you are in the deleteLog function!' });
+  } catch (err) {
+    next(err);
+  }
+}

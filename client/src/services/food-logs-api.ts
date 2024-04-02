@@ -89,3 +89,23 @@ export async function apiAddMealToLog(
     };
   }
 }
+
+export async function apiDeleteLog(
+  userId: string,
+  logId: string,
+  mealId: string
+): Promise<{ message?: string; errorMessage: string }> {
+  try {
+    const res = await fetch('/api/food-log/delete', {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ userId, logId, mealId }),
+    });
+
+    return await res.json();
+  } catch (err) {
+    return { errorMessage: 'server down' };
+  }
+}
