@@ -9,6 +9,9 @@ import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
 
+// TODO: Add a link to add a meal to this log at the top of the component.
+// TODO: Implement Edit
+
 const StyledFoodLog = styled.div`
   display: flex;
   flex-direction: column;
