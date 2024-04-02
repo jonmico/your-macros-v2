@@ -11,6 +11,7 @@ import { PurpleWideButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import Toast from '../toast/toast';
 import TotalsDisplay from '../totals-display/totals-display';
+import { Link } from 'react-router-dom';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -47,6 +48,12 @@ const ToastContent = styled.div`
 const ToastFoodText = styled.span`
   font-weight: 500;
   color: var(--color-indigo-600);
+`;
+
+const ToastFoodLink = styled(Link)`
+  font-weight: 500;
+  color: var(--color-indigo-600);
+  text-decoration: underline;
 `;
 
 interface MealHeaderProps {
@@ -141,7 +148,12 @@ export default function MealHeader({
               </ToastFoodText>{' '}
               meal to <ToastFoodText>{foodLog?.name}</ToastFoodText> log
             </div>
-            <div>Check it out here (NYI)</div>
+            <div>
+              Check it out{' '}
+              <ToastFoodLink to={`/app/food-logs/${foodLog?._id}`}>
+                here
+              </ToastFoodLink>
+            </div>
           </ToastContent>
         </Toast>
       )}
