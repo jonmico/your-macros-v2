@@ -54,6 +54,19 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         isLoading: false,
       };
     }
+    case 'foodLog/deleteMealFromLog': {
+      return {
+        ...state,
+        foodLogs: state.foodLogs.map((log) => {
+          if (log._id === action.payload.updatedLog._id) {
+            return { ...action.payload.updatedLog };
+          }
+          return log;
+        }),
+        error: '',
+        isLoading: false,
+      };
+    }
     default:
       throw new TypeError('We do not recognize that type.');
   }

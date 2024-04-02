@@ -29,10 +29,18 @@ type AddMealToLog = {
   payload: FoodLog;
 };
 
+type DeleteMealFromLog = {
+  type: 'foodLog/deleteMealFromLog';
+  payload: {
+    updatedLog: FoodLog;
+  };
+};
+
 export type FoodLogAction =
   | Loading
   | Error
   | SetLogs
   | CreateLog
   | SetCurrentLog
-  | AddMealToLog;
+  | AddMealToLog
+  | DeleteMealFromLog;
