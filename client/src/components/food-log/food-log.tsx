@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { Food } from '../../types/food';
 import { Meal } from '../../types/meal';
+import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
 
@@ -129,6 +130,27 @@ const MealName = styled.h4`
   font-size: 1.25rem;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+`;
+
+const EditLink = styled(Link)`
+  border: 1px solid var(--color-gray-900);
+  border-radius: var(--sm-radius);
+  padding: 0.25rem 0.5rem;
+  background-color: var(--color-yellow-400);
+  transition: background-color 200ms ease-in-out,
+    border-radius 200ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-yellow-300);
+    border-radius: var(--lg-radius);
+  }
+`;
+
 function MealListItem({ meal }: MealListItemProps) {
   const {
     calories,
@@ -148,10 +170,10 @@ function MealListItem({ meal }: MealListItemProps) {
         protein={protein}
       />
       <MealListFoodTable foods={meal.foods} />
-      <div>
-        <button>Edit</button>
-        <button>Delete</button>
-      </div>
+      <ButtonContainer>
+        <EditLink to={'edit'}>Edit</EditLink>
+        <DeleteButton>Delete</DeleteButton>
+      </ButtonContainer>
     </StyledMealListItem>
   );
 }

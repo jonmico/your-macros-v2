@@ -92,3 +92,12 @@ export const PurpleWideButton = styled(PrimaryButton)`
     opacity: 0.4;
   }
 `;
+
+export const DeleteButton = styled(PrimaryButton)`
+  background-color: var(--color-red-400);
+  padding: 0.25rem 0.75rem;
+
+  &:hover {
+    background-color: var(--color-red-300);
+  }
+`;
