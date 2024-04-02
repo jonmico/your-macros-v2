@@ -8,6 +8,7 @@ import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
+import { FoodLog } from '../../types/food-log';
 
 // TODO: Add a link to add a meal to this log at the top of the component.
 // TODO: Implement Edit
@@ -71,7 +72,7 @@ export default function FoodLog() {
         carbs={carbs}
         protein={protein}
       />
-      <MealList meals={foodLog.meals} />
+      <MealList foodLog={foodLog} />
     </StyledFoodLog>
   );
 }
@@ -100,16 +101,18 @@ const StyledList = styled.ul`
 `;
 
 interface MealListProps {
-  meals: Meal[];
+  foodLog: FoodLog;
 }
 
-function MealList({ meals }: MealListProps) {
-  const mealList = meals.map((m) => <MealListItem key={m._id} meal={m} />);
+function MealList({ foodLog }: MealListProps) {
+  const mealList = foodLog.meals.map((m) => (
+    <MealListItem key={m._id} meal={m} />
+  ));
 
   return (
     <StyledMealList>
       {mealList.length === 0 ? (
-        <NoMealsInLog />
+        <NoMealsInLog foodLog={foodLog} />
       ) : (
         <>
           <MealListHeader>Meals in this log:</MealListHeader>
@@ -152,13 +155,12 @@ const AddToLogLink = styled(Link)`
   }
 `;
 
-function NoMealsInLog() {
-  const { foodLogId } = useParams();
-  const { foodLogDispatch, foodLogs } = useFoodLog();
+interface NoMealsInLogProps {
+  foodLog: FoodLog;
+}
 
-  const foodLog = foodLogs.find((log) => log._id === foodLogId);
-
-  if (!foodLog) return null;
+function NoMealsInLog({ foodLog }: NoMealsInLogProps) {
+  const { foodLogDispatch } = useFoodLog();
 
   return (
     <StyledNoMealsInLog>
