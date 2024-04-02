@@ -90,11 +90,11 @@ export async function apiAddMealToLog(
   }
 }
 
-export async function apiDeleteLog(
+export async function apiDeleteMealFromLog(
   userId: string,
   logId: string,
   mealId: string
-): Promise<{ message?: string; errorMessage: string }> {
+): Promise<{ updatedLog?: FoodLog; errorMessage?: string }> {
   try {
     const res = await fetch('/api/food-log/delete', {
       method: 'DELETE',
@@ -103,6 +103,16 @@ export async function apiDeleteLog(
       },
       body: JSON.stringify({ userId, logId, mealId }),
     });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
 
     return await res.json();
   } catch (err) {
