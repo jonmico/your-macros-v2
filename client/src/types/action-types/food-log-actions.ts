@@ -4,6 +4,10 @@ type Loading = {
   type: 'foodLog/loading';
 };
 
+type LoadingDB = {
+  type: 'foodLog/loadingDB';
+};
+
 type Error = {
   type: 'foodLog/error';
   payload: string;
@@ -43,4 +47,5 @@ export type FoodLogAction =
   | CreateLog
   | SetCurrentLog
   | AddMealToLog
-  | DeleteMealFromLog;
+  | DeleteMealFromLog
+  | LoadingDB;

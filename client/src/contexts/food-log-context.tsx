@@ -14,6 +14,7 @@ type FoodLogContextType = {
   foodLogs: FoodLog[];
   currentLog: FoodLog | null;
   isLoading: boolean;
+  isLoadingDB: boolean;
   error: string;
   createLog: (
     userId: string,
@@ -34,6 +35,7 @@ const initialState: FoodLogState = {
   foodLogs: [],
   currentLog: null,
   isLoading: true,
+  isLoadingDB: false,
   error: '',
 };
 
@@ -47,6 +49,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
 
   useEffect(() => {
     async function fetchLogs() {
+      // FIXME in MealBuilder is tied to this loading state being true.
       dispatch({ type: 'foodLog/loading' });
       const data = await apiFetchLogs(userId);
 
@@ -82,7 +85,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
   }
 
   async function addMealToLog(logId: string, meal: Meal) {
-    dispatch({ type: 'foodLog/loading' });
+    dispatch({ type: 'foodLog/loadingDB' });
     const data = await apiAddMealToLog(logId, meal);
 
     if (data.errorMessage) {

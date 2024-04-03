@@ -8,7 +8,7 @@ import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
-import { FoodLog } from '../../types/food-log';
+import { FoodLog as FoodLogType } from '../../types/food-log';
 
 // TODO: Add a link to add a meal to this log at the top of the component.
 // TODO: Implement Edit
@@ -101,7 +101,7 @@ const StyledList = styled.ul`
 `;
 
 interface MealListProps {
-  foodLog: FoodLog;
+  foodLog: FoodLogType;
 }
 
 function MealList({ foodLog }: MealListProps) {
@@ -156,7 +156,7 @@ const AddToLogLink = styled(Link)`
 `;
 
 interface NoMealsInLogProps {
-  foodLog: FoodLog;
+  foodLog: FoodLogType;
 }
 
 function NoMealsInLog({ foodLog }: NoMealsInLogProps) {

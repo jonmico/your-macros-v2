@@ -5,16 +5,24 @@ export type FoodLogState = {
   foodLogs: FoodLog[];
   currentLog: FoodLog | null;
   isLoading: boolean;
+  isLoadingDB: boolean;
   error: string;
 };
 
 export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
   switch (action.type) {
-    case 'foodLog/loading':
+    case 'foodLog/loading': {
       return {
         ...state,
         isLoading: true,
       };
+    }
+    case 'foodLog/loadingDB': {
+      return {
+        ...state,
+        isLoadingDB: true,
+      };
+    }
     case 'foodLog/error':
       return {
         ...state,
@@ -51,7 +59,8 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         }),
         currentLog: action.payload,
         error: '',
-        isLoading: false,
+        // isLoading: false,
+        isLoadingDB: false,
       };
     }
     case 'foodLog/deleteMealFromLog': {
