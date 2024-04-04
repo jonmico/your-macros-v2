@@ -82,7 +82,6 @@ interface LogSelectProps {
 export default function LogSelect({ logs, currentLog }: LogSelectProps) {
   const [isLogListOpen, setIsLogListOpen] = useState(false);
 
-  // TODO: Look at null case.
   if (!logs.length || currentLog === null) {
     return <Link to={'/app/food-logs'}>Create a log</Link>;
   }
