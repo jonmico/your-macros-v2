@@ -10,7 +10,6 @@ import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
 import { FoodLog as FoodLogType } from '../../types/food-log';
 
-// TODO: Add a link to add a meal to this log at the top of the component.
 // TODO: Implement Edit
 
 const StyledFoodLog = styled.div`
@@ -43,8 +42,14 @@ const StyledH2 = styled.h2`
   color: var(--color-indigo-700);
 `;
 
+const FoodLogHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 export default function FoodLog() {
-  const { foodLogs } = useFoodLog();
+  const { foodLogs, foodLogDispatch } = useFoodLog();
   const { foodLogId } = useParams();
 
   const foodLog = foodLogs.find((log) => log._id === foodLogId);
@@ -56,13 +61,25 @@ export default function FoodLog() {
     macros: { fat, carbs, protein },
   } = foodLog.logTotals;
 
+  function handleAddMealClick() {
+    if (!foodLog) return null;
+
+    foodLogDispatch({ type: 'foodLog/setCurrentLog', payload: foodLog });
+  }
+
   return (
     <StyledFoodLog>
       <StyledLink to={'/app/food-logs'}>
         <FaArrowLeft />
         Back to logs
       </StyledLink>
-      <StyledH2>{foodLog.name}</StyledH2>
+      <FoodLogHeader>
+        <StyledH2>{foodLog.name}</StyledH2>
+        <StyledLink to={'/app/add-meal'} onClick={handleAddMealClick}>
+          Add a meal
+        </StyledLink>
+      </FoodLogHeader>
+
       <TotalsDisplay
         backgroundColor={'var(--color-blue-100)'}
         border={'1px solid var(--color-blue-300)'}
