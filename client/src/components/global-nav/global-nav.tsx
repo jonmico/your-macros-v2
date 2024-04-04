@@ -60,23 +60,41 @@ const NavButton = styled.button`
   }
 `;
 
+const StyledAppLink = styled(Link)`
+  font-weight: 500;
+  font-size: 1rem;
+
+  &:hover,
+  &:active,
+  &.active:link,
+  &.active:visited {
+    color: var(--color-indigo-600);
+  }
+`;
+
 export default function GlobalNav() {
   const { logout, isLoggedIn } = useAuth();
   const [, , removeCookie] = useCookies(['token']);
+
+  const yourMacrosLink = isLoggedIn ? '/app' : '/';
 
   function handleLogoutClick() {
     logout();
     removeCookie('token', { path: '/' });
   }
+
   return (
     <StyledGlobalNav>
       <StyledNav>
-        <StyledLink to={'/'}>YourMacros</StyledLink>
+        <StyledLink to={yourMacrosLink}>YourMacros</StyledLink>
         <LinkContainer>
           {isLoggedIn ? (
-            <NavButton as={'button'} onClick={handleLogoutClick}>
-              Logout
-            </NavButton>
+            <>
+              <StyledAppLink to={'/app'}>App</StyledAppLink>
+              <NavButton as={'button'} onClick={handleLogoutClick}>
+                Logout
+              </NavButton>
+            </>
           ) : (
             <>
               <StyledNavLink to={'/login'}>Login</StyledNavLink>
