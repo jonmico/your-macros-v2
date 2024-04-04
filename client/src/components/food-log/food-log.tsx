@@ -265,7 +265,7 @@ function MealListItem({ meal }: MealListItemProps) {
       />
       <MealListFoodTable foods={meal.foods} />
       <ButtonContainer>
-        <EditLink to={'edit'}>Edit</EditLink>
+        <EditLink to={`edit/${meal._id}`}>Edit</EditLink>
         <DeleteButton onClick={handleDeleteClick}>Delete</DeleteButton>
       </ButtonContainer>
     </StyledMealListItem>

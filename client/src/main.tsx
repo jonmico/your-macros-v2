@@ -45,7 +45,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path={'food-logs'} element={<FoodLogs />} />
             <Route path={'food-logs/:foodLogId'} element={<FoodLog />} />
             <Route
-              path={'food-logs/:foodLogId/edit'}
+              path={'food-logs/:foodLogId/edit/:mealId'}
               element={<FoodLogEdit />}
             />
             <Route path={'weight-log'} element={<WeightLog />} />
