@@ -1,7 +1,20 @@
+import { useEffect } from 'react';
 import { useFindFoodLog } from '../../hooks/useFindFoodLog';
+import { useMeal } from '../../hooks/useMeal';
+import MealBuilder from '../meal-builder/meal-builder';
 
 export default function FoodLogEdit() {
-  const { foodLog } = useFindFoodLog();
+  const { foodLog, meal } = useFindFoodLog();
+  const { dispatch: mealDispatch } = useMeal();
+
+  useEffect(() => {
+    if (!meal) return;
+
+    mealDispatch({
+      type: 'meal/setEditFoods',
+      payload: { foods: [...meal.foods] },
+    });
+  }, [meal, mealDispatch]);
 
   if (foodLog === undefined) return null;
 
@@ -9,6 +22,7 @@ export default function FoodLogEdit() {
     <div>
       <h2>This is the FoodLogEdit component.</h2>
       <div>{foodLog.name}</div>
+      <MealBuilder />
     </div>
   );
 }
