@@ -49,7 +49,6 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
 
   useEffect(() => {
     async function fetchLogs() {
-      // FIXME in MealBuilder is tied to this loading state being true.
       dispatch({ type: 'foodLog/loading' });
       const data = await apiFetchLogs(userId);
 
