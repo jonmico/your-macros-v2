@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useAuth } from '../../hooks/useAuth';
 
 const StyledHome = styled.div`
   text-align: center;
@@ -73,17 +71,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-// TODO: Maybe we don't want this redirect?
 export default function Home() {
-  const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/app');
-    }
-  }, [isLoggedIn, navigate]);
-
   return (
     <StyledHome>
       <Hero>
