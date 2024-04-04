@@ -68,7 +68,6 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     fetchLogs();
   }, [userId]);
 
-  // TODO: Look at these returns. See if there is a better way to handle this.
   async function createLog(userId: string, logName: string) {
     dispatch({ type: 'foodLog/loading' });
     const data = await apiCreateLog(userId, logName);
