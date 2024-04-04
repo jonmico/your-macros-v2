@@ -9,6 +9,7 @@ import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
 import { FoodLog as FoodLogType } from '../../types/food-log';
+import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 
 // TODO: Implement Edit
 
@@ -49,10 +50,8 @@ const FoodLogHeader = styled.div`
 `;
 
 export default function FoodLog() {
-  const { foodLogs, foodLogDispatch } = useFoodLog();
-  const { foodLogId } = useParams();
-
-  const foodLog = foodLogs.find((log) => log._id === foodLogId);
+  const { foodLogDispatch } = useFoodLog();
+  const { foodLog } = useFindFoodLog();
 
   if (!foodLog) return null;
 
@@ -234,6 +233,8 @@ const EditLink = styled(Link)`
     border-radius: var(--lg-radius);
   }
 `;
+
+// TODO: Build in a "Are you sure you want to delete this meal" modal.
 
 function MealListItem({ meal }: MealListItemProps) {
   const {
