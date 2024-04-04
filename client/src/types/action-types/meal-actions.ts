@@ -22,4 +22,16 @@ type ChangeFoodServings = {
   };
 };
 
-export type MealAction = AddFood | RemoveFood | ClearFoods | ChangeFoodServings;
+type SetEditFoods = {
+  type: 'meal/setEditFoods';
+  payload: {
+    foods: { food: Food; servings: number }[];
+  };
+};
+
+export type MealAction =
+  | AddFood
+  | RemoveFood
+  | ClearFoods
+  | ChangeFoodServings
+  | SetEditFoods;

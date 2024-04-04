@@ -40,6 +40,12 @@ export function mealReducer(state: MealState, action: MealAction) {
         }),
       };
     }
+    case 'meal/setEditFoods': {
+      return {
+        ...state,
+        foods: [...action.payload.foods],
+      };
+    }
     default: {
       throw new TypeError('We do not recognize that type!');
     }
