@@ -14,6 +14,7 @@ import WeightLog from './pages/weight-log/weight-log.tsx';
 import { AuthProvider } from './contexts/auth-context.tsx';
 import ProtectedRoute from './pages/protected-route/protected-route.tsx';
 import FoodLog from './components/food-log/food-log.tsx';
+import FoodLogEdit from './components/food-log-edit/food-log-edit.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -43,6 +44,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path={'add-meal'} element={<AddMeal />} />
             <Route path={'food-logs'} element={<FoodLogs />} />
             <Route path={'food-logs/:foodLogId'} element={<FoodLog />} />
+            <Route
+              path={'food-logs/:foodLogId/edit'}
+              element={<FoodLogEdit />}
+            />
             <Route path={'weight-log'} element={<WeightLog />} />
             <Route path={'add-food'} element={<AddFood />} />
           </Route>
