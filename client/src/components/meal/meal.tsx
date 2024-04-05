@@ -36,6 +36,7 @@ export default function Meal({ isEditMeal }: MealProps) {
         foods={foods}
         handleDropDownClick={handleDropDownClick}
         isDropDownOpen={isDropDownOpen}
+        isEditMeal={isEditMeal}
       />
       <MealDropDown isDropDownOpen={isDropDownOpen} />
     </StyledMeal>

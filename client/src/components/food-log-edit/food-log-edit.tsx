@@ -12,7 +12,7 @@ export default function FoodLogEdit() {
 
     mealDispatch({
       type: 'meal/setEditFoods',
-      payload: { foods: [...meal.foods] },
+      payload: { foods: [...meal.foods], mealName: meal.name },
     });
   }, [meal, mealDispatch]);
 
@@ -22,7 +22,7 @@ export default function FoodLogEdit() {
     <div>
       <h2>This is the FoodLogEdit component.</h2>
       <div>{foodLog.name}</div>
-      <MealBuilder />
+      <MealBuilder isEditMeal={true} />
     </div>
   );
 }

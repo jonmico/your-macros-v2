@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
@@ -73,10 +73,8 @@ export default function MealHeader({
   foods,
   isEditMeal,
 }: MealHeaderProps) {
-  const [mealName, setMealName] = useState('');
   const [mealNameError, setMealNameError] = useState('');
   const [isToastOpen, setIsToastOpen] = useState(false);
-  const [foodLog, setFoodLog] = useState<FoodLog | null>(null);
   const {
     foodLogs,
     currentLog,
@@ -84,7 +82,7 @@ export default function MealHeader({
     isLoading: isFoodLogLoading,
   } = useFoodLog();
   const { userId } = useUser();
-  const { dispatch: mealDispatch } = useMeal();
+  const { dispatch: mealDispatch, mealName } = useMeal();
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -131,14 +129,19 @@ export default function MealHeader({
 
     if (!log) return;
 
-    setFoodLog(log);
     mealDispatch({ type: 'meal/clearFoods' });
-    setMealName('');
+
     setIsToastOpen(true);
   }
 
   function handleMealNameChange(evt: React.ChangeEvent<HTMLInputElement>) {
     setMealNameError('');
+    mealDispatch({
+      type: 'meal/changeMealName',
+      payload: { mealName: evt.target.value },
+    });
+  }
+
   if (isEditMeal) {
     return (
       <StyledMealHeader>
@@ -192,7 +195,7 @@ export default function MealHeader({
         Add to log
       </PurpleWideButton>
       <TotalsDisplay
-        totalsText={'Log Totals:'}
+        totalsText={'Meal Totals:'}
         calories={mealCalories}
         fat={mealFat}
         carbs={mealCarbs}
