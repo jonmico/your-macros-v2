@@ -12,9 +12,19 @@ const StyledMeal = styled.div`
   grid-column: 1 / -1;
 `;
 
-export default function Meal() {
+interface MealProps {
+  isEditMeal?: boolean;
+}
+
+export default function Meal({ isEditMeal }: MealProps) {
   const { foods } = useMeal();
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [isDropDownOpen, setIsDropDownOpen] = useState(() => {
+    if (isEditMeal) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   function handleDropDownClick() {
     setIsDropDownOpen((prevState) => !prevState);
