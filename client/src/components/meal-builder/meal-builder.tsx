@@ -26,8 +26,31 @@ const Loading = styled.div`
   z-index: 2;
 `;
 
-export default function MealBuilder() {
+interface MealBuilderProps {
+  isEditMeal?: boolean;
+}
+
+export default function MealBuilder({ isEditMeal = false }: MealBuilderProps) {
   const { isLoadingDB: isFoodLogLoading } = useFoodLog();
+
+  if (isEditMeal) {
+    return (
+      <StyledMealBuilder>
+        {isFoodLogLoading && (
+          <CenterSpinnerContainer>
+            <Loading>
+              <Spinner />
+              <div>Updating log...</div>
+            </Loading>
+          </CenterSpinnerContainer>
+        )}
+        <Meal isEditMeal={isEditMeal} />
+        <FoodSearch />
+        <FoodData />
+      </StyledMealBuilder>
+    );
+  }
+
   return (
     <StyledMealBuilder>
       {isFoodLogLoading && (
