@@ -22,6 +22,10 @@ const StyledMealHeader = styled.div`
   row-gap: 0.5rem;
 `;
 
+const InputContainer = styled.div`
+  grid-column: 1 /3;
+`;
+
 const Input = styled.input`
   background-color: inherit;
   border: 1px solid var(--color-blue-500);
@@ -60,12 +64,14 @@ interface MealHeaderProps {
   foods: { food: Food; servings: number }[];
   handleDropDownClick: () => void;
   isDropDownOpen: boolean;
+  isEditMeal?: boolean;
 }
 
 export default function MealHeader({
   handleDropDownClick,
   isDropDownOpen,
   foods,
+  isEditMeal,
 }: MealHeaderProps) {
   const [mealName, setMealName] = useState('');
   const [mealNameError, setMealNameError] = useState('');
@@ -133,7 +139,38 @@ export default function MealHeader({
 
   function handleMealNameChange(evt: React.ChangeEvent<HTMLInputElement>) {
     setMealNameError('');
-    setMealName(evt.target.value);
+  if (isEditMeal) {
+    return (
+      <StyledMealHeader>
+        {isToastOpen && (
+          <MealToast
+            isEditMeal={isEditMeal}
+            setIsToastOpen={setIsToastOpen}
+            foodLog={currentLog}
+          />
+        )}
+        <InputContainer>
+          <Input
+            type='text'
+            placeholder={'Meal name'}
+            value={mealName}
+            onChange={handleMealNameChange}
+          />
+          {mealNameError && <ErrorText>{mealNameError}</ErrorText>}
+        </InputContainer>
+        <PurpleWideButton disabled={isFoodLogLoading} onClick={handleAddToLog}>
+          Update log
+        </PurpleWideButton>
+        <TotalsDisplay
+          totalsText={'Meal Totals:'}
+          calories={mealCalories}
+          fat={mealFat}
+          carbs={mealCarbs}
+          protein={mealProtein}
+        />
+        <SmallButton onClick={handleDropDownClick}>{buttonText}</SmallButton>
+      </StyledMealHeader>
+    );
   }
 
   return (
