@@ -2,6 +2,7 @@ import { MealAction } from '../types/action-types/meal-actions';
 import { Food } from '../types/food';
 
 export type MealState = {
+  mealName: string;
   foods: {
     food: Food;
     servings: number;
@@ -43,7 +44,14 @@ export function mealReducer(state: MealState, action: MealAction) {
     case 'meal/setEditFoods': {
       return {
         ...state,
+        mealName: action.payload.mealName,
         foods: [...action.payload.foods],
+      };
+    }
+    case 'meal/changeMealName': {
+      return {
+        ...state,
+        mealName: action.payload.mealName,
       };
     }
     default: {
