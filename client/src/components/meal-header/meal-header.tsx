@@ -139,23 +139,7 @@ export default function MealHeader({
   return (
     <StyledMealHeader>
       {isToastOpen && (
-        <Toast closeToastWindow={() => setIsToastOpen(false)}>
-          <ToastContent>
-            <div>
-              Added{' '}
-              <ToastFoodText>
-                {foodLog?.meals[foodLog.meals.length - 1].name}
-              </ToastFoodText>{' '}
-              meal to <ToastFoodText>{foodLog?.name}</ToastFoodText> log
-            </div>
-            <div>
-              Check it out{' '}
-              <ToastFoodLink to={`/app/food-logs/${foodLog?._id}`}>
-                here
-              </ToastFoodLink>
-            </div>
-          </ToastContent>
-        </Toast>
+        <MealToast setIsToastOpen={setIsToastOpen} foodLog={currentLog} />
       )}
       <div>
         <Input
@@ -179,5 +163,57 @@ export default function MealHeader({
       />
       <SmallButton onClick={handleDropDownClick}>{buttonText}</SmallButton>
     </StyledMealHeader>
+  );
+}
+
+interface MealToast {
+  setIsToastOpen: React.Dispatch<SetStateAction<boolean>>;
+  foodLog: FoodLog | null;
+  isEditMeal?: boolean;
+}
+
+function MealToast({ setIsToastOpen, foodLog, isEditMeal = false }: MealToast) {
+  if (!foodLog) return null;
+
+  if (isEditMeal) {
+    return (
+      <Toast closeToastWindow={() => setIsToastOpen(false)}>
+        <ToastContent>
+          <div>
+            Updated{' '}
+            <ToastFoodText>
+              {foodLog.meals[foodLog.meals.length - 1].name}
+            </ToastFoodText>{' '}
+            meal in <ToastFoodText>{foodLog.name}</ToastFoodText> log
+          </div>
+          <div>
+            Check it out{' '}
+            <ToastFoodLink to={`/app/food-logs/${foodLog._id}`}>
+              here
+            </ToastFoodLink>
+          </div>
+        </ToastContent>
+      </Toast>
+    );
+  }
+
+  return (
+    <Toast closeToastWindow={() => setIsToastOpen(false)}>
+      <ToastContent>
+        <div>
+          Added{' '}
+          <ToastFoodText>
+            {foodLog.meals[foodLog.meals.length - 1].name}
+          </ToastFoodText>{' '}
+          meal to <ToastFoodText>{foodLog.name}</ToastFoodText> log
+        </div>
+        <div>
+          Check it out{' '}
+          <ToastFoodLink to={`/app/food-logs/${foodLog._id}`}>
+            here
+          </ToastFoodLink>
+        </div>
+      </ToastContent>
+    </Toast>
   );
 }
