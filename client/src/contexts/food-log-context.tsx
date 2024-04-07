@@ -4,6 +4,7 @@ import {
   apiAddMealToLog,
   apiCreateLog,
   apiDeleteMealFromLog,
+  apiEditMealInLog,
   apiFetchLogs,
 } from '../services/food-logs-api';
 import { FoodLogAction } from '../types/action-types/food-log-actions';
@@ -26,6 +27,7 @@ type FoodLogContextType = {
     foodLogId: string,
     mealId: string
   ) => Promise<void>;
+  editMealInLog: (logId: string, meal: Meal) => Promise<void>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
@@ -101,7 +103,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     foodLogId: string,
     mealId: string
   ) {
-    dispatch({ type: 'foodLog/loading' });
+    dispatch({ type: 'foodLog/loadingDB' });
     const data = await apiDeleteMealFromLog(userId, foodLogId, mealId);
 
     if (data.errorMessage) {
@@ -116,11 +118,28 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
     }
   }
 
+  async function editMealInLog(logId: string, meal: Meal) {
+    dispatch({ type: 'foodLog/loadingDB' });
+    const data = await apiEditMealInLog(logId, meal);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'foodLog/error', payload: data.errorMessage });
+    }
+
+    if (data.foodLog) {
+      dispatch({
+        type: 'foodLog/editMealInLog',
+        payload: { foodLog: data.foodLog },
+      });
+    }
+  }
+
   const value = {
     ...foodLogState,
     createLog,
     addMealToLog,
     deleteMealFromLog,
+    editMealInLog,
     foodLogDispatch: dispatch,
   };
 

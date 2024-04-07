@@ -120,7 +120,10 @@ export async function apiDeleteMealFromLog(
   }
 }
 
-export async function apiEditMealInLog(logId: string, meal: Meal) {
+export async function apiEditMealInLog(
+  logId: string,
+  meal: Meal
+): Promise<{ foodLog?: FoodLog; errorMessage?: string }> {
   try {
     const res = await fetch('/api/food-log/edit-meal', {
       method: 'PATCH',
@@ -128,8 +131,16 @@ export async function apiEditMealInLog(logId: string, meal: Meal) {
       body: JSON.stringify({ logId, meal }),
     });
 
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return { errorMessage: errorData.errorMessage };
+      }
+    }
+
     return await res.json();
   } catch (err) {
-    return { message: 'error?' };
+    return { errorMessage: 'The server is most likely down.' };
   }
 }
