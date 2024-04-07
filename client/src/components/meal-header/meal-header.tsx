@@ -12,6 +12,8 @@ import LogSelect from '../log-select/log-select';
 import Toast from '../toast/toast';
 import TotalsDisplay from '../totals-display/totals-display';
 import { Link } from 'react-router-dom';
+import { apiEditMealInLog } from '../../services/food-logs-api';
+import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -83,6 +85,9 @@ export default function MealHeader({
   } = useFoodLog();
   const { userId } = useUser();
   const { dispatch: mealDispatch, mealName } = useMeal();
+  const { foodLog, meal } = useFindFoodLog();
+  console.log(foodLog);
+  console.log(meal);
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -111,7 +116,10 @@ export default function MealHeader({
 
     if (!currentLog || !currentLog._id) return; // Check to see if both exist.
 
-    const meal: Meal = {
+    if (!meal) return;
+
+    const newMeal: Meal = {
+      _id: meal._id,
       foods,
       name: mealName,
       author: userId,
@@ -125,7 +133,14 @@ export default function MealHeader({
       },
     };
 
-    const log = await addMealToLog(currentLog._id, meal);
+    let log: FoodLog | undefined;
+
+    if (isEditMeal) {
+      if (!foodLog || !meal) return;
+      log = apiEditMealInLog(foodLog._id, newMeal);
+    } else {
+      log = await addMealToLog(currentLog._id, newMeal);
+    }
 
     if (!log) return;
 

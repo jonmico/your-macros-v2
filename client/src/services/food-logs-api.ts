@@ -119,3 +119,17 @@ export async function apiDeleteMealFromLog(
     return { errorMessage: 'server down' };
   }
 }
+
+export async function apiEditMealInLog(logId: string, meal: Meal) {
+  try {
+    const res = await fetch('/api/food-log/edit-meal', {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ logId, meal }),
+    });
+
+    return await res.json();
+  } catch (err) {
+    return { message: 'error?' };
+  }
+}
