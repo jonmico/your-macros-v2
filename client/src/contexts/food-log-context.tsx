@@ -27,7 +27,7 @@ type FoodLogContextType = {
     foodLogId: string,
     mealId: string
   ) => Promise<void>;
-  editMealInLog: (logId: string, meal: Meal) => Promise<void>;
+  editMealInLog: (logId: string, meal: Meal) => Promise<FoodLog | undefined>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
@@ -131,6 +131,8 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
         type: 'foodLog/editMealInLog',
         payload: { foodLog: data.foodLog },
       });
+
+      return data.foodLog;
     }
   }
 
