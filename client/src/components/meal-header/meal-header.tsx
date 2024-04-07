@@ -1,5 +1,7 @@
 import React, { SetStateAction, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
 import { useUser } from '../../hooks/useUser';
@@ -11,9 +13,6 @@ import { PurpleWideButton, SmallButton } from '../button/button';
 import LogSelect from '../log-select/log-select';
 import Toast from '../toast/toast';
 import TotalsDisplay from '../totals-display/totals-display';
-import { Link } from 'react-router-dom';
-import { apiEditMealInLog } from '../../services/food-logs-api';
-import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 
 const StyledMealHeader = styled.div`
   display: grid;
@@ -81,13 +80,12 @@ export default function MealHeader({
     foodLogs,
     currentLog,
     addMealToLog,
+    editMealInLog,
     isLoading: isFoodLogLoading,
   } = useFoodLog();
   const { userId } = useUser();
   const { dispatch: mealDispatch, mealName } = useMeal();
   const { foodLog, meal } = useFindFoodLog();
-  console.log(foodLog);
-  console.log(meal);
 
   const mealCalories = foods.reduce(
     (prev, curr) => prev + curr.food.calories * curr.servings,
@@ -137,7 +135,7 @@ export default function MealHeader({
 
     if (isEditMeal) {
       if (!foodLog || !meal || !foodLog._id) return;
-      log = await apiEditMealInLog(foodLog._id, newMeal);
+      log = await editMealInLog(foodLog._id, newMeal);
     } else {
       log = await addMealToLog(currentLog._id, newMeal);
     }
