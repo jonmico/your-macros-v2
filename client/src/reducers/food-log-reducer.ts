@@ -85,6 +85,7 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
             return m;
           }
         }),
+        currentLog: action.payload.foodLog,
         error: '',
         isLoadingDB: false,
       };
