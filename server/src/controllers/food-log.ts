@@ -116,3 +116,41 @@ export async function deleteMealFromLog(
     next(err);
   }
 }
+
+interface IEditMealInLogBody {
+  logId: mongoose.Types.ObjectId;
+  meal: Meal;
+}
+
+export async function editMealInLog(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { logId, meal }: IEditMealInLogBody = req.body;
+    console.log(meal);
+
+    const foodLog = await FoodLog.findById(logId).exec();
+
+    if (!foodLog) {
+      throw new AppError(400, 'Log not found');
+    }
+
+    foodLog.meals = foodLog.meals.map((m) => {
+      if (!m._id || !meal._id) return m;
+
+      if (m._id.toString() === meal._id.toString()) {
+        return meal;
+      } else {
+        return m;
+      }
+    });
+
+    await foodLog.save();
+
+    res.json({ foodLog });
+  } catch (err) {
+    next(err);
+  }
+}

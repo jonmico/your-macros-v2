@@ -6,7 +6,7 @@ export type FoodLog = {
   _id?: mongoose.Types.ObjectId;
   author: mongoose.Types.ObjectId;
   name: string;
-  meals: mongoose.Types.DocumentArray<Meal>;
+  meals: Meal[];
   logTotals: {
     calories: number;
     macros: Macros;
