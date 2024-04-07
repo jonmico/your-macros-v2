@@ -40,6 +40,13 @@ type DeleteMealFromLog = {
   };
 };
 
+type EditMealInLog = {
+  type: 'foodLog/editMealInLog';
+  payload: {
+    foodLog: FoodLog;
+  };
+};
+
 export type FoodLogAction =
   | Loading
   | Error
@@ -48,4 +55,5 @@ export type FoodLogAction =
   | SetCurrentLog
   | AddMealToLog
   | DeleteMealFromLog
-  | LoadingDB;
+  | LoadingDB
+  | EditMealInLog;

@@ -59,7 +59,6 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         }),
         currentLog: action.payload,
         error: '',
-        // isLoading: false,
         isLoadingDB: false,
       };
     }
@@ -73,7 +72,21 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
           return log;
         }),
         error: '',
-        isLoading: false,
+        isLoadingDB: false,
+      };
+    }
+    case 'foodLog/editMealInLog': {
+      return {
+        ...state,
+        foodLogs: state.foodLogs.map((m) => {
+          if (m._id === action.payload.foodLog._id) {
+            return { ...action.payload.foodLog };
+          } else {
+            return m;
+          }
+        }),
+        error: '',
+        isLoadingDB: false,
       };
     }
     default:
