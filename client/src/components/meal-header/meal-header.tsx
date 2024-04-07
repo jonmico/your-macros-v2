@@ -136,8 +136,8 @@ export default function MealHeader({
     let log: FoodLog | undefined;
 
     if (isEditMeal) {
-      if (!foodLog || !meal) return;
-      log = apiEditMealInLog(foodLog._id, newMeal);
+      if (!foodLog || !meal || !foodLog._id) return;
+      log = await apiEditMealInLog(foodLog._id, newMeal);
     } else {
       log = await addMealToLog(currentLog._id, newMeal);
     }
