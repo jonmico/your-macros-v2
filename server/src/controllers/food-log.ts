@@ -23,7 +23,8 @@ export async function createLog(
     const log = await FoodLog.create({ author: user._id, name });
 
     user.foodLogs.push(log._id);
-    user.save();
+
+    await user.save();
 
     return res.status(201).json({ foodLog: log });
   } catch (err) {
@@ -51,7 +52,7 @@ export async function addMealToLog(
     const logTotals = calcMacros(log.meals);
     log.logTotals = logTotals;
 
-    log.save();
+    await log.save();
 
     res.json({ updatedLog: log });
   } catch (err) {
@@ -73,7 +74,7 @@ export async function getLogs(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-interface DeleteLogReqBody {
+interface IDeleteLogReqBody {
   userId: mongoose.Types.ObjectId;
   logId: mongoose.Types.ObjectId;
   mealId: mongoose.Types.ObjectId;
@@ -85,7 +86,7 @@ export async function deleteMealFromLog(
   next: NextFunction
 ) {
   try {
-    const { userId, logId, mealId }: DeleteLogReqBody = req.body;
+    const { userId, logId, mealId }: IDeleteLogReqBody = req.body;
 
     const user = await User.findById(userId).exec();
 
@@ -93,7 +94,13 @@ export async function deleteMealFromLog(
       throw new AppError(400, 'User does not exist.');
     }
 
-    const foodLog = await FoodLog.findById(logId).exec();
+    const foodLog = await FoodLog.findByIdAndUpdate(
+      logId,
+      {
+        $pull: { meals: { _id: mealId } },
+      },
+      { returnDocument: 'after' }
+    ).exec();
 
     if (!foodLog) {
       throw new AppError(400, 'Log not found.');
@@ -103,13 +110,11 @@ export async function deleteMealFromLog(
       throw new AppError(403, 'You do not have permission to do that.');
     }
 
-    foodLog.meals.pull(mealId);
-
     const logTotals = calcMacros(foodLog.meals);
 
     foodLog.logTotals = logTotals;
 
-    foodLog.save();
+    await foodLog.save();
 
     res.json({ updatedLog: foodLog });
   } catch (err) {
