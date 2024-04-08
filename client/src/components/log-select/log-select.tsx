@@ -79,6 +79,8 @@ interface LogSelectProps {
   currentLog: FoodLog | null;
 }
 
+// TODO: Make a loading state for this when fetching.
+
 export default function LogSelect({ logs, currentLog }: LogSelectProps) {
   const [isLogListOpen, setIsLogListOpen] = useState(false);
 
