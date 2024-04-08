@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import FoodSearch from '../food-search/food-search';
 import FoodData from '../food-data/food-data';
 
@@ -10,11 +9,14 @@ const StyledMealBuilder = styled.div`
   position: relative;
 `;
 
-export default function MealBuilder() {
+interface MealBuilderProps {
+  children: React.ReactNode;
+}
+
+export default function MealBuilder({ children }: MealBuilderProps) {
   return (
     <StyledMealBuilder>
-      <h1>Meal Builder</h1>
-      <h1>Column</h1>
+      {children}
       <FoodSearch />
       <FoodData />
     </StyledMealBuilder>
