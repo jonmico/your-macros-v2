@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import { MealState, mealReducer } from '../reducers/meal-reducer';
 import { MealAction } from '../types/action-types/meal-actions';
+import { Meal } from '../types/meal';
 
 /*
 TODO: Maintain a "saved" meal in UserContext for building a meal.
@@ -21,10 +22,24 @@ interface MealProviderProps {
   children: React.ReactNode;
 }
 
+const emptyMeal: Meal = {
+  name: '',
+  foods: [],
+  author: '',
+  mealTotals: {
+    calories: 0,
+    macros: {
+      fat: 0,
+      carbs: 0,
+      protein: 0,
+    },
+  },
+};
+
 const initialState: MealState = {
   foods: [],
   mealName: '',
-  buildMeal: null,
+  buildMeal: emptyMeal,
   editMeal: null,
 };
 

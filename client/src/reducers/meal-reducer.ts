@@ -8,7 +8,7 @@ export type MealState = {
     food: Food;
     servings: number;
   }[];
-  buildMeal: Meal | null;
+  buildMeal: Meal;
   editMeal: Meal | null;
 };
 
