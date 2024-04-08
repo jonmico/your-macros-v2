@@ -43,7 +43,10 @@ interface FoodProps {
 }
 
 export default function Food({ food }: FoodProps) {
-  const { foods, dispatch: mealDispatch } = useMeal();
+  const {
+    mealState: { foods },
+    dispatch: mealDispatch,
+  } = useMeal();
   const {
     dispatch: foodDispatch,
     foodState: { foodServings },

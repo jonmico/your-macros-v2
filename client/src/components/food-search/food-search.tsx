@@ -150,7 +150,10 @@ interface SearchedFoodListItemProps {
 
 function SearchedFoodListItem({ food }: SearchedFoodListItemProps) {
   const { dispatch: foodDispatch } = useFood();
-  const { dispatch: mealDispatch, foods } = useMeal();
+  const {
+    dispatch: mealDispatch,
+    mealState: { foods },
+  } = useMeal();
 
   const isInMeal = foods.map(({ food }) => food._id).includes(food._id);
 
