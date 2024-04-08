@@ -1,5 +1,6 @@
 import { MealAction } from '../types/action-types/meal-actions';
 import { Food } from '../types/food';
+import { Meal } from '../types/meal';
 
 export type MealState = {
   mealName: string;
@@ -7,6 +8,8 @@ export type MealState = {
     food: Food;
     servings: number;
   }[];
+  buildMeal: Meal | null;
+  editMeal: Meal | null;
 };
 
 export function mealReducer(state: MealState, action: MealAction) {

@@ -1,7 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import { MealState, mealReducer } from '../reducers/meal-reducer';
 import { MealAction } from '../types/action-types/meal-actions';
-import { Food } from '../types/food';
 
 /*
 TODO: Maintain a "saved" meal in UserContext for building a meal.
@@ -12,11 +11,7 @@ MealContext to the "saved" meal.
 */
 
 type MealContextType = {
-  mealName: string;
-  foods: {
-    food: Food;
-    servings: number;
-  }[];
+  mealState: MealState;
   dispatch: React.Dispatch<MealAction>;
 };
 
@@ -29,11 +24,13 @@ interface MealProviderProps {
 const initialState: MealState = {
   foods: [],
   mealName: '',
+  buildMeal: null,
+  editMeal: null,
 };
 
 export function MealProvider({ children }: MealProviderProps) {
   const [mealState, dispatch] = useReducer(mealReducer, initialState);
 
-  const value = { ...mealState, dispatch };
+  const value = { mealState, dispatch };
   return <MealContext.Provider value={value}>{children}</MealContext.Provider>;
 }
