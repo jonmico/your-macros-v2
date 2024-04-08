@@ -21,8 +21,8 @@ export default function FoodLogEdit() {
   return (
     <div>
       <h2>This is the FoodLogEdit component.</h2>
-      <div>{foodLog.name}</div>
-      <MealBuilder isEditMeal={true} />
+      {/* <MealBuilder isEditMeal={true} /> */}
+      <div>This is under construction.</div>
     </div>
   );
 }
