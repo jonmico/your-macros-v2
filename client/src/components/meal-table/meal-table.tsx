@@ -23,9 +23,11 @@ const NoFoodsAddedText = styled.div`
   color: var(--color-slate-700);
 `;
 
-export default function MealTable() {
-  const { foods } = useMeal();
+interface MealTableProps {
+  foods: { food: Food; servings: number }[];
+}
 
+export default function MealTable({ foods }: MealTableProps) {
   const foodTableList = foods.map((f) => (
     <MealTableRow key={f.food._id} food={f} />
   ));
