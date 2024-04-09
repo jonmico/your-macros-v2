@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { FaCirclePlus } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFood } from '../../hooks/useFood';
-import { FoodActions } from '../../types/action-types/food-actions';
 import { Food } from '../../types/food';
-import { IconButton } from '../button/button';
 import SearchBar from '../search-bar/search-bar';
+import Error from './subcomponents/error';
+import SearchedFoodListItem from './subcomponents/searched-food-list-item';
 
 const StyledFoodSearch = styled.div`
   padding: 1.5rem;
@@ -38,6 +36,11 @@ const SearchText = styled.div`
   padding: 1rem;
 `;
 
+const SearchedFoodsList = styled.ul`
+  max-height: 20rem;
+  overflow: auto;
+`;
+
 interface FoodSearchProps {
   foods: { food: Food; servings: number }[];
   handleAddClick: (
@@ -50,6 +53,23 @@ export default function FoodSearch({ foods, handleAddClick }: FoodSearchProps) {
   const [searchText, setSearchText] = useState('');
   const { foodState, searchFoodsByText, dispatch: foodDispatch } = useFood();
   const { searchedFoods, error } = foodState;
+
+  // Renders the list of searched foods.
+  const searchedFoodsListItems = searchedFoods.map((food) => (
+    <SearchedFoodListItem
+      handleAddClick={handleAddClick}
+      foods={foods}
+      food={food}
+      key={food._id}
+    />
+  ));
+
+  // Handles situation where there is an error.
+  const searchedFoodsOutput = error ? (
+    <Error error={error} />
+  ) : (
+    <SearchedFoodsList>{searchedFoodsListItems}</SearchedFoodsList>
+  );
 
   function handleSearchBarChange(evt: React.ChangeEvent<HTMLInputElement>) {
     foodDispatch({ type: 'food/clearError' });
@@ -79,176 +99,9 @@ export default function FoodSearch({ foods, handleAddClick }: FoodSearchProps) {
             Search the database for foods and add them to a meal
           </SearchText>
         ) : (
-          <SearchedFoodsList
-            handleAddClick={handleAddClick}
-            foods={foods}
-            foodDispatch={foodDispatch}
-            searchedFoods={searchedFoods}
-            error={error}
-          />
+          searchedFoodsOutput
         )}
       </ListContainer>
     </StyledFoodSearch>
-  );
-}
-
-const StyledUL = styled.ul`
-  max-height: 20rem;
-  overflow: auto;
-`;
-
-interface SearchedFoodsListProps {
-  searchedFoods: Food[];
-  error: string;
-  foods: { food: Food; servings: number }[];
-  foodDispatch: React.Dispatch<FoodActions>;
-  handleAddClick: (
-    evt: React.MouseEvent<HTMLButtonElement>,
-    food: Food
-  ) => void;
-}
-
-function SearchedFoodsList({
-  foods,
-  searchedFoods,
-  error,
-  handleAddClick,
-}: SearchedFoodsListProps) {
-  const searchedFoodsList = searchedFoods.map((food) => (
-    <SearchedFoodListItem
-      handleAddClick={handleAddClick}
-      foods={foods}
-      food={food}
-      key={food._id}
-    />
-  ));
-
-  if (error) {
-    return <Error error={error} />;
-  }
-
-  return <StyledUL>{searchedFoodsList}</StyledUL>;
-}
-
-const StyledSearchedFoodListItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px solid var(--color-blue-300);
-
-  &:hover {
-    cursor: pointer;
-    background-color: var(--color-blue-200);
-  }
-
-  &:last-of-type {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom: none;
-  }
-
-  &:first-of-type {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-  }
-`;
-
-const FoodName = styled.div`
-  font-weight: 500;
-`;
-
-const FoodBrand = styled.div`
-  color: var(--color-slate-600);
-`;
-
-interface SearchedFoodListItemProps {
-  food: Food;
-  foods: { food: Food; servings: number }[];
-  handleAddClick: (
-    evt: React.MouseEvent<HTMLButtonElement>,
-    food: Food
-  ) => void;
-}
-
-function SearchedFoodListItem({
-  foods,
-  food,
-  handleAddClick,
-}: SearchedFoodListItemProps) {
-  const { dispatch: foodDispatch } = useFood();
-
-  const isInMeal = foods.map(({ food }) => food._id).includes(food._id);
-  console.log(isInMeal);
-
-  function handleSelectClick() {
-    foodDispatch({ type: 'food/setSelectedFood', payload: food });
-  }
-
-  return (
-    <StyledSearchedFoodListItem onClick={handleSelectClick}>
-      <div>
-        <FoodName>{food.name}</FoodName>
-        <FoodBrand>{food.brand}</FoodBrand>
-      </div>
-      <IconButton
-        disabled={isInMeal}
-        onClick={(evt) => handleAddClick(evt, food)}
-      >
-        <FaCirclePlus />
-      </IconButton>
-    </StyledSearchedFoodListItem>
-  );
-}
-
-const StyledError = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 1rem;
-`;
-
-const AddMealLinkContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledLink = styled(Link)`
-  border: 1px solid var(--color-green-600);
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  background-color: var(--color-green-300);
-  transition: border-radius 0.25s ease-in-out,
-    background-color 0.25s ease-in-out;
-
-  &:hover {
-    border-radius: 20px;
-  }
-`;
-
-const ErrorText = styled.div`
-  color: var(--color-gray-700);
-  font-weight: 700;
-  font-size: 1.25rem;
-`;
-
-interface ErrorProps {
-  error: string;
-}
-
-function Error({ error }: ErrorProps) {
-  return (
-    <StyledError>
-      <ErrorText>{error}</ErrorText>
-      <AddMealLinkContainer>
-        Can't find what you're looking for?
-        <StyledLink to={'/app/add-food'}>Add a food to the database</StyledLink>
-      </AddMealLinkContainer>
-    </StyledError>
   );
 }
