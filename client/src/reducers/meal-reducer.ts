@@ -23,18 +23,27 @@ export function mealReducer(state: MealState, action: MealAction) {
         },
       };
     }
-    case 'meal/removeFood': {
+    case 'meal/removeBuildMealFood': {
       return {
         ...state,
-        foods: state.foods.filter((f) => f.food._id !== action.payload),
+        buildMeal: {
+          ...state.buildMeal,
+          foods: state.buildMeal.foods.filter(
+            (f) => f.food._id !== action.payload.foodId
+          ),
+        },
       };
     }
-    case 'meal/clearFoods': {
+    case 'meal/clearBuildMealFoods': {
       return {
         ...state,
-        foods: [] as { food: Food; servings: number }[],
+        buildMeal: {
+          ...state.buildMeal,
+          foods: [] as { food: Food; servings: number }[],
+        },
       };
     }
+
     case 'meal/changeFoodServings': {
       return {
         ...state,

@@ -23,17 +23,25 @@ const DropDownContent = styled.div`
 interface MealDropDownProps {
   isDropDownOpen: boolean;
   foods: { food: Food; servings: number }[];
+  handleRemoveClick: (foodId: string) => void;
+  handleClearClick: () => void;
 }
 
 export default function MealDropDown({
   isDropDownOpen,
   foods,
+  handleClearClick,
+  handleRemoveClick,
 }: MealDropDownProps) {
   return (
     <StyledMealDropDown $isDropDownOpen={isDropDownOpen}>
       <DropDownContentWrapper>
         <DropDownContent>
-          <MealTable foods={foods} />
+          <MealTable
+            handleClearClick={handleClearClick}
+            handleRemoveClick={handleRemoveClick}
+            foods={foods}
+          />
         </DropDownContent>
       </DropDownContentWrapper>
     </StyledMealDropDown>

@@ -45,6 +45,14 @@ export default function AddMeal() {
     });
   }
 
+  function handleRemoveClick(foodId: string) {
+    mealDispatch({ type: 'meal/removeBuildMealFood', payload: { foodId } });
+  }
+
+  function handleClearClick() {
+    mealDispatch({ type: 'meal/clearBuildMealFoods' });
+  }
+
   return (
     <div>
       <MealBuilder>
@@ -58,6 +66,8 @@ export default function AddMeal() {
             <PurpleWideButton>Add to log</PurpleWideButton>
           </MealHeader>
           <MealDropDown
+            handleClearClick={handleClearClick}
+            handleRemoveClick={handleRemoveClick}
             isDropDownOpen={isDropDownOpen}
             foods={buildMeal.foods}
           />

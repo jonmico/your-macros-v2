@@ -25,11 +25,21 @@ const NoFoodsAddedText = styled.div`
 
 interface MealTableProps {
   foods: { food: Food; servings: number }[];
+  handleRemoveClick: (foodId: string) => void;
+  handleClearClick: () => void;
 }
 
-export default function MealTable({ foods }: MealTableProps) {
+export default function MealTable({
+  foods,
+  handleClearClick,
+  handleRemoveClick,
+}: MealTableProps) {
   const foodTableList = foods.map((f) => (
-    <MealTableRow key={f.food._id} food={f} />
+    <MealTableRow
+      handleRemoveClick={handleRemoveClick}
+      key={f.food._id}
+      food={f}
+    />
   ));
 
   return (
@@ -40,7 +50,7 @@ export default function MealTable({ foods }: MealTableProps) {
         </NoFoodsAddedText>
       ) : (
         <>
-          <MealTableHeader />
+          <MealTableHeader handleClearClick={handleClearClick} />
           <ul>{foodTableList}</ul>
         </>
       )}
@@ -75,17 +85,17 @@ const ClearAllButton = styled.button`
   }
 `;
 
-function MealTableHeader() {
-  const { dispatch } = useMeal();
+interface MealTableHeaderProps {
+  handleClearClick: () => void;
+}
 
+function MealTableHeader({ handleClearClick }: MealTableHeaderProps) {
   return (
     <StyledMealTableHeader>
       <div>Name & Brand</div>
       <div>Servings</div>
       <div>Nutrition</div>
-      <ClearAllButton onClick={() => dispatch({ type: 'meal/clearFoods' })}>
-        CLEAR ALL
-      </ClearAllButton>
+      <ClearAllButton onClick={handleClearClick}>CLEAR ALL</ClearAllButton>
     </StyledMealTableHeader>
   );
 }
@@ -125,9 +135,10 @@ const FoodBrand = styled.div`
 
 interface MealTableRowProps {
   food: { food: Food; servings: number };
+  handleRemoveClick: (foodId: string) => void;
 }
 
-function MealTableRow({ food }: MealTableRowProps) {
+function MealTableRow({ food, handleRemoveClick }: MealTableRowProps) {
   const { dispatch: mealDispatch } = useMeal();
   const { food: foodItem, servings } = food;
   const [foodServings, setFoodServings] = useState(String(servings));
@@ -137,7 +148,7 @@ function MealTableRow({ food }: MealTableRowProps) {
 
   function handleRemoveFoodClick() {
     if (foodItem._id) {
-      mealDispatch({ type: 'meal/removeFood', payload: foodItem._id });
+      handleRemoveClick(foodItem._id);
     }
   }
 
