@@ -45,7 +45,8 @@ interface FoodSearchProps {
   foods: { food: Food; servings: number }[];
   handleAddClick: (
     evt: React.MouseEvent<HTMLButtonElement>,
-    food: Food
+    food: Food,
+    servings?: number
   ) => void;
 }
 

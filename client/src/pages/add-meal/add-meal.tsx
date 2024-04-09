@@ -31,14 +31,18 @@ export default function AddMeal() {
 
   function handleAddClick(
     evt: React.MouseEvent<HTMLButtonElement>,
-    food: Food
+    food: Food,
+    servings = 1
   ) {
     evt.stopPropagation();
     mealDispatch({
       type: 'meal/addBuildMealFood',
-      payload: { food: { food, servings: 1 } },
+      payload: { food: { food, servings } },
     });
-    foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
+    foodDispatch({
+      type: 'food/changeServings',
+      payload: { servings: '1' },
+    });
   }
 
   return (
