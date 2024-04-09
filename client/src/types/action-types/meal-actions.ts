@@ -1,8 +1,8 @@
 import { Food } from '../food';
 
-type AddFood = {
-  type: 'meal/addFood';
-  payload: { food: Food; servings: number };
+type AddBuildMealFood = {
+  type: 'meal/addBuildMealFood';
+  payload: { food: { food: Food; servings: number } };
 };
 
 type RemoveFood = {
@@ -38,7 +38,7 @@ type ChangeMealName = {
 };
 
 export type MealAction =
-  | AddFood
+  | AddBuildMealFood
   | RemoveFood
   | ClearFoods
   | ChangeFoodServings

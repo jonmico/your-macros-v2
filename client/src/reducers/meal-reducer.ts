@@ -14,10 +14,13 @@ export type MealState = {
 
 export function mealReducer(state: MealState, action: MealAction) {
   switch (action.type) {
-    case 'meal/addFood': {
+    case 'meal/addBuildMealFood': {
       return {
         ...state,
-        foods: [...state.foods, action.payload],
+        buildMeal: {
+          ...state.buildMeal,
+          foods: [...state.buildMeal.foods, action.payload.food],
+        },
       };
     }
     case 'meal/removeFood': {
