@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
+import { FaCirclePlus } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFood } from '../../hooks/useFood';
 import { FoodActions } from '../../types/action-types/food-actions';
 import { Food } from '../../types/food';
-import SearchBar from '../search-bar/search-bar';
-import { FaCirclePlus } from 'react-icons/fa6';
 import { IconButton } from '../button/button';
-import { useMeal } from '../../hooks/useMeal';
+import SearchBar from '../search-bar/search-bar';
 
 interface StyledFoodSearchProps {
   $isSearchedFoods: boolean;
@@ -43,7 +42,15 @@ const SearchText = styled.div`
   padding: 1rem;
 `;
 
-export default function FoodSearch() {
+interface FoodSearchProps {
+  foods: { food: Food; servings: number }[];
+  handleAddClick: (
+    evt: React.MouseEvent<HTMLButtonElement>,
+    food: Food
+  ) => void;
+}
+
+export default function FoodSearch({ foods, handleAddClick }: FoodSearchProps) {
   const [searchText, setSearchText] = useState('');
   const { foodState, searchFoodsByText, dispatch: foodDispatch } = useFood();
   const { searchedFoods, error } = foodState;
@@ -79,6 +86,8 @@ export default function FoodSearch() {
           </SearchText>
         ) : (
           <SearchedFoodsList
+            handleAddClick={handleAddClick}
+            foods={foods}
             foodDispatch={foodDispatch}
             searchedFoods={searchedFoods}
             error={error}
@@ -97,12 +106,27 @@ const StyledUL = styled.ul`
 interface SearchedFoodsListProps {
   searchedFoods: Food[];
   error: string;
+  foods: { food: Food; servings: number }[];
   foodDispatch: React.Dispatch<FoodActions>;
+  handleAddClick: (
+    evt: React.MouseEvent<HTMLButtonElement>,
+    food: Food
+  ) => void;
 }
 
-function SearchedFoodsList({ searchedFoods, error }: SearchedFoodsListProps) {
+function SearchedFoodsList({
+  foods,
+  searchedFoods,
+  error,
+  handleAddClick,
+}: SearchedFoodsListProps) {
   const searchedFoodsList = searchedFoods.map((food) => (
-    <SearchedFoodListItem food={food} key={food._id} />
+    <SearchedFoodListItem
+      handleAddClick={handleAddClick}
+      foods={foods}
+      food={food}
+      key={food._id}
+    />
   ));
 
   if (error) {
@@ -146,25 +170,25 @@ const FoodBrand = styled.div`
 
 interface SearchedFoodListItemProps {
   food: Food;
+  foods: { food: Food; servings: number }[];
+  handleAddClick: (
+    evt: React.MouseEvent<HTMLButtonElement>,
+    food: Food
+  ) => void;
 }
 
-function SearchedFoodListItem({ food }: SearchedFoodListItemProps) {
+function SearchedFoodListItem({
+  foods,
+  food,
+  handleAddClick,
+}: SearchedFoodListItemProps) {
   const { dispatch: foodDispatch } = useFood();
-  const {
-    dispatch: mealDispatch,
-    mealState: { foods },
-  } = useMeal();
 
   const isInMeal = foods.map(({ food }) => food._id).includes(food._id);
+  console.log(isInMeal);
 
   function handleSelectClick() {
     foodDispatch({ type: 'food/setSelectedFood', payload: food });
-  }
-
-  function handleAddClick(evt: React.MouseEvent<HTMLButtonElement>) {
-    evt.stopPropagation();
-    mealDispatch({ type: 'meal/addFood', payload: { food, servings: 1 } });
-    foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
   }
 
   return (
@@ -173,7 +197,10 @@ function SearchedFoodListItem({ food }: SearchedFoodListItemProps) {
         <FoodName>{food.name}</FoodName>
         <FoodBrand>{food.brand}</FoodBrand>
       </div>
-      <IconButton disabled={isInMeal} onClick={handleAddClick}>
+      <IconButton
+        disabled={isInMeal}
+        onClick={(evt) => handleAddClick(evt, food)}
+      >
         <FaCirclePlus />
       </IconButton>
     </StyledSearchedFoodListItem>

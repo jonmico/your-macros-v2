@@ -9,16 +9,37 @@ import { useMeal } from '../../hooks/useMeal';
 import MealDropDown from '../../components/meal-dropdown/meal-dropdown';
 import { useState } from 'react';
 import { MealBuilderInput } from '../../ui/input/input';
+import FoodSearch from '../../components/food-search/food-search';
+import FoodData from '../../components/food-data/food-data';
+import { Food } from '../../types/food';
+import { useFood } from '../../hooks/useFood';
 
 export default function AddMeal() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const {
-    mealState: { buildMeal },
+    mealState: {
+      buildMeal,
+      buildMeal: { foods },
+    },
+    dispatch: mealDispatch,
   } = useMeal();
   const { currentLog, foodLogs } = useFoodLog();
+  const { dispatch: foodDispatch } = useFood();
 
   function handleDropDownClick() {
     setIsDropDownOpen((prevState) => !prevState);
+  }
+
+  function handleAddClick(
+    evt: React.MouseEvent<HTMLButtonElement>,
+    food: Food
+  ) {
+    evt.stopPropagation();
+    mealDispatch({
+      type: 'meal/addBuildMealFood',
+      payload: { food: { food, servings: 1 } },
+    });
+    foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
   }
 
   return (
@@ -39,6 +60,8 @@ export default function AddMeal() {
             foods={buildMeal.foods}
           />
         </Meal>
+        <FoodSearch foods={foods} handleAddClick={handleAddClick} />
+        <FoodData />
       </MealBuilder>
     </div>
   );

@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import FoodSearch from '../food-search/food-search';
-import FoodData from '../food-data/food-data';
 
 const StyledMealBuilder = styled.div`
   display: grid;
@@ -14,11 +12,5 @@ interface MealBuilderProps {
 }
 
 export default function MealBuilder({ children }: MealBuilderProps) {
-  return (
-    <StyledMealBuilder>
-      {children}
-      <FoodSearch />
-      <FoodData />
-    </StyledMealBuilder>
-  );
+  return <StyledMealBuilder>{children}</StyledMealBuilder>;
 }
