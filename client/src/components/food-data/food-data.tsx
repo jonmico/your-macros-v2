@@ -1,9 +1,11 @@
 import { FaXmark } from 'react-icons/fa6';
 import { useFood } from '../../hooks/useFood';
-import { ExitButton } from '../button/button';
+import { ExitButton, PurpleWideButton } from '../button/button';
 
 import styled from 'styled-components';
 import Food from '../food/food';
+import { Food as FoodType } from '../../types/food';
+import { useMeal } from '../../hooks/useMeal';
 
 const StyledFoodData = styled.div`
   border: 1px solid var(--color-indigo-500);
@@ -26,9 +28,24 @@ const ExitButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-export default function FoodData() {
+interface FoodDataProps {
+  handleAddClick: (
+    evt: React.MouseEvent<HTMLButtonElement>,
+    food: FoodType,
+    servings?: number
+  ) => void;
+}
+
+export default function FoodData({ handleAddClick }: FoodDataProps) {
   const { foodState, dispatch } = useFood();
-  const { selectedFood, searchedFoods } = foodState;
+  const { selectedFood, searchedFoods, foodServings } = foodState;
+  const {
+    mealState: {
+      buildMeal: { foods },
+    },
+  } = useMeal();
+
+  const isInMeal = foods.map((f) => f.food._id).includes(selectedFood?._id);
 
   if (!searchedFoods.length) return null;
 
@@ -47,7 +64,16 @@ export default function FoodData() {
               <FaXmark />
             </ExitButton>
           </ExitButtonContainer>
-          <Food food={selectedFood} />
+          <Food food={selectedFood}>
+            <PurpleWideButton
+              disabled={isInMeal}
+              onClick={(evt) =>
+                handleAddClick(evt, selectedFood, Number(foodServings))
+              }
+            >
+              Add to meal
+            </PurpleWideButton>
+          </Food>
         </>
       )}
     </StyledFoodData>

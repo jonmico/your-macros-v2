@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { useFood } from '../../hooks/useFood';
-import { useMeal } from '../../hooks/useMeal';
 import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
 import { ServingsInput } from '../../ui/input/input';
-import { PurpleWideButton } from '../button/button';
 
 const StyledFood = styled.div`
   display: flex;
@@ -40,29 +38,14 @@ const CardLabel = styled.div`
 
 interface FoodProps {
   food: FoodType;
+  children: React.ReactNode;
 }
 
-export default function Food({ food }: FoodProps) {
-  const {
-    mealState: { foods },
-    dispatch: mealDispatch,
-  } = useMeal();
+export default function Food({ food, children }: FoodProps) {
   const {
     dispatch: foodDispatch,
     foodState: { foodServings },
   } = useFood();
-
-  const isInMeal = foods.map((f) => f.food._id).includes(food._id);
-
-  function handleClick() {
-    const newFood = {
-      food,
-      servings: Number(foodServings),
-    };
-
-    mealDispatch({ type: 'meal/addFood', payload: newFood });
-    foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
-  }
 
   return (
     <StyledFood>
@@ -96,9 +79,7 @@ export default function Food({ food }: FoodProps) {
         calories={food.calories}
         macros={food.macros}
       />
-      <PurpleWideButton disabled={isInMeal} onClick={handleClick}>
-        Add to meal
-      </PurpleWideButton>
+      {children}
     </StyledFood>
   );
 }

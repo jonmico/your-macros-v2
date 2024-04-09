@@ -53,7 +53,6 @@ export default function SearchedFoodListItem({
   const { dispatch: foodDispatch } = useFood();
 
   const isInMeal = foods.map(({ food }) => food._id).includes(food._id);
-  console.log(isInMeal);
 
   function handleSelectClick() {
     foodDispatch({ type: 'food/setSelectedFood', payload: food });

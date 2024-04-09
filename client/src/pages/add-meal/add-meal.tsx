@@ -63,7 +63,7 @@ export default function AddMeal() {
           />
         </Meal>
         <FoodSearch foods={foods} handleAddClick={handleAddClick} />
-        <FoodData />
+        <FoodData handleAddClick={handleAddClick} />
       </MealBuilder>
     </div>
   );
