@@ -27,3 +27,19 @@ export const ServingsInput = styled.input`
     background-color: var(--color-blue-200);
   }
 `;
+
+export const MealBuilderInput = styled.input`
+  background-color: inherit;
+  border: 1px solid var(--color-blue-500);
+  border-radius: var(--sm-radius);
+  padding: 0.25rem;
+  transition: background-color 250ms, padding 350ms;
+  height: 2rem;
+  width: 100%;
+
+  &:focus-visible {
+    background-color: var(--color-slate-200);
+    outline: 1px solid var(--color-indigo-500);
+    padding-left: 0.5rem;
+  }
+`;

@@ -8,6 +8,7 @@ import { calcMacros } from '../../utils/calcMacros';
 import { useMeal } from '../../hooks/useMeal';
 import MealDropDown from '../../components/meal-dropdown/meal-dropdown';
 import { useState } from 'react';
+import { MealBuilderInput } from '../../ui/input/input';
 
 export default function AddMeal() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function AddMeal() {
             isDropDownOpen={isDropDownOpen}
             handleDropDownClick={handleDropDownClick}
           >
-            <Input />
+            <MealBuilderInput placeholder={'Meal name'} />
             <LogSelect logs={foodLogs} currentLog={currentLog} />
             <PurpleWideButton>Add to log</PurpleWideButton>
           </MealHeader>
@@ -66,22 +67,6 @@ const StyledAddMealHeader = styled.div`
   align-items: center;
   column-gap: 1rem;
   row-gap: 0.5rem;
-`;
-
-const Input = styled.input`
-  background-color: inherit;
-  border: 1px solid var(--color-blue-500);
-  border-radius: var(--sm-radius);
-  padding: 0.25rem;
-  transition: background-color 250ms, padding 350ms;
-  height: 2rem;
-  width: 100%;
-
-  &:focus-visible {
-    background-color: var(--color-slate-200);
-    outline: 1px solid var(--color-indigo-500);
-    padding-left: 0.5rem;
-  }
 `;
 
 interface AddMealHeaderProps {
