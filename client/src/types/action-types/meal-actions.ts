@@ -14,8 +14,8 @@ type ClearBuildMealFoods = {
   type: 'meal/clearBuildMealFoods';
 };
 
-type ChangeFoodServings = {
-  type: 'meal/changeFoodServings';
+type ChangeBuildMealServings = {
+  type: 'meal/changeBuildMealServings';
   payload: {
     foodId: string;
     servings: number;
@@ -41,6 +41,6 @@ export type MealAction =
   | AddBuildMealFood
   | RemoveBuildMealFood
   | ClearBuildMealFoods
-  | ChangeFoodServings
+  | ChangeBuildMealServings
   | SetEditFoods
   | ChangeMealName;

@@ -43,17 +43,20 @@ export function mealReducer(state: MealState, action: MealAction) {
         },
       };
     }
-
-    case 'meal/changeFoodServings': {
+    case 'meal/changeBuildMealServings': {
       return {
         ...state,
-        foods: state.foods.map((f) => {
-          if (f.food._id === action.payload.foodId) {
-            return { ...f, servings: action.payload.servings };
-          } else {
-            return f;
-          }
-        }),
+        buildMeal: {
+          ...state.buildMeal,
+          foods: state.buildMeal.foods.map((f) => {
+            if (f.food._id === action.payload.foodId) {
+              console.log('we here');
+              return { ...f, servings: action.payload.servings };
+            } else {
+              return f;
+            }
+          }),
+        },
       };
     }
     case 'meal/setEditFoods': {

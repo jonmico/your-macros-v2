@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6';
 import styled from 'styled-components';
-import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { ServingsInput } from '../../ui/input/input';
 import { ExitButton, MealTableCheckButton } from '../button/button';
@@ -27,15 +26,18 @@ interface MealTableProps {
   foods: { food: Food; servings: number }[];
   handleRemoveClick: (foodId: string) => void;
   handleClearClick: () => void;
+  handleChangeServings: (foodId: string, servings: number) => void;
 }
 
 export default function MealTable({
   foods,
   handleClearClick,
   handleRemoveClick,
+  handleChangeServings,
 }: MealTableProps) {
   const foodTableList = foods.map((f) => (
     <MealTableRow
+      handleChangeServings={handleChangeServings}
       handleRemoveClick={handleRemoveClick}
       key={f.food._id}
       food={f}
@@ -136,10 +138,14 @@ const FoodBrand = styled.div`
 interface MealTableRowProps {
   food: { food: Food; servings: number };
   handleRemoveClick: (foodId: string) => void;
+  handleChangeServings: (foodId: string, servings: number) => void;
 }
 
-function MealTableRow({ food, handleRemoveClick }: MealTableRowProps) {
-  const { dispatch: mealDispatch } = useMeal();
+function MealTableRow({
+  food,
+  handleRemoveClick,
+  handleChangeServings: handleChange,
+}: MealTableRowProps) {
   const { food: foodItem, servings } = food;
   const [foodServings, setFoodServings] = useState(String(servings));
   const [isEditActive, setIsEditActive] = useState(false);
@@ -156,10 +162,7 @@ function MealTableRow({ food, handleRemoveClick }: MealTableRowProps) {
     evt.preventDefault();
     if (!foodItem._id) return;
 
-    mealDispatch({
-      type: 'meal/changeFoodServings',
-      payload: { foodId: foodItem._id, servings: foodServingsNum },
-    });
+    handleChange(foodItem._id, foodServingsNum);
 
     setIsEditActive(false);
   }

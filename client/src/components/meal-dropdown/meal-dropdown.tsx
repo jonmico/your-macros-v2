@@ -25,6 +25,7 @@ interface MealDropDownProps {
   foods: { food: Food; servings: number }[];
   handleRemoveClick: (foodId: string) => void;
   handleClearClick: () => void;
+  handleChangeServings: (foodId: string, servings: number) => void;
 }
 
 export default function MealDropDown({
@@ -32,12 +33,14 @@ export default function MealDropDown({
   foods,
   handleClearClick,
   handleRemoveClick,
+  handleChangeServings,
 }: MealDropDownProps) {
   return (
     <StyledMealDropDown $isDropDownOpen={isDropDownOpen}>
       <DropDownContentWrapper>
         <DropDownContent>
           <MealTable
+            handleChangeServings={handleChangeServings}
             handleClearClick={handleClearClick}
             handleRemoveClick={handleRemoveClick}
             foods={foods}
