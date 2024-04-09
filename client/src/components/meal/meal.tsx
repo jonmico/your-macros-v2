@@ -1,8 +1,4 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { useMeal } from '../../hooks/useMeal';
-import MealDropDown from '../meal-dropdown/meal-dropdown';
-import MealHeader from '../meal-header/meal-header';
 
 const StyledMeal = styled.div`
   background-color: var(--color-blue-100);
@@ -13,32 +9,9 @@ const StyledMeal = styled.div`
 `;
 
 interface MealProps {
-  isEditMeal?: boolean;
+  children: React.ReactNode;
 }
 
-export default function Meal({ isEditMeal }: MealProps) {
-  const { foods } = useMeal();
-  const [isDropDownOpen, setIsDropDownOpen] = useState(() => {
-    if (isEditMeal) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  function handleDropDownClick() {
-    setIsDropDownOpen((prevState) => !prevState);
-  }
-
-  return (
-    <StyledMeal>
-      <MealHeader
-        foods={foods}
-        handleDropDownClick={handleDropDownClick}
-        isDropDownOpen={isDropDownOpen}
-        isEditMeal={isEditMeal}
-      />
-      <MealDropDown isDropDownOpen={isDropDownOpen} />
-    </StyledMeal>
-  );
+export default function Meal({ children }: MealProps) {
+  return <StyledMeal>{children}</StyledMeal>;
 }
