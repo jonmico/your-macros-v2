@@ -68,7 +68,16 @@ export default function AddMeal() {
             isDropDownOpen={isDropDownOpen}
             handleDropDownClick={handleDropDownClick}
           >
-            <MealBuilderInput placeholder={'Meal name'} />
+            <MealBuilderInput
+              placeholder={'Meal name'}
+              value={buildMeal.name}
+              onChange={(evt) =>
+                mealDispatch({
+                  type: 'meal/changeBuildMealName',
+                  payload: { mealName: evt.target.value },
+                })
+              }
+            />
             <LogSelect logs={foodLogs} currentLog={currentLog} />
             <PurpleWideButton>Add to log</PurpleWideButton>
           </MealHeader>

@@ -30,8 +30,8 @@ type SetEditFoods = {
   };
 };
 
-type ChangeMealName = {
-  type: 'meal/changeMealName';
+type ChangeBuildMealName = {
+  type: 'meal/changeBuildMealName';
   payload: {
     mealName: string;
   };
@@ -43,4 +43,4 @@ export type MealAction =
   | ClearBuildMealFoods
   | ChangeBuildMealServings
   | SetEditFoods
-  | ChangeMealName;
+  | ChangeBuildMealName;

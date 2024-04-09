@@ -66,10 +66,13 @@ export function mealReducer(state: MealState, action: MealAction) {
         foods: [...action.payload.foods],
       };
     }
-    case 'meal/changeMealName': {
+    case 'meal/changeBuildMealName': {
       return {
         ...state,
-        mealName: action.payload.mealName,
+        buildMeal: {
+          ...state.buildMeal,
+          name: action.payload.mealName,
+        },
       };
     }
     default: {
