@@ -8,11 +8,7 @@ import { Food } from '../../types/food';
 import { IconButton } from '../button/button';
 import SearchBar from '../search-bar/search-bar';
 
-interface StyledFoodSearchProps {
-  $isSearchedFoods: boolean;
-}
-
-const StyledFoodSearch = styled.div<StyledFoodSearchProps>`
+const StyledFoodSearch = styled.div`
   padding: 1.5rem;
   border: 1px solid var(--color-indigo-500);
   border-radius: 8px;
@@ -55,8 +51,6 @@ export default function FoodSearch({ foods, handleAddClick }: FoodSearchProps) {
   const { foodState, searchFoodsByText, dispatch: foodDispatch } = useFood();
   const { searchedFoods, error } = foodState;
 
-  const isSearchedFoods = !!searchedFoods.length;
-
   function handleSearchBarChange(evt: React.ChangeEvent<HTMLInputElement>) {
     foodDispatch({ type: 'food/clearError' });
     setSearchText(evt.target.value);
@@ -69,7 +63,7 @@ export default function FoodSearch({ foods, handleAddClick }: FoodSearchProps) {
   }
 
   return (
-    <StyledFoodSearch $isSearchedFoods={isSearchedFoods}>
+    <StyledFoodSearch>
       <form onSubmit={handleSubmit}>
         <SearchBar
           name={'searchText'}
