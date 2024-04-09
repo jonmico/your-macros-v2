@@ -12,6 +12,7 @@ import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { MealBuilderInput } from '../../ui/input/input';
+import { useUser } from '../../hooks/useUser';
 
 export default function AddMeal() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -22,8 +23,9 @@ export default function AddMeal() {
     },
     dispatch: mealDispatch,
   } = useMeal();
-  const { currentLog, foodLogs } = useFoodLog();
+  const { currentLog, foodLogs, addMealToLog } = useFoodLog();
   const { dispatch: foodDispatch } = useFood();
+  const { userId } = useUser();
 
   function handleDropDownClick() {
     setIsDropDownOpen((prevState) => !prevState);
@@ -60,6 +62,15 @@ export default function AddMeal() {
     });
   }
 
+  async function addToLog() {
+    if (!currentLog || !currentLog._id) return;
+    const data = await addMealToLog(currentLog._id, {
+      ...buildMeal,
+      author: userId,
+    });
+    console.log(data);
+  }
+
   return (
     <div>
       <MealBuilder>
@@ -79,7 +90,7 @@ export default function AddMeal() {
               }
             />
             <LogSelect logs={foodLogs} currentLog={currentLog} />
-            <PurpleWideButton>Add to log</PurpleWideButton>
+            <PurpleWideButton onClick={addToLog}>Add to log</PurpleWideButton>
           </MealHeader>
           <MealDropDown
             handleChangeServings={handleChangeServings}
