@@ -22,17 +22,21 @@ type ChangeBuildMealServings = {
   };
 };
 
-type SetEditFoods = {
-  type: 'meal/setEditFoods';
+type ChangeBuildMealName = {
+  type: 'meal/changeBuildMealName';
   payload: {
-    foods: { food: Food; servings: number }[];
     mealName: string;
   };
 };
 
-type ChangeBuildMealName = {
-  type: 'meal/changeBuildMealName';
+type ClearBuildMeal = {
+  type: 'meal/clearBuildMeal';
+};
+
+type SetEditFoods = {
+  type: 'meal/setEditFoods';
   payload: {
+    foods: { food: Food; servings: number }[];
     mealName: string;
   };
 };
@@ -43,4 +47,5 @@ export type MealAction =
   | ClearBuildMealFoods
   | ChangeBuildMealServings
   | SetEditFoods
-  | ChangeBuildMealName;
+  | ChangeBuildMealName
+  | ClearBuildMeal;

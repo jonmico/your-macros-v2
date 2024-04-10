@@ -68,7 +68,7 @@ export default function AddMeal() {
       ...buildMeal,
       author: userId,
     });
-    console.log(data);
+    mealDispatch({ type: 'meal/clearBuildMeal' });
   }
 
   return (

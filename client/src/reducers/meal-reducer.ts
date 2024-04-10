@@ -75,6 +75,24 @@ export function mealReducer(state: MealState, action: MealAction) {
         },
       };
     }
+    case 'meal/clearBuildMeal': {
+      return {
+        ...state,
+        buildMeal: {
+          foods: [],
+          author: '',
+          name: '',
+          mealTotals: {
+            calories: 0,
+            macros: {
+              fat: 0,
+              carbs: 0,
+              protein: 0,
+            },
+          },
+        },
+      };
+    }
     default: {
       throw new TypeError('We do not recognize that type!');
     }
