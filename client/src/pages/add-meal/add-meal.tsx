@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { PurpleWideButton } from '../../components/button/button';
 import FoodData from '../../components/food-data/food-data';
 import FoodSearch from '../../components/food-search/food-search';
@@ -13,6 +13,29 @@ import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { MealBuilderInput } from '../../ui/input/input';
 import { useUser } from '../../hooks/useUser';
+import Toast from '../../components/toast/toast';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { FoodLog } from '../../types/food-log';
+import { ErrorText } from '../../ui/error-text/error-text';
+
+const ToastContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+`;
+
+const ToastFoodText = styled.span`
+  font-weight: 500;
+  color: var(--color-indigo-600);
+`;
+
+const ToastFoodLink = styled(Link)`
+  font-weight: 500;
+  color: var(--color-indigo-600);
+  text-decoration: underline;
+`;
 
 export default function AddMeal() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
@@ -26,6 +49,8 @@ export default function AddMeal() {
   const { currentLog, foodLogs, addMealToLog } = useFoodLog();
   const { dispatch: foodDispatch } = useFood();
   const { userId } = useUser();
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [mealNameError, setMealNameError] = useState('');
 
   function handleDropDownClick() {
     setIsDropDownOpen((prevState) => !prevState);
@@ -64,31 +89,52 @@ export default function AddMeal() {
 
   async function addToLog() {
     if (!currentLog || !currentLog._id) return;
-    const data = await addMealToLog(currentLog._id, {
+    if (!buildMeal.name) {
+      setMealNameError('Please provide a name for the meal.');
+      return;
+    }
+
+    await addMealToLog(currentLog._id, {
       ...buildMeal,
       author: userId,
     });
+
     mealDispatch({ type: 'meal/clearBuildMeal' });
+    setIsToastOpen(true);
+  }
+
+  function handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    if (mealNameError) setMealNameError('');
+    mealDispatch({
+      type: 'meal/changeBuildMealName',
+      payload: {
+        mealName: evt.target.value,
+      },
+    });
   }
 
   return (
     <div>
+      {isToastOpen && (
+        <BuildMealToast
+          setIsToastOpen={setIsToastOpen}
+          currentLog={currentLog}
+        />
+      )}
       <MealBuilder>
         <Meal>
           <MealHeader
             isDropDownOpen={isDropDownOpen}
             handleDropDownClick={handleDropDownClick}
           >
-            <MealBuilderInput
-              placeholder={'Meal name'}
-              value={buildMeal.name}
-              onChange={(evt) =>
-                mealDispatch({
-                  type: 'meal/changeBuildMealName',
-                  payload: { mealName: evt.target.value },
-                })
-              }
-            />
+            <div>
+              <MealBuilderInput
+                placeholder={'Meal name'}
+                value={buildMeal.name}
+                onChange={handleInputChange}
+              />
+              {mealNameError && <ErrorText>{mealNameError}</ErrorText>}
+            </div>
             <LogSelect logs={foodLogs} currentLog={currentLog} />
             <PurpleWideButton onClick={addToLog}>Add to log</PurpleWideButton>
           </MealHeader>
@@ -104,5 +150,34 @@ export default function AddMeal() {
         <FoodData handleAddClick={handleAddClick} />
       </MealBuilder>
     </div>
+  );
+}
+
+interface BuildMealToastProps {
+  setIsToastOpen: React.Dispatch<SetStateAction<boolean>>;
+  currentLog: FoodLog | null;
+}
+
+function BuildMealToast({ setIsToastOpen, currentLog }: BuildMealToastProps) {
+  if (!currentLog) return null;
+
+  return (
+    <Toast closeToastWindow={() => setIsToastOpen(false)}>
+      <ToastContent>
+        <div>
+          Added{' '}
+          <ToastFoodText>
+            {currentLog.meals[currentLog.meals.length - 1].name}
+          </ToastFoodText>{' '}
+          meal to <ToastFoodText>{currentLog.name}</ToastFoodText> log
+        </div>
+        <div>
+          Check it out{' '}
+          <ToastFoodLink to={`/app/food-logs/${currentLog._id}`}>
+            here
+          </ToastFoodLink>
+        </div>
+      </ToastContent>
+    </Toast>
   );
 }
