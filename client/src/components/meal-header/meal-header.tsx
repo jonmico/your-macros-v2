@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMeal } from '../../hooks/useMeal';
+import { Food } from '../../types/food';
 import { calcMacros } from '../../utils/calcMacros';
 import { SmallButton } from '../button/button';
 import TotalsDisplay from '../totals-display/totals-display';
@@ -13,22 +13,20 @@ const StyledAddMealHeader = styled.div`
   row-gap: 0.5rem;
 `;
 
-interface AddMealHeaderProps {
+interface MealHeaderProps {
   children: React.ReactNode;
   isDropDownOpen: boolean;
   handleDropDownClick: () => void;
+  foods: { food: Food; servings: number }[];
 }
 
 export default function MealHeader({
   children,
   isDropDownOpen,
   handleDropDownClick,
-}: AddMealHeaderProps) {
-  const {
-    mealState: { buildMeal },
-  } = useMeal();
-
-  const { calories, fat, carbs, protein } = calcMacros(buildMeal.foods);
+  foods,
+}: MealHeaderProps) {
+  const { calories, fat, carbs, protein } = calcMacros(foods);
 
   const buttonText = isDropDownOpen ? 'Show less' : 'Show more';
 

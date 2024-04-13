@@ -124,6 +124,7 @@ export default function AddMeal() {
       <MealBuilder>
         <Meal>
           <MealHeader
+            foods={foods}
             isDropDownOpen={isDropDownOpen}
             handleDropDownClick={handleDropDownClick}
           >
@@ -147,7 +148,7 @@ export default function AddMeal() {
           />
         </Meal>
         <FoodSearch foods={foods} handleAddClick={handleAddClick} />
-        <FoodData handleAddClick={handleAddClick} />
+        <FoodData foods={foods} handleAddClick={handleAddClick} />
       </MealBuilder>
     </div>
   );

@@ -1,11 +1,9 @@
 import { FaXmark } from 'react-icons/fa6';
-import { useFood } from '../../hooks/useFood';
-import { ExitButton, PurpleWideButton } from '../button/button';
-
 import styled from 'styled-components';
-import Food from '../food/food';
+import { useFood } from '../../hooks/useFood';
 import { Food as FoodType } from '../../types/food';
-import { useMeal } from '../../hooks/useMeal';
+import { ExitButton, PurpleWideButton } from '../button/button';
+import Food from '../food/food';
 
 const StyledFoodData = styled.div`
   border: 1px solid var(--color-indigo-500);
@@ -34,16 +32,12 @@ interface FoodDataProps {
     food: FoodType,
     servings?: number
   ) => void;
+  foods: { food: FoodType; servings: number }[];
 }
 
-export default function FoodData({ handleAddClick }: FoodDataProps) {
+export default function FoodData({ handleAddClick, foods }: FoodDataProps) {
   const { foodState, dispatch } = useFood();
   const { selectedFood, searchedFoods, foodServings } = foodState;
-  const {
-    mealState: {
-      buildMeal: { foods },
-    },
-  } = useMeal();
 
   const isInMeal = foods.map((f) => f.food._id).includes(selectedFood?._id);
 
