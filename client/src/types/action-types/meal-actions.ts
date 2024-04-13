@@ -1,4 +1,5 @@
 import { Food } from '../food';
+import { Meal } from '../meal';
 
 type AddBuildMealFood = {
   type: 'meal/addBuildMealFood';
@@ -33,12 +34,44 @@ type ClearBuildMeal = {
   type: 'meal/clearBuildMeal';
 };
 
-type SetEditFoods = {
-  type: 'meal/setEditFoods';
+type SetEditMeal = {
+  type: 'meal/setEditMeal';
   payload: {
-    foods: { food: Food; servings: number }[];
+    editMeal: Meal;
+  };
+};
+
+type AddEditMealFood = {
+  type: 'meal/addEditMealFood';
+  payload: { food: { food: Food; servings: number } };
+};
+
+type RemoveEditMealFood = {
+  type: 'meal/removeEditMealFood';
+  payload: { foodId: string };
+};
+
+type ClearEditMealFoods = {
+  type: 'meal/clearEditMealFoods';
+};
+
+type ChangeEditMealServings = {
+  type: 'meal/changeEditMealServings';
+  payload: {
+    foodId: string;
+    servings: number;
+  };
+};
+
+type ChangeEditMealName = {
+  type: 'meal/changeEditMealName';
+  payload: {
     mealName: string;
   };
+};
+
+type ClearEditMeal = {
+  type: 'meal/clearEditMeal';
 };
 
 export type MealAction =
@@ -46,6 +79,12 @@ export type MealAction =
   | RemoveBuildMealFood
   | ClearBuildMealFoods
   | ChangeBuildMealServings
-  | SetEditFoods
+  | SetEditMeal
   | ChangeBuildMealName
-  | ClearBuildMeal;
+  | ClearBuildMeal
+  | AddEditMealFood
+  | RemoveEditMealFood
+  | ClearEditMealFoods
+  | ChangeEditMealServings
+  | ChangeEditMealName
+  | ClearEditMeal;
