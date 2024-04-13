@@ -44,6 +44,7 @@ const initialState: MealState = {
 };
 
 export function MealProvider({ children }: MealProviderProps) {
+  // FIXME: Figure out this error.
   const [mealState, dispatch] = useReducer(mealReducer, initialState);
 
   const value = { mealState, dispatch };
