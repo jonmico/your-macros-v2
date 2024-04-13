@@ -5,11 +5,6 @@ export function useFindFoodLog() {
   const { foodLogId, mealId } = useParams();
   const { foodLogs } = useFoodLog();
 
-  // Check for whether or not foodLogId exists
-  // if (!foodLogId) {
-  //   throw new Error('No foodLogId.');
-  // }
-
   const foodLog = foodLogs.find((log) => log._id === foodLogId);
 
   if (mealId && foodLog) {
