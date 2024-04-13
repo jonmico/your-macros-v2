@@ -70,21 +70,16 @@ type ChangeEditMealName = {
   };
 };
 
-type ClearEditMeal = {
-  type: 'meal/clearEditMeal';
-};
-
 export type MealAction =
   | AddBuildMealFood
   | RemoveBuildMealFood
   | ClearBuildMealFoods
   | ChangeBuildMealServings
-  | SetEditMeal
   | ChangeBuildMealName
+  | SetEditMeal
   | ClearBuildMeal
   | AddEditMealFood
   | RemoveEditMealFood
   | ClearEditMealFoods
   | ChangeEditMealServings
-  | ChangeEditMealName
-  | ClearEditMeal;
+  | ChangeEditMealName;

@@ -50,7 +50,6 @@ export function mealReducer(state: MealState, action: MealAction) {
           ...state.buildMeal,
           foods: state.buildMeal.foods.map((f) => {
             if (f.food._id === action.payload.foodId) {
-              console.log('we here');
               return { ...f, servings: action.payload.servings };
             } else {
               return f;
@@ -89,6 +88,66 @@ export function mealReducer(state: MealState, action: MealAction) {
               protein: 0,
             },
           },
+        },
+      };
+    }
+    case 'meal/addEditMealFood': {
+      if (!state.editMeal) return { ...state };
+
+      return {
+        ...state,
+        editMeal: {
+          ...state.editMeal,
+          foods: [...state.editMeal.foods, action.payload.food],
+        },
+      };
+    }
+    case 'meal/changeEditMealName': {
+      if (!state.editMeal) return { ...state };
+
+      return {
+        ...state,
+        editMeal: {
+          ...state.editMeal,
+          name: action.payload.mealName,
+        },
+      };
+    }
+    case 'meal/changeEditMealServings': {
+      if (!state.editMeal) return { ...state };
+
+      return {
+        ...state,
+        editMeal: {
+          ...state.editMeal,
+          foods: state.editMeal.foods.map((food) => {
+            if (food.food._id === action.payload.foodId) {
+              return { ...food, servings: action.payload.servings };
+            } else {
+              return food;
+            }
+          }),
+        },
+      };
+    }
+    case 'meal/clearEditMealFoods': {
+      return {
+        ...state,
+        editMeal: {
+          ...state.editMeal,
+          foods: [] as { food: Food; servings: number }[],
+        },
+      };
+    }
+    case 'meal/removeEditMealFood': {
+      if (!state.editMeal) return { ...state };
+      return {
+        ...state,
+        editMeal: {
+          ...state.editMeal,
+          foods: state.editMeal.foods.filter(
+            (f) => f.food._id !== action.payload.foodId
+          ),
         },
       };
     }
