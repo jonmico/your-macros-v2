@@ -6,14 +6,23 @@ export function calcMacros(foods: { food: Food; servings: number }[]): {
   carbs: number;
   protein: number;
 } {
-  const calories = foods.reduce((prev, curr) => prev + curr.food.calories, 0);
+  const calories = foods.reduce(
+    (prev, curr) => prev + curr.food.calories * curr.servings,
+    0
+  );
 
-  const fat = foods.reduce((prev, curr) => prev + curr.food.macros.fat, 0);
+  const fat = foods.reduce(
+    (prev, curr) => prev + curr.food.macros.fat * curr.servings,
+    0
+  );
 
-  const carbs = foods.reduce((prev, curr) => prev + curr.food.macros.carbs, 0);
+  const carbs = foods.reduce(
+    (prev, curr) => prev + curr.food.macros.carbs * curr.servings,
+    0
+  );
 
   const protein = foods.reduce(
-    (prev, curr) => prev + curr.food.macros.protein,
+    (prev, curr) => prev + curr.food.macros.protein * curr.servings,
     0
   );
 
