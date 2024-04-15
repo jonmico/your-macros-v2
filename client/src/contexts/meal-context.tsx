@@ -37,14 +37,11 @@ const emptyMeal: Meal = {
 };
 
 const initialState: MealState = {
-  foods: [],
-  mealName: '',
   buildMeal: emptyMeal,
   editMeal: null,
 };
 
 export function MealProvider({ children }: MealProviderProps) {
-  // FIXME: Figure out this error.
   const [mealState, dispatch] = useReducer(mealReducer, initialState);
 
   const value = { mealState, dispatch };
