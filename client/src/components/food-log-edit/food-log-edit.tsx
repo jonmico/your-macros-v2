@@ -26,7 +26,7 @@ export default function FoodLogEdit() {
     mealState: { editMeal },
   } = useMeal();
   const { dispatch: foodDispatch } = useFood();
-  const { editMealInLog } = useFoodLog();
+  const { editMealInLog, currentLog } = useFoodLog();
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [mealNameError, setMealNameError] = useState('');
 
@@ -86,9 +86,17 @@ export default function FoodLogEdit() {
     foodDispatch({ type: 'food/changeServings', payload: { servings: '1' } });
   }
 
-  // TODO: Implement this.
   async function updateMeal() {
-    //NYI
+    if (
+      editMeal === null ||
+      currentLog === null ||
+      currentLog._id === undefined
+    )
+      return;
+
+    const data = await editMealInLog(currentLog._id, editMeal);
+
+    console.log(data);
   }
 
   return (
