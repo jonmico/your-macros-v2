@@ -74,6 +74,23 @@ const LogSelectList = styled.ul`
   animation: ${css`100ms forwards ${scaleList}`};
 `;
 
+const NoLogLink = styled(Link)`
+  padding: 0.5rem 1.5rem;
+  background-color: var(--color-indigo-300);
+  border-radius: var(--sm-radius);
+  border: 1px solid var(--color-gray-900);
+  width: fit-content;
+  justify-self: center;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out,
+    border-radius 300ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-indigo-600);
+    color: var(--color-slate-100);
+    border-radius: var(--xlg-radius);
+  }
+`;
+
 interface LogSelectProps {
   logs: FoodLog[];
   currentLog: FoodLog | null;
@@ -85,7 +102,7 @@ export default function LogSelect({ logs, currentLog }: LogSelectProps) {
   const [isLogListOpen, setIsLogListOpen] = useState(false);
 
   if (!logs.length || currentLog === null) {
-    return <Link to={'/app/food-logs'}>Create a log</Link>;
+    return <NoLogLink to={'/app/food-logs'}>Create a log</NoLogLink>;
   }
 
   const logList = logs.map((log) => (
