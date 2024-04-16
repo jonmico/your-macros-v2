@@ -24,6 +24,8 @@ const EmphasizeText = styled.span`
   color: var(--color-indigo-600);
 `;
 
+// TODO: Implement MealNameError
+
 export default function FoodLogEdit() {
   const { foodLog, meal } = useFindFoodLog();
   const {
