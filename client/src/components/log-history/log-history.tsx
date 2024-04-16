@@ -37,6 +37,16 @@ const StyledLogHistoryTable = styled.div`
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 `;
 
+const NoLogText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  color: var(--color-gray-600);
+  font-weight: 700;
+  text-align: center;
+`;
+
 function LogHistoryTable() {
   const { foodLogs } = useFoodLog();
 
@@ -44,12 +54,19 @@ function LogHistoryTable() {
     <LogHistoryTableListItem key={log._id} log={log} />
   ));
 
-  return (
-    <StyledLogHistoryTable>
-      <LogHistoryTableHeader />
-      <ul>{foodLogList}</ul>
-    </StyledLogHistoryTable>
-  );
+  const LogHistoryTableOutput =
+    foodLogList.length === 0 ? (
+      <NoLogText>
+        No logs created yet. Click the button above to create your first log!
+      </NoLogText>
+    ) : (
+      <>
+        <LogHistoryTableHeader />
+        <ul>{foodLogList}</ul>
+      </>
+    );
+
+  return <StyledLogHistoryTable>{LogHistoryTableOutput}</StyledLogHistoryTable>;
 }
 
 const StyledLogHistoryTableHeader = styled.div`
