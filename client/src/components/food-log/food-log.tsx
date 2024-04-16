@@ -11,8 +11,6 @@ import TotalsDisplay from '../totals-display/totals-display';
 import { FoodLog as FoodLogType } from '../../types/food-log';
 import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 
-// TODO: Implement Edit
-
 const StyledFoodLog = styled.div`
   display: flex;
   flex-direction: column;
