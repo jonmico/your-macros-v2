@@ -81,6 +81,7 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         error: action.payload.errorMessage,
         searchedFoods: [],
         selectedFood: null,
+        isLoading: false,
       };
     }
     default:
