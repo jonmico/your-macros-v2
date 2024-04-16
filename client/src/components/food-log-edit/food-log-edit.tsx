@@ -24,8 +24,6 @@ const EmphasizeText = styled.span`
   color: var(--color-indigo-600);
 `;
 
-// TODO: Implement MealNameError
-
 export default function FoodLogEdit() {
   const { foodLog, meal } = useFindFoodLog();
   const {
@@ -54,6 +52,8 @@ export default function FoodLogEdit() {
   }
 
   function handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    if (mealNameError) setMealNameError('');
+
     mealDispatch({
       type: 'meal/changeEditMealName',
       payload: { mealName: evt.target.value },
@@ -100,6 +100,11 @@ export default function FoodLogEdit() {
       currentLog._id === undefined
     )
       return;
+
+    if (!editMeal.name) {
+      setMealNameError('Please provide a name for the meal.');
+      return;
+    }
 
     const data = await editMealInLog(currentLog._id, editMeal);
 
