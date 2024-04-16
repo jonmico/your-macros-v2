@@ -14,9 +14,14 @@ import MealHeader from '../meal-header/meal-header';
 import Meal from '../meal/meal';
 import { Food } from '../../types/food';
 import { useFood } from '../../hooks/useFood';
+import { PageHeader } from '../../ui/page-header/page-header';
 
 const EditMealInputContainer = styled.div`
   grid-column: 1 / 3;
+`;
+
+const EmphasizeText = styled.span`
+  color: var(--color-indigo-600);
 `;
 
 export default function FoodLogEdit() {
@@ -27,7 +32,7 @@ export default function FoodLogEdit() {
   } = useMeal();
   const { dispatch: foodDispatch } = useFood();
   const { editMealInLog, currentLog } = useFoodLog();
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [isDropDownOpen, setIsDropDownOpen] = useState(true);
   const [mealNameError, setMealNameError] = useState('');
 
   useEffect(() => {
@@ -39,8 +44,8 @@ export default function FoodLogEdit() {
     });
   }, [meal, mealDispatch]);
 
-  if (foodLog === undefined) return null;
-  if (editMeal === null) return null;
+  if (foodLog === undefined || editMeal === null || currentLog === null)
+    return null;
 
   function handleDropDownClick() {
     setIsDropDownOpen((prevState) => !prevState);
@@ -101,7 +106,10 @@ export default function FoodLogEdit() {
 
   return (
     <div>
-      <h2>EDIT</h2>
+      <PageHeader>
+        Editing <EmphasizeText>{editMeal.name}</EmphasizeText> in{' '}
+        <EmphasizeText>{currentLog.name}</EmphasizeText>
+      </PageHeader>
       <MealBuilder>
         <Meal>
           <MealHeader

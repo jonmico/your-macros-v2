@@ -10,6 +10,7 @@ import { calcCalories } from '../../utils/calcCalories';
 import { PrimaryButton } from '../button/button';
 import { Spinner } from '../spinner/spinner';
 import Toast from '../toast/toast';
+import { PageHeader } from '../../ui/page-header/page-header';
 
 const StyledForm = styled.form`
   position: relative;
@@ -54,7 +55,10 @@ type FormStateType = {
 
 export default function AddFoodForm() {
   const { userId, dispatch: userDispatch } = useUser();
-  const { isLoading: isCreatingFood, createFood } = useFood();
+  const {
+    foodState: { isLoading: isCreatingFood },
+    createFood,
+  } = useFood();
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [toastText, setToastText] = useState('');
   const [formState, setFormState] = useState<FormStateType>({
@@ -162,6 +166,7 @@ export default function AddFoodForm() {
 
   return (
     <>
+      <PageHeader>Create a food</PageHeader>
       <StyledForm onSubmit={handleSubmit}>
         {isCreatingFood && (
           <LoadingContainer>
@@ -171,7 +176,6 @@ export default function AddFoodForm() {
             </SpinnerContainer>
           </LoadingContainer>
         )}
-        <h2>Create a Food</h2>
         <FormInputContainer>
           <label htmlFor='brand'>Brand</label>
           <Input

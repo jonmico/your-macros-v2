@@ -10,6 +10,7 @@ import LogHistory from '../../components/log-history/log-history';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useUser } from '../../hooks/useUser';
 import { Input } from '../../ui/input/input';
+import { PageHeader } from '../../ui/page-header/page-header';
 
 const StyledFoodLogs = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ const StyledFoodLogsHeader = styled.div`
 function FoodLogsHeader() {
   return (
     <StyledFoodLogsHeader>
-      <h2>Food Logs</h2>
+      <PageHeader>Food Logs</PageHeader>
       <CreateNewLog />
     </StyledFoodLogsHeader>
   );

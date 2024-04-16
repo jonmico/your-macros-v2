@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FoodLog } from '../../types/food-log';
 import { ErrorText } from '../../ui/error-text/error-text';
+import { PageHeader } from '../../ui/page-header/page-header';
 
 const ToastContent = styled.div`
   display: flex;
@@ -115,6 +116,7 @@ export default function AddMeal() {
 
   return (
     <div>
+      <PageHeader>Add a meal</PageHeader>
       {isToastOpen && (
         <BuildMealToast
           setIsToastOpen={setIsToastOpen}
