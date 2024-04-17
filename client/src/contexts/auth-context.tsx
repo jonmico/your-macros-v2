@@ -6,7 +6,6 @@ import {
   apiRegisterUser,
 } from '../services/auth-api';
 import { Macros } from '../types/macros';
-import { UserData } from '../types/user-data';
 
 type UserType = {
   email: string;
@@ -18,10 +17,7 @@ type UserType = {
 };
 
 type AuthContextType = {
-  isLoading: boolean;
-  isLoggedIn: boolean;
-  userData: UserData | null;
-  error: string;
+  authState: AuthState;
   register: (user: UserType) => Promise<boolean | undefined>;
   login: (email: string, password: string) => Promise<boolean | undefined>;
   logout: () => void;
@@ -36,7 +32,7 @@ interface AuthProviderProps {
 const initialState: AuthState = {
   isLoading: true,
   isLoggedIn: false,
-  userData: null,
+  userId: null,
   error: '',
 };
 
@@ -56,7 +52,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (data.isLoggedIn && data.userData) {
         dispatch({
           type: 'auth/setUser',
-          payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
+          payload: {
+            isLoggedIn: data.isLoggedIn,
+            userId: data.userData.userId,
+          },
         });
       }
     }
@@ -75,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (data.isLoggedIn && data.userData) {
       dispatch({
         type: 'auth/setUser',
-        payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
+        payload: { isLoggedIn: data.isLoggedIn, userId: data.userData.userId },
       });
       return data.isLoggedIn;
     }
@@ -93,7 +92,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (data.isLoggedIn && data.userData) {
       dispatch({
         type: 'auth/setUser',
-        payload: { isLoggedIn: data.isLoggedIn, userData: data.userData },
+        payload: { isLoggedIn: data.isLoggedIn, userId: data.userData.userId },
       });
       return data.isLoggedIn;
     }
@@ -103,7 +102,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     dispatch({ type: 'auth/logout' });
   }
 
-  const value = { ...authState, register, login, logout };
+  const value = { authState, register, login, logout };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
