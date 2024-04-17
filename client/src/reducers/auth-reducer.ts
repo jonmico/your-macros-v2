@@ -32,7 +32,7 @@ export function authReducer(state: AuthState, action: AuthAction) {
       return {
         ...state,
         error: '',
-        userData: null,
+        userId: null,
         isLoggedIn: false,
       };
     default:
