@@ -1,10 +1,9 @@
 import { AuthAction } from '../types/action-types/auth-actions';
-import { UserData } from '../types/user-data';
 
 export type AuthState = {
   isLoading: boolean;
   isLoggedIn: boolean;
-  userData: UserData | null;
+  userId: string | null;
   error: string;
 };
 
@@ -25,8 +24,8 @@ export function authReducer(state: AuthState, action: AuthAction) {
       return {
         ...state,
         error: '',
-        userData: action.payload.userData,
         isLoggedIn: action.payload.isLoggedIn,
+        userId: action.payload.userId,
         isLoading: false,
       };
     case 'auth/logout':
