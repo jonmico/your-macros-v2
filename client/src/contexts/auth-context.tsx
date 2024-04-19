@@ -49,12 +49,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         dispatch({ type: 'auth/error', payload: data.errorMessage });
       }
 
-      if (data.isLoggedIn && data.userData) {
+      if (data.isLoggedIn && data.userId) {
         dispatch({
           type: 'auth/setUser',
           payload: {
             isLoggedIn: data.isLoggedIn,
-            userId: data.userData.userId,
+            userId: data.userId,
           },
         });
       }
@@ -71,10 +71,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
     }
 
-    if (data.isLoggedIn && data.userData) {
+    if (data.isLoggedIn && data.userId) {
       dispatch({
         type: 'auth/setUser',
-        payload: { isLoggedIn: data.isLoggedIn, userId: data.userData.userId },
+        payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
       return data.isLoggedIn;
     }
@@ -89,10 +89,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
     }
 
-    if (data.isLoggedIn && data.userData) {
+    if (data.isLoggedIn && data.userId) {
       dispatch({
         type: 'auth/setUser',
-        payload: { isLoggedIn: data.isLoggedIn, userId: data.userData.userId },
+        payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
       return data.isLoggedIn;
     }

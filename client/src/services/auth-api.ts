@@ -1,5 +1,4 @@
 import { Macros } from '../types/macros';
-import { UserData } from '../types/user-data';
 
 type UserType = {
   email: string;
@@ -12,7 +11,7 @@ type UserType = {
 
 export async function apiRegisterUser(user: UserType): Promise<{
   isLoggedIn?: boolean;
-  userData?: UserData;
+  userId?: string;
   errorMessage?: string;
 }> {
   try {
@@ -43,7 +42,7 @@ export async function apiLogin(
   password: string
 ): Promise<{
   isLoggedIn?: boolean;
-  userData?: UserData;
+  userId?: string;
   errorMessage?: string;
 }> {
   try {
@@ -73,7 +72,7 @@ export async function apiLogin(
 
 export async function apiCheckUserSession(): Promise<{
   isLoggedIn?: boolean;
-  userData?: UserData;
+  userId?: string;
   errorMessage?: string;
 }> {
   try {
