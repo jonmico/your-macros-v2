@@ -16,7 +16,7 @@ type SetUser = {
 
 type SetCreatedFoods = {
   type: 'user/setCreatedFoods';
-  payload: string;
+  payload: { foodId: string };
 };
 
 export type UserAction = Loading | Error | SetUser | SetCreatedFoods;

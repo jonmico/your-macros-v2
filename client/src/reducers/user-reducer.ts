@@ -1,16 +1,10 @@
 import { UserAction } from '../types/action-types/user-actions';
-import { Macros } from '../types/macros';
+import { UserData } from '../types/user-data';
 
-type UserState = {
+export type UserState = {
   isLoading: boolean;
-  userId: string;
-  calories: number;
-  macros: Macros;
-  createdFoods: string[];
-  foodLogs: string[];
-  weightLog: number[];
-  weight: number;
   error: string;
+  userData: UserData | null;
 };
 
 export function userReducer(state: UserState, action: UserAction) {
@@ -30,18 +24,23 @@ export function userReducer(state: UserState, action: UserAction) {
       return {
         ...state,
         isLoading: false,
-        userId: action.payload.userId,
-        calories: action.payload.calories,
-        macros: action.payload.macros,
-        createdFoods: action.payload.createdFoods,
-        foodLogs: action.payload.foodLogs,
-        weightLog: action.payload.weightLog,
-        weight: action.payload.weight,
+        error: '',
+        userData: {
+          ...state.userData,
+          calories: action.payload.calories,
+          macros: action.payload.macros,
+          createdFoods: action.payload.createdFoods,
+        },
       };
     case 'user/setCreatedFoods':
+      if (state.userData === null) return { ...state };
+
       return {
         ...state,
-        createdFoods: [...state.createdFoods, action.payload],
+        userData: {
+          ...state.userData,
+          createdFoods: [...state.userData.createdFoods, action.payload.foodId],
+        },
       };
     default:
       throw new TypeError("We don't know that type.");

@@ -7,6 +7,7 @@ import { UserProvider } from './contexts/user-context';
 import { FoodLogProvider } from './contexts/food-log-context';
 import { FoodProvider } from './contexts/food-context';
 import { MealProvider } from './contexts/meal-context';
+import { useAuth } from './hooks/useAuth';
 
 const AppContainer = styled.div`
   width: 85%;
@@ -14,9 +15,13 @@ const AppContainer = styled.div`
 `;
 
 export default function App() {
+  const {
+    authState: { userId },
+  } = useAuth();
+
   return (
     <AuthProvider>
-      <UserProvider>
+      <UserProvider userId={userId}>
         <FoodLogProvider>
           <FoodProvider>
             <MealProvider>
