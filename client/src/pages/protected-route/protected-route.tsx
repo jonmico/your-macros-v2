@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import { UserProvider } from '../../contexts/user-context';
-import { FoodLogProvider } from '../../contexts/food-log-context';
-import { FoodProvider } from '../../contexts/food-context';
 import { MealProvider } from '../../contexts/meal-context';
+import { useAuth } from '../../hooks/useAuth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isLoading, isLoggedIn, userData } = useAuth();
+  const {
+    authState: { isLoading, isLoggedIn },
+  } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,15 +23,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     return 'LOADING';
   }
 
-  if (userData === null) return null;
+  // if (userData === null) return null;
 
-  return (
-    <UserProvider userData={userData}>
-      <FoodProvider>
-        <FoodLogProvider userId={userData.userId}>
-          <MealProvider>{children}</MealProvider>
-        </FoodLogProvider>
-      </FoodProvider>
-    </UserProvider>
-  );
+  return <MealProvider>{children}</MealProvider>;
 }
