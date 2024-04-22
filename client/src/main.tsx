@@ -14,12 +14,20 @@ import Login from './pages/login/login.tsx';
 import ProtectedRoute from './pages/protected-route/protected-route.tsx';
 import Register from './pages/register/register.tsx';
 import WeightLog from './pages/weight-log/weight-log.tsx';
+import { AuthProvider } from './contexts/auth-context.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path={'/'} element={<App />}>
+        <Route
+          path={'/'}
+          element={
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          }
+        >
           <Route index element={<Home />} />
           <Route path={'login'} element={<Login />} />
           <Route path={'register'} element={<Register />} />
