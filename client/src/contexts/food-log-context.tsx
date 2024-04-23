@@ -44,10 +44,9 @@ const initialState: FoodLogState = {
 
 interface FoodLogProviderProps {
   children: React.ReactNode;
-  userId: string;
 }
 
-export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
+export function FoodLogProvider({ children }: FoodLogProviderProps) {
   const { authState } = useAuth();
   const [foodLogState, dispatch] = useReducer(foodLogReducer, initialState);
 
