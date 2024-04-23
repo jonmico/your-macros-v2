@@ -52,15 +52,7 @@ export async function createUser(
         })
         .json({
           isLoggedIn: true,
-          userData: {
-            userId: newUser._id,
-            calories: newUser.dailyIntake.calories,
-            macros: newUser.dailyIntake.macros,
-            createdFoods: newUser.createdFoods,
-            foodLogs: newUser.foodLogs,
-            weightLog: newUser.weightLogs,
-            weight: newUser.weight,
-          },
+          userId: newUser._id,
         });
     });
   } catch (err) {
