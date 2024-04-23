@@ -10,6 +10,7 @@ import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
+import { useMeal } from '../../hooks/useMeal';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -242,6 +243,7 @@ function MealListItem({ meal }: MealListItemProps) {
   const {
     authState: { userId },
   } = useAuth();
+  const { dispatch: mealDispatch } = useMeal();
   const { deleteMealFromLog } = useFoodLog();
   const { foodLogId } = useParams();
 
@@ -250,6 +252,11 @@ function MealListItem({ meal }: MealListItemProps) {
 
     await deleteMealFromLog(userId, foodLogId, meal._id);
   }
+
+  function handleEditClick() {
+    mealDispatch({ type: 'meal/clearEditMeal' });
+  }
+
   return (
     <StyledMealListItem>
       <MealName>{meal.name}</MealName>
@@ -265,7 +272,9 @@ function MealListItem({ meal }: MealListItemProps) {
       />
       <MealListFoodTable foods={meal.foods} />
       <ButtonContainer>
-        <EditLink to={`edit/${meal._id}`}>Edit</EditLink>
+        <EditLink onClick={handleEditClick} to={`edit/${meal._id}`}>
+          Edit
+        </EditLink>
         <DeleteButton onClick={handleDeleteClick}>Delete</DeleteButton>
       </ButtonContainer>
     </StyledMealListItem>

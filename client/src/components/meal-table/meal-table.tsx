@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6';
 import styled from 'styled-components';
 import { Food } from '../../types/food';
@@ -151,21 +151,6 @@ function MealTableRow({
   const [isEditActive, setIsEditActive] = useState(false);
 
   const foodServingsNum = Number(foodServings);
-
-  /* 
-    FIXME: Band-aid for updating state in the component when switching between
-    meals with the same foods. foodServings state is being initialized with old
-    state values when editMeal already exists. useEffect is used here to sync up
-    the foodServings state with the servings value of the new foods in the new editMeal.
-
-    Potential solutions: 
-      1) Look for ways to set editMeal to null when navigating away from the edit feature.
-      2) Tie an event handler to the Edit button to dispatch meal/clearEditMeal.
-  */
-
-  useEffect(() => {
-    setFoodServings(String(servings));
-  }, [servings]);
 
   function handleRemoveFoodClick() {
     if (foodItem._id) {
