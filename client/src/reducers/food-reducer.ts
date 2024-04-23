@@ -84,6 +84,13 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         isLoading: false,
       };
     }
+    case 'food/clearSelectedSearchedFoods': {
+      return {
+        ...state,
+        searchedFoods: [],
+        selectedFood: null,
+      };
+    }
     default:
       throw new TypeError("We don't know that type.");
   }

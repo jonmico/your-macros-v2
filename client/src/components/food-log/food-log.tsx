@@ -11,6 +11,7 @@ import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
 import { useMeal } from '../../hooks/useMeal';
+import { useFood } from '../../hooks/useFood';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -176,16 +177,17 @@ interface NoMealsInLogProps {
 
 function NoMealsInLog({ foodLog }: NoMealsInLogProps) {
   const { foodLogDispatch } = useFoodLog();
+  const { dispatch: foodDispatch } = useFood();
+
+  function handleAddToLogLinkClick() {
+    foodLogDispatch({ type: 'foodLog/setCurrentLog', payload: foodLog });
+    foodDispatch({ type: 'food/clearSelectedSearchedFoods' });
+  }
 
   return (
     <StyledNoMealsInLog>
       <NoMealsInLogText>There are no meals in this log</NoMealsInLogText>
-      <AddToLogLink
-        to={'/app/add-meal'}
-        onClick={() =>
-          foodLogDispatch({ type: 'foodLog/setCurrentLog', payload: foodLog })
-        }
-      >
+      <AddToLogLink to={'/app/add-meal'} onClick={handleAddToLogLinkClick}>
         Click here to add to this log
       </AddToLogLink>
     </StyledNoMealsInLog>
@@ -245,6 +247,7 @@ function MealListItem({ meal }: MealListItemProps) {
   } = useAuth();
   const { dispatch: mealDispatch } = useMeal();
   const { deleteMealFromLog } = useFoodLog();
+  const { dispatch: foodDispatch } = useFood();
   const { foodLogId } = useParams();
 
   async function handleDeleteClick() {
@@ -255,6 +258,7 @@ function MealListItem({ meal }: MealListItemProps) {
 
   function handleEditClick() {
     mealDispatch({ type: 'meal/clearEditMeal' });
+    foodDispatch({ type: 'food/clearSelectedSearchedFoods' });
   }
 
   return (
