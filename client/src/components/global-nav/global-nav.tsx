@@ -73,7 +73,10 @@ const StyledAppLink = styled(Link)`
 `;
 
 export default function GlobalNav() {
-  const { logout, isLoggedIn } = useAuth();
+  const {
+    logout,
+    authState: { isLoggedIn },
+  } = useAuth();
   const [, , removeCookie] = useCookies(['token']);
 
   const yourMacrosLink = isLoggedIn ? '/app' : '/';
