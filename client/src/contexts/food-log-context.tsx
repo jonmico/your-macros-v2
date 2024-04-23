@@ -10,6 +10,7 @@ import {
 import { FoodLogAction } from '../types/action-types/food-log-actions';
 import { FoodLog } from '../types/food-log';
 import { Meal } from '../types/meal';
+import { useAuth } from '../hooks/useAuth';
 
 type FoodLogContextType = {
   foodLogs: FoodLog[];
@@ -47,12 +48,13 @@ interface FoodLogProviderProps {
 }
 
 export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
+  const { authState } = useAuth();
   const [foodLogState, dispatch] = useReducer(foodLogReducer, initialState);
 
   useEffect(() => {
     async function fetchLogs() {
       dispatch({ type: 'foodLog/loading' });
-      const data = await apiFetchLogs(userId);
+      const data = await apiFetchLogs(authState.userId);
 
       if (data.errorMessage) {
         dispatch({ type: 'foodLog/error', payload: data.errorMessage });
@@ -67,7 +69,7 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
       }
     }
     fetchLogs();
-  }, [userId]);
+  }, [authState.userId]);
 
   async function createLog(userId: string, logName: string) {
     dispatch({ type: 'foodLog/loading' });

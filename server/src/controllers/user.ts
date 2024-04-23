@@ -176,6 +176,7 @@ export async function getUserData(
           carbs: user.dailyIntake.macros.carbs,
           protein: user.dailyIntake.macros.protein,
         },
+        createdFoods: user.createdFoods,
       },
     });
   } catch (err) {
