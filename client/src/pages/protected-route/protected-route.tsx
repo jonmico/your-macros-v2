@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MealProvider } from '../../contexts/meal-context';
 import { useAuth } from '../../hooks/useAuth';
 
 interface ProtectedRouteProps {
@@ -23,7 +22,5 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     return 'LOADING';
   }
 
-  // if (userData === null) return null;
-
-  return <MealProvider>{children}</MealProvider>;
+  return <div>{children}</div>;
 }
