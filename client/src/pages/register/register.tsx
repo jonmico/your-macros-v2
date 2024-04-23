@@ -18,7 +18,10 @@ type RegisterFormType = {
 };
 
 export default function Register() {
-  const { register, isLoading } = useAuth();
+  const {
+    register,
+    authState: { isLoading },
+  } = useAuth();
   const navigate = useNavigate();
 
   const [registerFormState, setRegisterFormState] = useState<RegisterFormType>({

@@ -7,8 +7,8 @@ import {
   PurpleWideButton,
 } from '../../components/button/button';
 import LogHistory from '../../components/log-history/log-history';
+import { useAuth } from '../../hooks/useAuth';
 import { useFoodLog } from '../../hooks/useFoodLog';
-import { useUser } from '../../hooks/useUser';
 import { Input } from '../../ui/input/input';
 import { PageHeader } from '../../ui/page-header/page-header';
 
@@ -66,7 +66,9 @@ const ErrorText = styled.div`
 `;
 
 function CreateNewLog() {
-  const { userId } = useUser();
+  const {
+    authState: { userId },
+  } = useAuth();
   const { createLog, error } = useFoodLog();
   const [logName, setLogName] = useState('');
   const [logNameError, setLogNameError] = useState('');
@@ -92,6 +94,9 @@ function CreateNewLog() {
       setLogNameError('Please provide a name for the log');
       return;
     }
+
+    if (!userId) return;
+
     const data = await createLog(userId, logName);
 
     if (!data) return;
