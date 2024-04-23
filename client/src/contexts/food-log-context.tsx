@@ -53,6 +53,8 @@ export function FoodLogProvider({ children, userId }: FoodLogProviderProps) {
 
   useEffect(() => {
     async function fetchLogs() {
+      if (authState.userId === null) return;
+
       dispatch({ type: 'foodLog/loading' });
       const data = await apiFetchLogs(authState.userId);
 

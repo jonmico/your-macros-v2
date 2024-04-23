@@ -13,7 +13,6 @@ export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
   children: React.ReactNode;
-  userId: string | null;
 }
 
 const initialState: UserState = {
@@ -27,11 +26,10 @@ export function UserProvider({ children }: UserProviderProps) {
 
   useEffect(() => {
     async function getUserData() {
-      if (!authState.userId) return null;
+      if (authState.userId === null) return;
 
       dispatch({ type: 'user/loading' });
       const data = await apiGetUserData(authState.userId);
-      console.log(data);
 
       if (data.errorMessage) {
         dispatch({ type: 'user/error', payload: data.errorMessage });
@@ -42,7 +40,7 @@ export function UserProvider({ children }: UserProviderProps) {
       }
     }
     getUserData();
-  }, [authState.userId]);
+  }, [authState.isLoading, authState.userId]);
 
   const value = { userState, dispatch };
 

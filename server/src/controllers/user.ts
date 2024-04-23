@@ -134,15 +134,7 @@ export async function checkUserSession(
         })
         .json({
           isLoggedIn: true,
-          userData: {
-            userId: user._id,
-            calories: user.dailyIntake.calories,
-            macros: user.dailyIntake.macros,
-            createdFoods: user.createdFoods,
-            foodLogs: user.foodLogs,
-            weightLog: user.weightLogs,
-            weight: user.weight,
-          },
+          userId: user._id,
         });
     }
   } catch (err) {
