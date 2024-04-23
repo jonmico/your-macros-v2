@@ -11,6 +11,7 @@ import { PrimaryButton } from '../button/button';
 import { Spinner } from '../spinner/spinner';
 import Toast from '../toast/toast';
 import { PageHeader } from '../../ui/page-header/page-header';
+import { useAuth } from '../../hooks/useAuth';
 
 const StyledForm = styled.form`
   position: relative;
@@ -54,7 +55,10 @@ type FormStateType = {
 };
 
 export default function AddFoodForm() {
-  const { userId, dispatch: userDispatch } = useUser();
+  const {
+    authState: { userId },
+  } = useAuth();
+  const { dispatch: userDispatch } = useUser();
   const {
     foodState: { isLoading: isCreatingFood },
     createFood,
@@ -95,6 +99,7 @@ export default function AddFoodForm() {
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+    if (!userId) return;
 
     const errors: FormStateType = {
       brand: '',
@@ -159,7 +164,10 @@ export default function AddFoodForm() {
       });
 
       if (data.food._id) {
-        userDispatch({ type: 'user/setCreatedFoods', payload: data.food._id });
+        userDispatch({
+          type: 'user/setCreatedFoods',
+          payload: { foodId: data.food._id },
+        });
       }
     }
   }

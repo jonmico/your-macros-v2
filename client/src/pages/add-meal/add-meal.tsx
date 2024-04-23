@@ -1,4 +1,6 @@
 import { SetStateAction, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { PurpleWideButton } from '../../components/button/button';
 import FoodData from '../../components/food-data/food-data';
 import FoodSearch from '../../components/food-search/food-search';
@@ -7,17 +9,15 @@ import MealBuilder from '../../components/meal-builder/meal-builder';
 import MealDropDown from '../../components/meal-dropdown/meal-dropdown';
 import MealHeader from '../../components/meal-header/meal-header';
 import Meal from '../../components/meal/meal';
+import Toast from '../../components/toast/toast';
+import { useAuth } from '../../hooks/useAuth';
 import { useFood } from '../../hooks/useFood';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
-import { MealBuilderInput } from '../../ui/input/input';
-import { useUser } from '../../hooks/useUser';
-import Toast from '../../components/toast/toast';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { FoodLog } from '../../types/food-log';
 import { ErrorText } from '../../ui/error-text/error-text';
+import { MealBuilderInput } from '../../ui/input/input';
 import { PageHeader } from '../../ui/page-header/page-header';
 
 const ToastContent = styled.div`
@@ -49,7 +49,9 @@ export default function AddMeal() {
   } = useMeal();
   const { currentLog, foodLogs, addMealToLog } = useFoodLog();
   const { dispatch: foodDispatch } = useFood();
-  const { userId } = useUser();
+  const {
+    authState: { userId },
+  } = useAuth();
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [mealNameError, setMealNameError] = useState('');
 
@@ -89,7 +91,7 @@ export default function AddMeal() {
   }
 
   async function addToLog() {
-    if (!currentLog || !currentLog._id) return;
+    if (!currentLog || !currentLog._id || !userId) return;
     if (!buildMeal.name) {
       setMealNameError('Please provide a name for the meal.');
       return;
