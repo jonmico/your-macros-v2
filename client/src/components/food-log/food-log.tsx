@@ -1,15 +1,15 @@
 import { FaArrowLeft } from 'react-icons/fa6';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth } from '../../hooks/useAuth';
+import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 import { useFoodLog } from '../../hooks/useFoodLog';
-import { useUser } from '../../hooks/useUser';
 import { Food } from '../../types/food';
+import { FoodLog as FoodLogType } from '../../types/food-log';
 import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
-import { FoodLog as FoodLogType } from '../../types/food-log';
-import { useFindFoodLog } from '../../hooks/useFindFoodLog';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -239,12 +239,14 @@ function MealListItem({ meal }: MealListItemProps) {
     calories,
     macros: { fat, carbs, protein },
   } = meal.mealTotals;
-  const { userId } = useUser();
+  const {
+    authState: { userId },
+  } = useAuth();
   const { deleteMealFromLog } = useFoodLog();
   const { foodLogId } = useParams();
 
   async function handleDeleteClick() {
-    if (!foodLogId || !meal._id) return;
+    if (!foodLogId || !meal._id || !userId) return;
 
     await deleteMealFromLog(userId, foodLogId, meal._id);
   }
