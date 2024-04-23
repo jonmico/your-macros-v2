@@ -149,3 +149,36 @@ export async function checkUserSession(
     next(err);
   }
 }
+
+export async function getUserData(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      throw new AppError(400, 'No userId provided.');
+    }
+
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+      throw new AppError(400, 'User not found.');
+    }
+
+    res.json({
+      userData: {
+        calories: user.dailyIntake.calories,
+        macros: {
+          fat: user.dailyIntake.macros.fat,
+          carbs: user.dailyIntake.macros.carbs,
+          protein: user.dailyIntake.macros.protein,
+        },
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
