@@ -55,6 +55,10 @@ type ClearEditMealFoods = {
   type: 'meal/clearEditMealFoods';
 };
 
+type ClearEditMeal = {
+  type: 'meal/clearEditMeal';
+};
+
 type ChangeEditMealServings = {
   type: 'meal/changeEditMealServings';
   payload: {
@@ -82,4 +86,5 @@ export type MealAction =
   | RemoveEditMealFood
   | ClearEditMealFoods
   | ChangeEditMealServings
-  | ChangeEditMealName;
+  | ChangeEditMealName
+  | ClearEditMeal;

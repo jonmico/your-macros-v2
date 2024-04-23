@@ -148,6 +148,12 @@ export function mealReducer(state: MealState, action: MealAction) {
         },
       };
     }
+    case 'meal/clearEditMeal': {
+      return {
+        ...state,
+        editMeal: null,
+      };
+    }
     default: {
       throw new TypeError('We do not recognize that type!');
     }
