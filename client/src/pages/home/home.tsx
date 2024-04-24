@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth } from '../../hooks/useAuth';
 
 const StyledHome = styled.div`
   text-align: center;
@@ -72,6 +73,14 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Home() {
+  const { authState } = useAuth();
+
+  const homePageLink = authState.isLoggedIn ? (
+    <StyledLink to={'/app'}>Continue to app</StyledLink>
+  ) : (
+    <StyledLink to={'/register'}>Sign Up Today</StyledLink>
+  );
+
   return (
     <StyledHome>
       <Hero>
@@ -86,8 +95,8 @@ export default function Home() {
           <PremiumText>No premium memberships</PremiumText>
           <Text>Community-driven food database</Text>
         </TextContainer>
+        {homePageLink}
       </SecondaryContainer>
-      <StyledLink to={'/register'}>Sign Up Today</StyledLink>
     </StyledHome>
   );
 }
