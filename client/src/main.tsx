@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import App from './App.tsx';
 import FoodLogEdit from './components/food-log-edit/food-log-edit.tsx';
 import FoodLog from './components/food-log/food-log.tsx';
+import { AuthProvider } from './contexts/auth-context.tsx';
 import AddFood from './pages/add-food/add-food.tsx';
 import AddMeal from './pages/add-meal/add-meal.tsx';
 import AppLayout from './pages/app-layout/app-layout.tsx';
@@ -13,8 +14,7 @@ import Home from './pages/home/home.tsx';
 import Login from './pages/login/login.tsx';
 import ProtectedRoute from './pages/protected-route/protected-route.tsx';
 import Register from './pages/register/register.tsx';
-import WeightLog from './pages/weight-log/weight-log.tsx';
-import { AuthProvider } from './contexts/auth-context.tsx';
+import UserPage from './pages/user/user.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -48,8 +48,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               path={'food-logs/:foodLogId/edit/:mealId'}
               element={<FoodLogEdit />}
             />
-            <Route path={'weight-log'} element={<WeightLog />} />
             <Route path={'add-food'} element={<AddFood />} />
+            <Route path={'user'} element={<UserPage />} />
           </Route>
         </Route>
       </Routes>

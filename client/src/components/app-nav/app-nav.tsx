@@ -2,8 +2,8 @@ import {
   FaBook,
   FaHouseChimney,
   FaPenToSquare,
+  FaUser,
   FaUtensils,
-  FaWeightScale,
 } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
@@ -60,13 +60,13 @@ export default function AppNav() {
           <FaBook />
           Food Logs
         </StyledNavLink>
-        <StyledNavLink to={'weight-log'}>
-          <FaWeightScale />
-          Weight Log
-        </StyledNavLink>
         <StyledNavLink to={'add-food'}>
           <FaPenToSquare />
           Create Food
+        </StyledNavLink>
+        <StyledNavLink to={'user'}>
+          <FaUser />
+          User
         </StyledNavLink>
       </StyledUL>
     </StyledAppNav>
