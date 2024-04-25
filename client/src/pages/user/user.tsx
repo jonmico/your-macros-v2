@@ -5,7 +5,6 @@ export default function UserPage() {
   return (
     <div>
       <UserNav />
-      This is the user page
       <Outlet />
     </div>
   );
