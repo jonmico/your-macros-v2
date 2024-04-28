@@ -8,10 +8,5 @@ export default function Settings() {
 
   const { macros, calories } = userState.userData;
 
-  return (
-    <div>
-      <h2>Some type of form header</h2>
-      <SettingsMacroForm calories={calories} macros={macros} />
-    </div>
-  );
+  return <SettingsMacroForm calories={calories} macros={macros} />;
 }
