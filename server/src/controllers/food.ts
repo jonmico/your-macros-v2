@@ -61,3 +61,19 @@ export async function searchFoodByText(
     next(err);
   }
 }
+
+export async function getCreatedFoods(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { userId } = req.params;
+
+    const createdFoods = await Food.find({ author: userId }).exec();
+
+    return res.json({ createdFoods });
+  } catch (err) {
+    next(err);
+  }
+}

@@ -55,3 +55,30 @@ export async function apiSearchFoodsByText(
     };
   }
 }
+
+export async function apiGetCreatedFoods(
+  userId: string
+): Promise<{ createdFoods?: Food[]; errorMessage?: string }> {
+  try {
+    const res = await fetch(`/api/food/created-foods/${userId}`, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return {
+      errorMessage: 'The server is most likely down.',
+    };
+  }
+}
