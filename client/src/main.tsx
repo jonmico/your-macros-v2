@@ -18,6 +18,7 @@ import UserPage from './pages/user/user.tsx';
 import Settings from './components/settings/settings.tsx';
 import Account from './components/account/account.tsx';
 import CreatedFoods from './components/created-foods/created-foods.tsx';
+import CreatedFood from './components/created-food/created-food.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -56,7 +57,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route index element={<Navigate replace to={'settings'} />} />
               <Route path={'settings'} element={<Settings />} />
               <Route path={'account'} element={<Account />} />
-              <Route path={'created-foods'} element={<CreatedFoods />} />
+              <Route path={'created-foods'} element={<CreatedFoods />}>
+                <Route path={':foodId'} element={<CreatedFood />} />
+              </Route>
             </Route>
           </Route>
         </Route>
