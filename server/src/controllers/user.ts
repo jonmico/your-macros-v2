@@ -176,9 +176,13 @@ export async function updateMacros(
   try {
     const { userId, calories, macros } = req.body;
 
-    const user = await User.findByIdAndUpdate(userId, {
-      dailyIntake: { calories: calories, macros: macros },
-    }).exec();
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        dailyIntake: { calories: calories, macros: macros },
+      },
+      { returnDocument: 'after' }
+    ).exec();
 
     if (!user) {
       throw new AppError(400, 'User does not exist.');
