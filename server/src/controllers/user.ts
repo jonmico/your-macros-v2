@@ -167,3 +167,30 @@ export async function getUserData(
     next(err);
   }
 }
+
+export async function updateMacros(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { userId, calories, macros } = req.body;
+
+    const user = await User.findByIdAndUpdate(userId, {
+      dailyIntake: { calories: calories, macros: macros },
+    }).exec();
+
+    if (!user) {
+      throw new AppError(400, 'User does not exist.');
+    }
+
+    res.json({
+      userData: {
+        calories: user.dailyIntake.calories,
+        macros: user.dailyIntake.macros,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+}
