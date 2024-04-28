@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { Macros } from '../../types/macros';
 import { PurpleWideButton } from '../button/button';
@@ -27,6 +27,14 @@ const FormInputContainer = styled.div`
   justify-content: space-between;
 `;
 
+const ErrorText = styled.div`
+  background-color: var(--color-red-100);
+  color: var(--color-red-600);
+  border: 1px solid var(--color-red-600);
+  border-radius: var(--sm-radius);
+  padding: 0.25rem 0.5rem;
+`;
+
 interface SettingsMacroFormProps {
   macros: Macros;
   calories: number;
@@ -46,6 +54,7 @@ export default function SettingsMacroForm({
   const [formProtein, setFormProtein] = useState(String(macros.protein));
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [formError, setFormError] = useState('');
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -58,6 +67,16 @@ export default function SettingsMacroForm({
         protein: Number(formProtein),
       },
     };
+
+    const {
+      calories,
+      macros: { fat, carbs, protein },
+    } = updatedCaloriesAndMacros;
+
+    if (calories < 0 || fat < 0 || carbs < 0 || protein || 0) {
+      setFormError('Values cannot be negative.');
+      return;
+    }
 
     if (userId === null) return;
 
@@ -73,6 +92,14 @@ export default function SettingsMacroForm({
     }
   }
 
+  function handleOnChange(
+    evt: React.ChangeEvent<HTMLInputElement>,
+    setStateFn: React.Dispatch<SetStateAction<string>>
+  ) {
+    if (formError) setFormError('');
+    setStateFn(evt.target.value);
+  }
+
   return (
     <div>
       {isToastOpen && (
@@ -82,6 +109,7 @@ export default function SettingsMacroForm({
         />
       )}
       <Form onSubmit={handleSubmit}>
+        {formError && <ErrorText>{formError}</ErrorText>}
         <FormHeader>
           <h2>Daily Intake Settings</h2>
         </FormHeader>
@@ -91,7 +119,7 @@ export default function SettingsMacroForm({
             id={'calories'}
             type='number'
             value={String(formCalories)}
-            onChange={(evt) => setFormCalories(evt.target.value)}
+            onChange={(evt) => handleOnChange(evt, setFormCalories)}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -100,7 +128,7 @@ export default function SettingsMacroForm({
             id={'fat'}
             type='number'
             value={formFat}
-            onChange={(evt) => setFormFat(evt.target.value)}
+            onChange={(evt) => handleOnChange(evt, setFormFat)}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -109,7 +137,7 @@ export default function SettingsMacroForm({
             id={'carbs'}
             type='number'
             value={formCarbs}
-            onChange={(evt) => setFormCarbs(evt.target.value)}
+            onChange={(evt) => handleOnChange(evt, setFormCarbs)}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -118,7 +146,7 @@ export default function SettingsMacroForm({
             id={'protein'}
             type='number'
             value={formProtein}
-            onChange={(evt) => setFormProtein(evt.target.value)}
+            onChange={(evt) => handleOnChange(evt, setFormProtein)}
           />
         </FormInputContainer>
         <PurpleWideButton>Update</PurpleWideButton>
