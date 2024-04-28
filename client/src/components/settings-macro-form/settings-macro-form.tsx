@@ -4,6 +4,7 @@ import { Macros } from '../../types/macros';
 import { PurpleWideButton } from '../button/button';
 import { useUser } from '../../hooks/useUser';
 import { useAuth } from '../../hooks/useAuth';
+import Toast from '../toast/toast';
 
 const Form = styled.form`
   display: flex;
@@ -43,6 +44,8 @@ export default function SettingsMacroForm({
   const [formFat, setFormFat] = useState(String(macros.fat));
   const [formCarbs, setFormCarbs] = useState(String(macros.carbs));
   const [formProtein, setFormProtein] = useState(String(macros.protein));
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -58,15 +61,26 @@ export default function SettingsMacroForm({
 
     if (userId === null) return;
 
-    await updateMacros(
+    const data = await updateMacros(
       userId,
       updatedCaloriesAndMacros.calories,
       updatedCaloriesAndMacros.macros
     );
+    setIsToastOpen(true);
+
+    if (data?.updateSuccess) {
+      setIsUpdated(data.updateSuccess);
+    }
   }
 
   return (
     <div>
+      {isToastOpen && (
+        <SettingsMacroFormToast
+          isUpdated={isUpdated}
+          closeToastWindow={() => setIsToastOpen(false)}
+        />
+      )}
       <Form onSubmit={handleSubmit}>
         <FormHeader>
           <h2>Daily Intake Settings</h2>
@@ -111,4 +125,25 @@ export default function SettingsMacroForm({
       </Form>
     </div>
   );
+}
+
+interface SettingsMacroFormToastProps {
+  closeToastWindow: () => void;
+  isUpdated: boolean;
+}
+
+function SettingsMacroFormToast({
+  closeToastWindow,
+  isUpdated,
+}: SettingsMacroFormToastProps) {
+  const { userState } = useUser();
+
+  if (userState === null) return null;
+
+  const { error } = userState;
+
+  const toastText = isUpdated
+    ? 'Settings successfully updated.'
+    : `Error: ${error}`;
+  return <Toast closeToastWindow={closeToastWindow}>{toastText}</Toast>;
 }

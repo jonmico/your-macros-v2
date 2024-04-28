@@ -12,7 +12,7 @@ type UserContextType = {
     userId: string,
     calories: number,
     macros: Macros
-  ) => Promise<void>;
+  ) => Promise<{ updateSuccess: boolean } | undefined>;
 };
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -53,12 +53,13 @@ export function UserProvider({ children }: UserProviderProps) {
     userId: string,
     calories: number,
     macros: Macros
-  ) {
+  ): Promise<{ updateSuccess: boolean } | undefined> {
     dispatch({ type: 'user/DBLoading' });
     const data = await apiUpdateMacros(userId, calories, macros);
 
     if (data.errorMessage) {
       dispatch({ type: 'user/error', payload: data.errorMessage });
+      return { updateSuccess: false };
     }
 
     if (data.userData) {
@@ -69,6 +70,7 @@ export function UserProvider({ children }: UserProviderProps) {
           macros: data.userData.macros,
         },
       });
+      return { updateSuccess: true };
     }
   }
 
