@@ -13,7 +13,7 @@ export default function Settings() {
   if (!userState || !userState.userData) return null;
 
   const {
-    userData: { macros, calories },
+    userData: { macros },
     isDBLoading,
   } = userState;
 
@@ -24,7 +24,7 @@ export default function Settings() {
           <Spinner></Spinner>
         </CenterSpinnerContainer>
       )}
-      <SettingsMacroForm calories={calories} macros={macros} />
+      <SettingsMacroForm macros={macros} />
     </StyledSettings>
   );
 }

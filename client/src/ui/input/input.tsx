@@ -43,3 +43,12 @@ export const MealBuilderInput = styled.input`
     padding-left: 0.5rem;
   }
 `;
+
+export const SettingsInput = styled(Input)`
+  width: auto;
+
+  &:disabled {
+    color: var(--color-gray-500);
+    cursor: not-allowed;
+  }
+`;

@@ -5,6 +5,7 @@ import { PurpleWideButton } from '../button/button';
 import { useUser } from '../../hooks/useUser';
 import { useAuth } from '../../hooks/useAuth';
 import Toast from '../toast/toast';
+import { SettingsInput } from '../../ui/input/input';
 
 const Form = styled.form`
   display: flex;
@@ -37,24 +38,23 @@ const ErrorText = styled.div`
 
 interface SettingsMacroFormProps {
   macros: Macros;
-  calories: number;
 }
 
-export default function SettingsMacroForm({
-  macros,
-  calories,
-}: SettingsMacroFormProps) {
+export default function SettingsMacroForm({ macros }: SettingsMacroFormProps) {
   const { updateMacros } = useUser();
   const {
     authState: { userId },
   } = useAuth();
-  const [formCalories, setFormCalories] = useState(String(calories));
+
   const [formFat, setFormFat] = useState(String(macros.fat));
   const [formCarbs, setFormCarbs] = useState(String(macros.carbs));
   const [formProtein, setFormProtein] = useState(String(macros.protein));
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [formError, setFormError] = useState('');
+
+  const formCalories =
+    Number(formFat) * 9 + Number(formCarbs) * 4 + Number(formProtein) * 4;
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -69,11 +69,10 @@ export default function SettingsMacroForm({
     };
 
     const {
-      calories,
       macros: { fat, carbs, protein },
     } = updatedCaloriesAndMacros;
 
-    if (calories < 0 || fat < 0 || carbs < 0 || protein || 0) {
+    if (fat < 0 || carbs < 0 || protein < 0) {
       setFormError('Values cannot be negative.');
       return;
     }
@@ -115,16 +114,16 @@ export default function SettingsMacroForm({
         </FormHeader>
         <FormInputContainer>
           <label htmlFor='calories'>Calories</label>
-          <input
+          <SettingsInput
             id={'calories'}
             type='number'
             value={String(formCalories)}
-            onChange={(evt) => handleOnChange(evt, setFormCalories)}
+            disabled={true}
           />
         </FormInputContainer>
         <FormInputContainer>
           <label htmlFor='fat'>Fat</label>
-          <input
+          <SettingsInput
             id={'fat'}
             type='number'
             value={formFat}
@@ -133,7 +132,7 @@ export default function SettingsMacroForm({
         </FormInputContainer>
         <FormInputContainer>
           <label htmlFor='carbs'>Carbs</label>
-          <input
+          <SettingsInput
             id={'carbs'}
             type='number'
             value={formCarbs}
@@ -142,7 +141,7 @@ export default function SettingsMacroForm({
         </FormInputContainer>
         <FormInputContainer>
           <label htmlFor='protein'>Protein</label>
-          <input
+          <SettingsInput
             id={'protein'}
             type='number'
             value={formProtein}
