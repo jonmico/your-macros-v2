@@ -87,9 +87,9 @@ export default function SettingsMacroForm({
     );
     setIsToastOpen(true);
 
-    if (data?.updateSuccess) {
-      setIsUpdated(data.updateSuccess);
-    }
+    if (data.updateSuccess === undefined) return;
+
+    setIsUpdated(data.updateSuccess);
   }
 
   function handleOnChange(
