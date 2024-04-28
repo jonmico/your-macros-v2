@@ -101,3 +101,12 @@ export const DeleteButton = styled(PrimaryButton)`
     background-color: var(--color-red-300);
   }
 `;
+
+export const IndigoButton = styled(PrimaryButton)`
+  background-color: var(--color-indigo-600);
+  color: var(--color-slate-100);
+
+  &:hover {
+    background-color: var(--color-indigo-500);
+  }
+`;
