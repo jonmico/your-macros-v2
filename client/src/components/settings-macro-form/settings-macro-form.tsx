@@ -9,7 +9,9 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 80%;
+  width: 50%;
+  min-width: 20rem;
+  max-width: 30rem;
 `;
 
 const FormHeader = styled.div`
@@ -37,20 +39,20 @@ export default function SettingsMacroForm({
   const {
     authState: { userId },
   } = useAuth();
-  const [formCalories, setFormCalories] = useState(calories);
-  const [formFat, setFormFat] = useState(macros.fat);
-  const [formCarbs, setFormCarbs] = useState(macros.carbs);
-  const [formProtein, setFormProtein] = useState(macros.protein);
+  const [formCalories, setFormCalories] = useState(String(calories));
+  const [formFat, setFormFat] = useState(String(macros.fat));
+  const [formCarbs, setFormCarbs] = useState(String(macros.carbs));
+  const [formProtein, setFormProtein] = useState(String(macros.protein));
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
     const updatedCaloriesAndMacros = {
-      calories: formCalories,
+      calories: Number(formCalories),
       macros: {
-        fat: formFat,
-        carbs: formCarbs,
-        protein: formProtein,
+        fat: Number(formFat),
+        carbs: Number(formCarbs),
+        protein: Number(formProtein),
       },
     };
 
@@ -74,8 +76,8 @@ export default function SettingsMacroForm({
           <input
             id={'calories'}
             type='number'
-            value={formCalories}
-            onChange={(evt) => setFormCalories(Number(evt.target.value))}
+            value={String(formCalories)}
+            onChange={(evt) => setFormCalories(evt.target.value)}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -84,7 +86,7 @@ export default function SettingsMacroForm({
             id={'fat'}
             type='number'
             value={formFat}
-            onChange={(evt) => setFormFat(Number(evt.target.value))}
+            onChange={(evt) => setFormFat(evt.target.value)}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -93,7 +95,7 @@ export default function SettingsMacroForm({
             id={'carbs'}
             type='number'
             value={formCarbs}
-            onChange={(evt) => setFormCarbs(Number(evt.target.value))}
+            onChange={(evt) => setFormCarbs(evt.target.value)}
           />
         </FormInputContainer>
         <FormInputContainer>
@@ -102,7 +104,7 @@ export default function SettingsMacroForm({
             id={'protein'}
             type='number'
             value={formProtein}
-            onChange={(evt) => setFormProtein(Number(evt.target.value))}
+            onChange={(evt) => setFormProtein(evt.target.value)}
           />
         </FormInputContainer>
         <PurpleWideButton>Update</PurpleWideButton>
