@@ -5,6 +5,7 @@ export type UserState = {
   isLoading: boolean;
   error: string;
   userData: UserData | null;
+  isDBLoading: boolean;
 };
 
 export function userReducer(state: UserState, action: UserAction) {
@@ -19,6 +20,7 @@ export function userReducer(state: UserState, action: UserAction) {
         ...state,
         error: action.payload,
         isLoading: false,
+        isDBLoading: false,
       };
     case 'user/setUser':
       return {
@@ -42,6 +44,22 @@ export function userReducer(state: UserState, action: UserAction) {
           createdFoods: [...state.userData.createdFoods, action.payload.foodId],
         },
       };
+    case 'user/updateMacros': {
+      if (state.userData === null) return { ...state };
+
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          calories: action.payload.calories,
+          macros: action.payload.macros,
+        },
+        isDBLoading: false,
+      };
+    }
+    case 'user/DBLoading': {
+      return { ...state, isDBLoading: true };
+    }
     default:
       throw new TypeError("We don't know that type.");
   }

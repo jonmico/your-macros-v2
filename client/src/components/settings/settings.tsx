@@ -6,7 +6,15 @@ export default function Settings() {
 
   if (!userState || !userState.userData) return null;
 
-  const { macros, calories } = userState.userData;
+  const {
+    userData: { macros, calories },
+    isDBLoading,
+  } = userState;
 
-  return <SettingsMacroForm calories={calories} macros={macros} />;
+  return (
+    <>
+      {isDBLoading && <div>'DB IS LOADING'</div>}
+      <SettingsMacroForm calories={calories} macros={macros} />
+    </>
+  );
 }

@@ -2,11 +2,17 @@ import { createContext, useEffect, useReducer } from 'react';
 import { UserState, userReducer } from '../reducers/user-reducer';
 import { UserAction } from '../types/action-types/user-actions';
 import { useAuth } from '../hooks/useAuth';
-import { apiGetUserData } from '../services/user-api';
+import { apiGetUserData, apiUpdateMacros } from '../services/user-api';
+import { Macros } from '../types/macros';
 
 type UserContextType = {
   userState: UserState | null;
   dispatch: React.Dispatch<UserAction>;
+  updateMacros: (
+    userId: string,
+    calories: number,
+    macros: Macros
+  ) => Promise<void>;
 };
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -17,6 +23,7 @@ interface UserProviderProps {
 
 const initialState: UserState = {
   isLoading: true,
+  isDBLoading: false,
   error: '',
   userData: null,
 };
@@ -42,7 +49,30 @@ export function UserProvider({ children }: UserProviderProps) {
     getUserData();
   }, [authState.isLoading, authState.userId]);
 
-  const value = { userState, dispatch };
+  async function updateMacros(
+    userId: string,
+    calories: number,
+    macros: Macros
+  ) {
+    dispatch({ type: 'user/DBLoading' });
+    const data = await apiUpdateMacros(userId, calories, macros);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'user/error', payload: data.errorMessage });
+    }
+
+    if (data.userData) {
+      dispatch({
+        type: 'user/updateMacros',
+        payload: {
+          calories: data.userData.calories,
+          macros: data.userData.macros,
+        },
+      });
+    }
+  }
+
+  const value = { userState, dispatch, updateMacros };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

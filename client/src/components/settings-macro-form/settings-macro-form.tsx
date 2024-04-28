@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Macros } from '../../types/macros';
 import { PurpleWideButton } from '../button/button';
+import { useUser } from '../../hooks/useUser';
+import { useAuth } from '../../hooks/useAuth';
 
 const Form = styled.form`
   display: flex;
@@ -31,6 +33,10 @@ export default function SettingsMacroForm({
   macros,
   calories,
 }: SettingsMacroFormProps) {
+  const { updateMacros } = useUser();
+  const {
+    authState: { userId },
+  } = useAuth();
   const [formCalories, setFormCalories] = useState(calories);
   const [formFat, setFormFat] = useState(macros.fat);
   const [formCarbs, setFormCarbs] = useState(macros.carbs);
@@ -48,7 +54,13 @@ export default function SettingsMacroForm({
       },
     };
 
-    console.log(updatedCaloriesAndMacros);
+    if (userId === null) return;
+
+    await updateMacros(
+      userId,
+      updatedCaloriesAndMacros.calories,
+      updatedCaloriesAndMacros.macros
+    );
   }
 
   return (

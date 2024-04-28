@@ -1,3 +1,4 @@
+import { Macros } from '../macros';
 import { UserData } from '../user-data';
 
 type Loading = {
@@ -19,4 +20,22 @@ type SetCreatedFoods = {
   payload: { foodId: string };
 };
 
-export type UserAction = Loading | Error | SetUser | SetCreatedFoods;
+type UpdateMacros = {
+  type: 'user/updateMacros';
+  payload: {
+    calories: number;
+    macros: Macros;
+  };
+};
+
+type DBLoading = {
+  type: 'user/DBLoading';
+};
+
+export type UserAction =
+  | Loading
+  | Error
+  | SetUser
+  | SetCreatedFoods
+  | UpdateMacros
+  | DBLoading;
