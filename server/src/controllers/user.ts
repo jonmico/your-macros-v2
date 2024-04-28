@@ -181,7 +181,7 @@ export async function updateMacros(
       {
         dailyIntake: { calories: calories, macros: macros },
       },
-      { returnDocument: 'after' }
+      { returnDocument: 'after', runValidators: true }
     ).exec();
 
     if (!user) {
