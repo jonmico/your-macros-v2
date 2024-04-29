@@ -77,3 +77,19 @@ export async function getCreatedFoods(
     next(err);
   }
 }
+
+export async function getFood(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { foodId } = req.params;
+
+    const food = await Food.findById(foodId).exec();
+
+    if (!food) {
+      throw new AppError(400, 'No food found.');
+    }
+
+    res.json({ food });
+  } catch (err) {
+    next(err);
+  }
+}
