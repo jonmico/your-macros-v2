@@ -82,3 +82,30 @@ export async function apiGetCreatedFoods(
     };
   }
 }
+
+export async function apiGetFood(
+  foodId: string
+): Promise<{ food?: Food; errorMessage?: string }> {
+  try {
+    const res = await fetch(`/api/food/${foodId}`, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return {
+      errorMessage: 'The server is most likely down.',
+    };
+  }
+}
