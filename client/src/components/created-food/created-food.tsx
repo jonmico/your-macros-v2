@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useFetchFood } from '../../hooks/useFetchFood';
+import { useFood } from '../../hooks/useFood';
 import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
 import { Spinner } from '../spinner/spinner';
@@ -33,15 +34,37 @@ const StyledFood = styled.div`
 interface FoodProps {
   food: FoodType | null;
 }
-
+/*
+  FIXME: Sync up frontend with database. useEffect hook somewhere?
+  Probably store createdFoods in a context.
+*/
 function Food({ food }: FoodProps) {
+  const { deleteFood } = useFood();
+
   if (food === null) return null;
 
   const { servingSize, calories, macros } = food;
 
+  async function handleDeleteClick() {
+    if (!food || !food._id) return;
+
+    const data = await deleteFood(food._id);
+
+    console.log(data);
+  }
+
+  function handleEditClick() {
+    // TODO: Implement handleEditClick
+    console.log('NYI');
+  }
+
   return (
     <StyledFood>
-      <FoodHeader name={food.name} brand={food.brand} />
+      <FoodHeader
+        name={food.name}
+        brand={food.brand}
+        handleDeleteClick={handleDeleteClick}
+      />
       <FoodData servingSize={servingSize} calories={calories} macros={macros} />
     </StyledFood>
   );
@@ -102,9 +125,10 @@ const FoodHeaderBrand = styled.h3`
 interface FoodHeaderProps {
   name: string;
   brand: string;
+  handleDeleteClick: () => Promise<void>;
 }
 
-function FoodHeader({ name, brand }: FoodHeaderProps) {
+function FoodHeader({ name, brand, handleDeleteClick }: FoodHeaderProps) {
   return (
     <StyledFoodHeader>
       <div>
@@ -113,7 +137,7 @@ function FoodHeader({ name, brand }: FoodHeaderProps) {
       </div>
       <ButtonContainer>
         <EditButton>Edit</EditButton>
-        <DeleteButton>Delete</DeleteButton>
+        <DeleteButton onClick={handleDeleteClick}>Delete</DeleteButton>
       </ButtonContainer>
     </StyledFoodHeader>
   );

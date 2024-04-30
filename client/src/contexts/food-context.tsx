@@ -1,7 +1,11 @@
 import { createContext, useReducer } from 'react';
 import { Food } from '../types/food';
 import { FoodState, foodReducer } from '../reducers/food-reducer';
-import { apiCreateFood, apiSearchFoodsByText } from '../services/food-api';
+import {
+  apiCreateFood,
+  apiDeleteFood,
+  apiSearchFoodsByText,
+} from '../services/food-api';
 import { FoodActions } from '../types/action-types/food-actions';
 
 type FoodContextType = {
@@ -11,6 +15,7 @@ type FoodContextType = {
     userId: string
   ) => Promise<{ food?: Food; errorMessage?: string }>;
   searchFoodsByText: (searchText: string) => Promise<void>;
+  deleteFood: (foodId: string) => Promise<{ deleteSuccess: boolean }>;
   dispatch: React.Dispatch<FoodActions>;
 };
 
@@ -55,7 +60,25 @@ export function FoodProvider({ children }: FoodProviderProps) {
     }
   }
 
-  const value = { foodState, createFood, searchFoodsByText, dispatch };
+  async function deleteFood(foodId: string) {
+    const data = await apiDeleteFood(foodId);
+
+    if (data.errorMessage) {
+      dispatch({ type: 'food/error', payload: data.errorMessage });
+
+      return { deleteSuccess: false };
+    }
+
+    return { deleteSuccess: true };
+  }
+
+  const value = {
+    foodState,
+    createFood,
+    deleteFood,
+    searchFoodsByText,
+    dispatch,
+  };
 
   return <FoodContext.Provider value={value}>{children}</FoodContext.Provider>;
 }

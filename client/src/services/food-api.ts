@@ -109,3 +109,33 @@ export async function apiGetFood(
     };
   }
 }
+
+export async function apiDeleteFood(
+  foodId: string
+): Promise<{ errorMessage?: string; deleteSuccess: boolean }> {
+  try {
+    const res = await fetch('/api/food/', {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ foodId }),
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+          deleteSuccess: false,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return {
+      deleteSuccess: false,
+      errorMessage: 'The server is most likely down.',
+    };
+  }
+}

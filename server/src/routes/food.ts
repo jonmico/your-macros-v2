@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createFood,
+  deleteFood,
   getCreatedFoods,
   getFood,
   searchFoodByText,
@@ -12,3 +13,4 @@ router.post('/create', createFood);
 router.get(`/search/:searchText`, searchFoodByText);
 router.get('/created-foods/:userId', getCreatedFoods);
 router.get('/:foodId', getFood);
+router.delete('/', deleteFood);

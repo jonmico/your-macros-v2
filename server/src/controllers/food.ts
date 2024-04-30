@@ -93,3 +93,23 @@ export async function getFood(req: Request, res: Response, next: NextFunction) {
     next(err);
   }
 }
+
+export async function deleteFood(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { foodId } = req.body;
+
+    const food = await Food.findByIdAndDelete(foodId).exec();
+
+    if (!food) {
+      throw new AppError(400, 'Food not found.');
+    }
+
+    res.json({ deleteSuccess: true });
+  } catch (err) {
+    next(err);
+  }
+}
