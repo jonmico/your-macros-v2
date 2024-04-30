@@ -10,23 +10,20 @@ const StyledCreatedFoods = styled.div`
 `;
 
 const List = styled.ul`
-  border: 1px solid var(--color-indigo-300);
-  border-radius: 4px;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 `;
 
 const StyledLink = styled(Link)`
   padding: 0.75rem;
-  border-radius: 8px;
   display: block;
   color: var(--color-gray-800);
   transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+  border-bottom: 1px solid var(--color-indigo-300);
 
   &:hover {
-    background-color: var(--color-blue-200);
+    background-color: var(--color-indigo-100);
     color: var(--color-gray-900);
   }
 `;

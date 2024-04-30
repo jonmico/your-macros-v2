@@ -2,10 +2,11 @@ import { useFetchFood } from '../../hooks/useFetchFood';
 import { Food as FoodType } from '../../types/food';
 import styled from 'styled-components';
 import { Spinner } from '../spinner/spinner';
+import { Macros } from '../../types/macros';
 
 const StyledCreatedFood = styled.div`
   height: min-content;
-  padding: 1rem;
+  /* padding: 1rem; */
 `;
 
 export default function CreatedFood() {
@@ -24,6 +25,10 @@ const StyledFood = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 `;
 
 interface FoodProps {
@@ -33,10 +38,12 @@ interface FoodProps {
 function Food({ food }: FoodProps) {
   if (food === null) return null;
 
+  const { servingSize, calories, macros } = food;
+
   return (
     <StyledFood>
       <FoodHeader name={food.name} brand={food.brand} />
-      <div>another div</div>
+      <FoodData servingSize={servingSize} calories={calories} macros={macros} />
     </StyledFood>
   );
 }
@@ -85,6 +92,14 @@ const ButtonContainer = styled.div`
   gap: 0.25rem;
 `;
 
+const FoodHeaderName = styled.h2`
+  color: var(--color-indigo-700);
+`;
+
+const FoodHeaderBrand = styled.h3`
+  color: var(--color-gray-600);
+`;
+
 interface FoodHeaderProps {
   name: string;
   brand: string;
@@ -94,14 +109,66 @@ function FoodHeader({ name, brand }: FoodHeaderProps) {
   return (
     <StyledFoodHeader>
       <div>
-        <h2>{name}</h2>
-        <h3>{brand}</h3>
+        <FoodHeaderName>{name}</FoodHeaderName>
+        <FoodHeaderBrand>{brand}</FoodHeaderBrand>
       </div>
       <ButtonContainer>
         <EditButton>Edit</EditButton>
         <DeleteButton>Delete</DeleteButton>
       </ButtonContainer>
     </StyledFoodHeader>
+  );
+}
+
+const StyledFoodData = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const ServingSizeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--color-slate-700);
+`;
+
+const CaloriesMacrosContainer = styled.div`
+  padding: 1rem;
+  gap: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: var(--color-blue-100);
+  border-radius: 12px;
+  color: var(--color-indigo-800);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+`;
+
+interface FoodDataProps {
+  servingSize: string;
+  calories: number;
+  macros: Macros;
+}
+
+function FoodData({ servingSize, calories, macros }: FoodDataProps) {
+  const { fat, carbs, protein } = macros;
+
+  return (
+    <StyledFoodData>
+      <ServingSizeContainer>
+        <div>Serving Size</div>
+        <div>{servingSize}</div>
+      </ServingSizeContainer>
+      <CaloriesMacrosContainer>
+        <div>{calories} cals</div>
+        <div>{fat} fat</div>
+        <div>{carbs} carbs</div>
+        <div>{protein} protein</div>
+      </CaloriesMacrosContainer>
+    </StyledFoodData>
   );
 }
 
