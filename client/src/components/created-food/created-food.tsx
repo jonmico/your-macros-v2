@@ -1,12 +1,11 @@
+import styled from 'styled-components';
 import { useFetchFood } from '../../hooks/useFetchFood';
 import { Food as FoodType } from '../../types/food';
-import styled from 'styled-components';
-import { Spinner } from '../spinner/spinner';
 import { Macros } from '../../types/macros';
+import { Spinner } from '../spinner/spinner';
 
 const StyledCreatedFood = styled.div`
   height: min-content;
-  /* padding: 1rem; */
 `;
 
 export default function CreatedFood() {

@@ -10,9 +10,9 @@ const StyledCreatedFoods = styled.div`
 `;
 
 const List = styled.ul`
-  padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -20,7 +20,8 @@ const StyledLink = styled(Link)`
   display: block;
   color: var(--color-gray-800);
   transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
-  border-bottom: 1px solid var(--color-indigo-300);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 
   &:hover {
     background-color: var(--color-indigo-100);
