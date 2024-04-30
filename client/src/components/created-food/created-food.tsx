@@ -12,12 +12,16 @@ const StyledCreatedFood = styled.div`
 
 export default function CreatedFood() {
   const { food, isLoading: isFetchFoodLoading } = useFetchFood();
+  const {
+    foodState: { isLoading },
+  } = useFood();
 
-  const output = isFetchFoodLoading ? (
-    <CreatedFoodSpinner />
-  ) : (
-    <Food food={food} />
-  );
+  const output =
+    isFetchFoodLoading || isLoading ? (
+      <CreatedFoodSpinner />
+    ) : (
+      <Food food={food} />
+    );
 
   return <StyledCreatedFood>{output}</StyledCreatedFood>;
 }
@@ -37,15 +41,10 @@ interface FoodProps {
 }
 
 function Food({ food }: FoodProps) {
-  const {
-    deleteFood,
-    foodState: { isLoading },
-  } = useFood();
+  const { deleteFood } = useFood();
   const navigate = useNavigate();
 
   if (food === null) return null;
-
-  if (isLoading) return <div>LOADING</div>;
 
   const { servingSize, calories, macros } = food;
 
