@@ -3,21 +3,28 @@ import { Food as FoodType } from '../../types/food';
 import styled from 'styled-components';
 import { Spinner } from '../spinner/spinner';
 
-// FIXME: Might not need isFetchFoodLoading in Food. Using ternary in CreatedFood
+const StyledCreatedFood = styled.div`
+  height: min-content;
+  padding: 1rem;
+`;
 
 export default function CreatedFood() {
   const { food, isLoading: isFetchFoodLoading } = useFetchFood();
 
-  return (
-    <div>
-      {isFetchFoodLoading ? (
-        <CreatedFoodSpinner />
-      ) : (
-        <Food isFetchFoodLoading={isFetchFoodLoading} food={food} />
-      )}
-    </div>
+  const output = isFetchFoodLoading ? (
+    <CreatedFoodSpinner />
+  ) : (
+    <Food food={food} />
   );
+
+  return <StyledCreatedFood>{output}</StyledCreatedFood>;
 }
+
+const StyledFood = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+`;
 
 interface FoodProps {
   food: FoodType | null;
