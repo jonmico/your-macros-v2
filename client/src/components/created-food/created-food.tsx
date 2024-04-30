@@ -3,6 +3,8 @@ import { Food as FoodType } from '../../types/food';
 import styled from 'styled-components';
 import { Spinner } from '../spinner/spinner';
 
+// FIXME: Might not need isFetchFoodLoading in Food. Using ternary in CreatedFood
+
 export default function CreatedFood() {
   const { food, isLoading: isFetchFoodLoading } = useFetchFood();
 
