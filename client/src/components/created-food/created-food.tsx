@@ -4,6 +4,7 @@ import { useFood } from '../../hooks/useFood';
 import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
 import { Spinner } from '../spinner/spinner';
+import { useNavigate } from 'react-router-dom';
 
 const StyledCreatedFood = styled.div`
   height: min-content;
@@ -34,14 +35,17 @@ const StyledFood = styled.div`
 interface FoodProps {
   food: FoodType | null;
 }
-/*
-  FIXME: Sync up frontend with database. useEffect hook somewhere?
-  Probably store createdFoods in a context.
-*/
+
 function Food({ food }: FoodProps) {
-  const { deleteFood } = useFood();
+  const {
+    deleteFood,
+    foodState: { isLoading },
+  } = useFood();
+  const navigate = useNavigate();
 
   if (food === null) return null;
+
+  if (isLoading) return <div>LOADING</div>;
 
   const { servingSize, calories, macros } = food;
 
@@ -50,7 +54,9 @@ function Food({ food }: FoodProps) {
 
     const data = await deleteFood(food._id);
 
-    console.log(data);
+    if (data.deleteSuccess) {
+      navigate('/app/user/created-foods');
+    }
   }
 
   function handleEditClick() {
@@ -64,6 +70,7 @@ function Food({ food }: FoodProps) {
         name={food.name}
         brand={food.brand}
         handleDeleteClick={handleDeleteClick}
+        handleEditClick={handleEditClick}
       />
       <FoodData servingSize={servingSize} calories={calories} macros={macros} />
     </StyledFood>
@@ -126,9 +133,15 @@ interface FoodHeaderProps {
   name: string;
   brand: string;
   handleDeleteClick: () => Promise<void>;
+  handleEditClick: () => void;
 }
 
-function FoodHeader({ name, brand, handleDeleteClick }: FoodHeaderProps) {
+function FoodHeader({
+  name,
+  brand,
+  handleDeleteClick,
+  handleEditClick,
+}: FoodHeaderProps) {
   return (
     <StyledFoodHeader>
       <div>
@@ -136,7 +149,7 @@ function FoodHeader({ name, brand, handleDeleteClick }: FoodHeaderProps) {
         <FoodHeaderBrand>{brand}</FoodHeaderBrand>
       </div>
       <ButtonContainer>
-        <EditButton>Edit</EditButton>
+        <EditButton onClick={handleEditClick}>Edit</EditButton>
         <DeleteButton onClick={handleDeleteClick}>Delete</DeleteButton>
       </ButtonContainer>
     </StyledFoodHeader>

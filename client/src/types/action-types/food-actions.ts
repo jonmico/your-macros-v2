@@ -15,6 +15,9 @@ type FoodError = {
 
 type CreateFood = {
   type: 'food/create';
+  payload: {
+    createdFood: Food
+  }
 };
 
 type SetSearchedFoods = {
@@ -53,6 +56,22 @@ type ClearSelectedSearchedFoods = {
   type: 'food/clearSelectedSearchedFoods';
 };
 
+type SetCreatedFoods = {
+  type: 'food/setCreatedFoods';
+  payload: {
+    createdFoods: Food[];
+  };
+};
+
+type Fetching = {
+  type: 'food/fetching';
+};
+
+type DeleteCreatedFood = {
+  type: 'food/deleteCreatedFood';
+  payload: { foodId: string };
+};
+
 export type FoodActions =
   | Loading
   | Loaded
@@ -65,4 +84,7 @@ export type FoodActions =
   | ClearSelectedFood
   | ChangeFoodServings
   | SearchFoodsByTextError
-  | ClearSelectedSearchedFoods;
+  | ClearSelectedSearchedFoods
+  | SetCreatedFoods
+  | Fetching
+  | DeleteCreatedFood;

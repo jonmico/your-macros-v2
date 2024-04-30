@@ -3,7 +3,7 @@ import { Food } from '../types/food';
 export async function apiCreateFood(
   food: Food,
   userId: string
-): Promise<{ food?: Food; errorMessage?: string }> {
+): Promise<{ food: Food } | { errorMessage: string }> {
   try {
     const response = await fetch('/api/food/create', {
       method: 'POST',
@@ -58,7 +58,7 @@ export async function apiSearchFoodsByText(
 
 export async function apiGetCreatedFoods(
   userId: string
-): Promise<{ createdFoods?: Food[]; errorMessage?: string }> {
+): Promise<{ createdFoods: Food[] } | { errorMessage: string }> {
   try {
     const res = await fetch(`/api/food/created-foods/${userId}`, {
       method: 'GET',

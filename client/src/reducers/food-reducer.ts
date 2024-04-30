@@ -7,6 +7,8 @@ export type FoodState = {
   foodServings: string;
   isLoading: boolean;
   error: string;
+  createdFoods: Food[];
+  isFetching: boolean;
 };
 
 export function foodReducer(state: FoodState, action: FoodActions) {
@@ -33,6 +35,7 @@ export function foodReducer(state: FoodState, action: FoodActions) {
     case 'food/create': {
       return {
         ...state,
+        createdFoods: [...state.createdFoods, action.payload.createdFood],
         isLoading: false,
         error: '',
       };
@@ -91,6 +94,30 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         selectedFood: null,
       };
     }
+    case 'food/setCreatedFoods': {
+      return {
+        ...state,
+        createdFoods: action.payload.createdFoods,
+        isFetching: false,
+        error: '',
+      };
+    }
+    case 'food/fetching': {
+      return {
+        ...state,
+        isFetching: true,
+      };
+    }
+    case 'food/deleteCreatedFood': {
+      return {
+        ...state,
+        createdFoods: state.createdFoods.filter(
+          (food) => food._id !== action.payload.foodId
+        ),
+        isLoading: false,
+      };
+    }
+
     default:
       throw new TypeError("We don't know that type.");
   }

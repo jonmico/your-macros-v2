@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { useFetchCreatedFoods } from '../../hooks/useFetchCreatedFoods';
 import styled from 'styled-components';
+import { useFood } from '../../hooks/useFood';
 import { Spinner } from '../spinner/spinner';
 
 const StyledCreatedFoods = styled.div`
@@ -44,7 +44,9 @@ const CreatedFoodsHeader = styled.h2`
 `;
 
 export default function CreatedFoods() {
-  const { createdFoods, isLoading: isFetchingFoods } = useFetchCreatedFoods();
+  const {
+    foodState: { createdFoods, isFetching: isFetchingFoods },
+  } = useFood();
 
   const createdFoodsList = createdFoods.map((food) => (
     <li key={food._id}>
