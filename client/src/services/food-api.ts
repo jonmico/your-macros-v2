@@ -85,7 +85,7 @@ export async function apiGetCreatedFoods(
 
 export async function apiGetFood(
   foodId: string
-): Promise<{ food?: Food; errorMessage?: string }> {
+): Promise<{ food: Food } | { errorMessage: string }> {
   try {
     const res = await fetch(`/api/food/${foodId}`, {
       method: 'GET',

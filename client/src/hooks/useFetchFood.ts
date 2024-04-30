@@ -13,14 +13,14 @@ export function useFetchFood() {
     async function fetchFood() {
       if (!foodId) return;
 
+      setIsLoading(true);
+
       const data = await apiGetFood(foodId);
 
-      if (data.errorMessage) {
-        setError(data.errorMessage);
-      }
-
-      if (data.food) {
+      if ('food' in data) {
         setFood(data.food);
+      } else {
+        setError(data.errorMessage);
       }
 
       setIsLoading(false);
