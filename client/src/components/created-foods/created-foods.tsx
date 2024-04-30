@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { useFetchCreatedFoods } from '../../hooks/useFetchCreatedFoods';
 import styled from 'styled-components';
 import { Spinner } from '../spinner/spinner';
@@ -15,7 +15,7 @@ const List = styled.ul`
   gap: 0.5rem;
 `;
 
-const StyledLink = styled(Link)`
+const StyledNavLink = styled(NavLink)`
   padding: 0.75rem;
   display: block;
   color: var(--color-gray-800);
@@ -23,8 +23,12 @@ const StyledLink = styled(Link)`
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 
-  &:hover {
+  &.active {
     background-color: var(--color-indigo-100);
+  }
+
+  &:hover {
+    background-color: var(--color-indigo-200);
     color: var(--color-gray-900);
   }
 `;
@@ -44,7 +48,7 @@ export default function CreatedFoods() {
 
   const createdFoodsList = createdFoods.map((food) => (
     <li key={food._id}>
-      <StyledLink to={`${food._id}`}>{food.name}</StyledLink>
+      <StyledNavLink to={`${food._id}`}>{food.name}</StyledNavLink>
     </li>
   ));
 
