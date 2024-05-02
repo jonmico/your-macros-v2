@@ -10,6 +10,17 @@ const StyledCreatedFood = styled.div`
   height: min-content;
 `;
 
+/*
+  TODO: 
+    --Pull setFood from useFetchFood()
+    --Make modal for editing a food
+    --API call will return the edited food
+    --Dispatch action to edit/update createdFoods in FoodContext
+      --Payload will be the returned food from API call. Map over array and
+        search by id
+    --Use setFood from useFetchFood() to update the local state in CreatedFood/Food 
+*/
+
 export default function CreatedFood() {
   const { food, isLoading: isFetchFoodLoading } = useFetchFood();
   const {
