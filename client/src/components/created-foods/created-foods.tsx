@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { useFood } from '../../hooks/useFood';
 import { Spinner } from '../spinner/spinner';
@@ -48,17 +48,20 @@ export default function CreatedFoods() {
     foodState: { createdFoods, isFetching: isFetchingFoods },
   } = useFood();
 
-  const createdFoodsList = createdFoods.map((food) => (
-    <li key={food._id}>
-      <StyledNavLink to={`${food._id}`}>{food.name}</StyledNavLink>
-    </li>
-  ));
+  const listOutput =
+    createdFoods.length === 0 ? (
+      <NoCreatedFoods />
+    ) : (
+      <List>
+        {createdFoods.map((food) => (
+          <li key={food._id}>
+            <StyledNavLink to={`${food._id}`}>{food.name}</StyledNavLink>
+          </li>
+        ))}
+      </List>
+    );
 
-  const output = isFetchingFoods ? (
-    <CreatedFoodsSpinner />
-  ) : (
-    <List>{createdFoodsList}</List>
-  );
+  const output = isFetchingFoods ? <CreatedFoodsSpinner /> : listOutput;
 
   return (
     <StyledCreatedFoods>
@@ -68,6 +71,38 @@ export default function CreatedFoods() {
       </CreatedFoodsContainer>
       <Outlet />
     </StyledCreatedFoods>
+  );
+}
+
+const StyledNoCreatedFoods = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--color-gray-700);
+`;
+
+const StyledLink = styled(Link)`
+  padding: 0.5rem 1rem;
+  background-color: var(--color-indigo-600);
+  color: var(--color-slate-100);
+  border-radius: 4px;
+  transition: background-color 200ms ease-in-out,
+    border-radius 200ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-indigo-700);
+    border-radius: 16px;
+  }
+`;
+
+function NoCreatedFoods() {
+  return (
+    <StyledNoCreatedFoods>
+      <div>You haven't created any foods yet.</div>
+      <StyledLink to={'/app/add-food'}>Create a food</StyledLink>
+    </StyledNoCreatedFoods>
   );
 }
 
