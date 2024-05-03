@@ -7,6 +7,7 @@ import { Spinner } from '../spinner/spinner';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '../modal/modal';
+import EditFoodForm from '../edit-food-form/edit-food-form';
 
 const StyledCreatedFood = styled.div`
   height: min-content;
@@ -74,7 +75,6 @@ function Food({ food }: FoodProps) {
 
   function handleEditClick() {
     // TODO: Implement handleEditClick
-    console.log('NYI');
     setIsModalOpen(true);
   }
 
@@ -82,7 +82,7 @@ function Food({ food }: FoodProps) {
     <>
       {isModalOpen && (
         <Modal closeModal={() => setIsModalOpen(false)}>
-          <h1>Portal?</h1>
+          <EditFoodForm />
         </Modal>
       )}
 
