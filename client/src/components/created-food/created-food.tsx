@@ -115,7 +115,7 @@ const Button = styled.button`
   border-radius: 4px;
   transition: background-color 200ms ease-in-out;
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--color-indigo-600);
   }
 
