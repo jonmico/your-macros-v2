@@ -5,6 +5,8 @@ import { Food as FoodType } from '../../types/food';
 import { Macros } from '../../types/macros';
 import { Spinner } from '../spinner/spinner';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Modal from '../modal/modal';
 
 const StyledCreatedFood = styled.div`
   height: min-content;
@@ -54,6 +56,7 @@ interface FoodProps {
 function Food({ food }: FoodProps) {
   const { deleteFood } = useFood();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (food === null) return null;
 
@@ -72,18 +75,31 @@ function Food({ food }: FoodProps) {
   function handleEditClick() {
     // TODO: Implement handleEditClick
     console.log('NYI');
+    setIsModalOpen(true);
   }
 
   return (
-    <StyledFood>
-      <FoodHeader
-        name={food.name}
-        brand={food.brand}
-        handleDeleteClick={handleDeleteClick}
-        handleEditClick={handleEditClick}
-      />
-      <FoodData servingSize={servingSize} calories={calories} macros={macros} />
-    </StyledFood>
+    <>
+      {isModalOpen && (
+        <Modal closeModal={() => setIsModalOpen(false)}>
+          <h1>Portal?</h1>
+        </Modal>
+      )}
+
+      <StyledFood>
+        <FoodHeader
+          name={food.name}
+          brand={food.brand}
+          handleDeleteClick={handleDeleteClick}
+          handleEditClick={handleEditClick}
+        />
+        <FoodData
+          servingSize={servingSize}
+          calories={calories}
+          macros={macros}
+        />
+      </StyledFood>
+    </>
   );
 }
 
