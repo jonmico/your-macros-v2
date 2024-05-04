@@ -139,3 +139,32 @@ export async function apiDeleteFood(
     };
   }
 }
+
+export async function apiEditFood(
+  foodId: string,
+  editFood: Food
+): Promise<{ editFood: Food } | { errorMessage: string }> {
+  try {
+    const res = await fetch(`/api/food/${foodId}/edit`, {
+      method: 'PATCH',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ editFood }),
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return {
+      errorMessage: 'The server is most likely down.',
+    };
+  }
+}
