@@ -82,7 +82,7 @@ function Food({ food }: FoodProps) {
     <>
       {isModalOpen && (
         <Modal closeModal={() => setIsModalOpen(false)}>
-          <EditFoodForm />
+          <EditFoodForm food={food} />
         </Modal>
       )}
 
