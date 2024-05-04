@@ -113,3 +113,27 @@ export async function deleteFood(
     next(err);
   }
 }
+
+export async function editFood(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { foodId } = req.params;
+    const { food } = req.body;
+
+    const editFood = await Food.findByIdAndUpdate(foodId, food, {
+      runValidators: true,
+      returnDocument: 'after',
+    }).exec();
+
+    if (!editFood) {
+      throw new AppError(400, 'Food not found.');
+    }
+
+    res.json({ editFood });
+  } catch (err) {
+    next(err);
+  }
+}

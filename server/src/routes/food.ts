@@ -10,7 +10,8 @@ import {
 export const router = Router();
 
 router.post('/create', createFood);
-router.get(`/search/:searchText`, searchFoodByText);
+router.get('/search/:searchText', searchFoodByText);
 router.get('/created-foods/:userId', getCreatedFoods);
 router.get('/:foodId', getFood);
 router.delete('/', deleteFood);
+router.patch('/:foodId/edit');
