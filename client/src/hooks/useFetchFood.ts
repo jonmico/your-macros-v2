@@ -28,5 +28,5 @@ export function useFetchFood() {
     fetchFood();
   }, [foodId]);
 
-  return { food, error, isLoading };
+  return { food, error, isLoading, setFood };
 }

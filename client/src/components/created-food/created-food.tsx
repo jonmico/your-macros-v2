@@ -13,19 +13,8 @@ const StyledCreatedFood = styled.div`
   height: min-content;
 `;
 
-/*
-  TODO: 
-    --Pull setFood from useFetchFood()
-    --Make modal for editing a food
-    --API call will return the edited food
-    --Dispatch action to edit/update createdFoods in FoodContext
-      --Payload will be the returned food from API call. Map over array and
-        search by id
-    --Use setFood from useFetchFood() to update the local state in CreatedFood/Food 
-*/
-
 export default function CreatedFood() {
-  const { food, isLoading: isFetchFoodLoading } = useFetchFood();
+  const { food, isLoading: isFetchFoodLoading, setFood } = useFetchFood();
   const {
     foodState: { isLoading },
   } = useFood();
@@ -34,7 +23,7 @@ export default function CreatedFood() {
     isFetchFoodLoading || isLoading ? (
       <CreatedFoodSpinner />
     ) : (
-      <Food food={food} />
+      <Food setFood={setFood} food={food} />
     );
 
   return <StyledCreatedFood>{output}</StyledCreatedFood>;
@@ -52,9 +41,10 @@ const StyledFood = styled.div`
 
 interface FoodProps {
   food: FoodType | null;
+  setFood: React.Dispatch<React.SetStateAction<FoodType | null>>;
 }
 
-function Food({ food }: FoodProps) {
+function Food({ food, setFood }: FoodProps) {
   const { deleteFood } = useFood();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,7 +64,6 @@ function Food({ food }: FoodProps) {
   }
 
   function handleEditClick() {
-    // TODO: Implement handleEditClick
     setIsModalOpen(true);
   }
 
@@ -82,7 +71,7 @@ function Food({ food }: FoodProps) {
     <>
       {isModalOpen && (
         <Modal closeModal={() => setIsModalOpen(false)}>
-          <EditFoodForm food={food} />
+          <EditFoodForm setFood={setFood} food={food} />
         </Modal>
       )}
 
