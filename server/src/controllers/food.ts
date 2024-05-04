@@ -121,7 +121,7 @@ export async function editFood(
 ) {
   try {
     const { foodId } = req.params;
-    const { food } = req.body;
+    const { editFood: food } = req.body;
 
     const editFood = await Food.findByIdAndUpdate(foodId, food, {
       runValidators: true,
