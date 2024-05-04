@@ -16,8 +16,8 @@ type FoodError = {
 type CreateFood = {
   type: 'food/create';
   payload: {
-    createdFood: Food
-  }
+    createdFood: Food;
+  };
 };
 
 type SetSearchedFoods = {
@@ -72,6 +72,11 @@ type DeleteCreatedFood = {
   payload: { foodId: string };
 };
 
+type EditCreatedFood = {
+  type: 'food/editCreatedFood';
+  payload: { food: Food };
+};
+
 export type FoodActions =
   | Loading
   | Loaded
@@ -87,4 +92,5 @@ export type FoodActions =
   | ClearSelectedSearchedFoods
   | SetCreatedFoods
   | Fetching
-  | DeleteCreatedFood;
+  | DeleteCreatedFood
+  | EditCreatedFood;

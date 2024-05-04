@@ -117,7 +117,17 @@ export function foodReducer(state: FoodState, action: FoodActions) {
         isLoading: false,
       };
     }
-
+    case 'food/editCreatedFood':
+      return {
+        ...state,
+        createdFoods: state.createdFoods.map((food) => {
+          if (food._id === action.payload.food._id) {
+            return action.payload.food;
+          }
+          return food;
+        }),
+        isLoading: false,
+      };
     default:
       throw new TypeError("We don't know that type.");
   }
