@@ -5,6 +5,7 @@ import { apiEditFood } from '../../services/food-api';
 import { useFood } from '../../hooks/useFood';
 import styled from 'styled-components';
 import { Spinner } from '../spinner/spinner';
+import { PurpleWideButton } from '../button/button';
 
 const StyledEditFoodForm = styled.div`
   position: relative;
@@ -16,6 +17,32 @@ const SpinnerContainer = styled.div`
   top: 0;
   height: 100%;
   width: 100%;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 27.5rem;
+`;
+
+const FormHeader = styled.h2`
+  color: var(--color-gray-700);
+`;
+
+const Error = styled.div`
+  background-color: var(--color-red-200);
+  color: var(--color-red-600);
+  border: 1px solid var(--color-red-600);
+  padding: 0.5rem;
+  border-radius: 4px;
 `;
 
 interface EditFoodFormProps {
@@ -99,10 +126,9 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
         </SpinnerContainer>
       )}
 
-      <form onSubmit={handleSubmit}>
-        {formError}
-        <h2>Edit Food Form</h2>
-        <div>
+      <Form onSubmit={handleSubmit}>
+        <FormHeader>Update Food</FormHeader>
+        <InputContainer>
           <label htmlFor='name'>Name</label>
           <EditInput
             name={'name'}
@@ -110,8 +136,8 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
             value={name}
             onChange={(evt) => handleOnChange(evt, setName)}
           />
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label htmlFor='brand'>Brand</label>
           <EditInput
             value={brand}
@@ -119,8 +145,8 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
             id={'brand'}
             onChange={(evt) => handleOnChange(evt, setBrand)}
           />
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label htmlFor='servingSize'>Serving Size</label>
           <EditInput
             value={servingSize}
@@ -128,12 +154,12 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
             id={'servingSize'}
             onChange={(evt) => handleOnChange(evt, setServingSize)}
           />
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label htmlFor='calories'>Calories</label>
           <EditInput value={calories} disabled={true} />
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label htmlFor='fat'>Fat</label>
           <EditInput
             value={fat}
@@ -141,8 +167,8 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
             id={'fat'}
             onChange={(evt) => handleOnChange(evt, setFat)}
           />
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label htmlFor='carbs'>Carbs</label>
           <EditInput
             value={carbs}
@@ -150,8 +176,8 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
             id={'carbs'}
             onChange={(evt) => handleOnChange(evt, setCarbs)}
           />
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <label htmlFor='protein'>Protein</label>
           <EditInput
             value={protein}
@@ -159,9 +185,11 @@ export default function EditFoodForm({ food, setFood }: EditFoodFormProps) {
             id={'protein'}
             onChange={(evt) => handleOnChange(evt, setProtein)}
           />
-        </div>
-        <button type={'submit'}>Save</button>
-      </form>
+        </InputContainer>
+        {formError && <Error>{formError}</Error>}
+
+        <PurpleWideButton type={'submit'}>Save Changes</PurpleWideButton>
+      </Form>
     </StyledEditFoodForm>
   );
 }
