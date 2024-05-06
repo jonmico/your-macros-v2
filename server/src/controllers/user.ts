@@ -198,3 +198,50 @@ export async function updateMacros(
     next(err);
   }
 }
+
+export async function changePassword(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { oldPassword, newPassword, confirmNewPassword } = req.body;
+    const { token } = req.signedCookies;
+
+    if (newPassword !== confirmNewPassword) {
+      throw new AppError(400, 'Passwords do not match.');
+    }
+
+    const payload = jwt.verify(token, JWT_SECRET) as IToken;
+
+    const user = await User.findById(payload.id).exec();
+
+    if (!user) {
+      throw new AppError(400, 'User does not exist.');
+    }
+
+    const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!passwordMatch) {
+      throw new AppError(400, 'Passwords do not match.');
+    }
+
+    bcrypt.hash(newPassword, 10, async (err, hash) => {
+      user.password = hash;
+      await user.save();
+
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+        'expiresIn': '7d',
+      });
+
+      res
+        .cookie('token', token, {
+          maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+          signed: true,
+        })
+        .json({ updatedPassword: true });
+    });
+  } catch (err) {
+    next(err);
+  }
+}
