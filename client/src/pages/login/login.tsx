@@ -17,7 +17,10 @@ type LoginFormStateType = {
 };
 
 export default function Login() {
-  const { login, isLoading } = useAuth();
+  const {
+    login,
+    authState: { isLoading },
+  } = useAuth();
   const navigate = useNavigate();
   const [loginFormState, setLoginFormState] = useState<LoginFormStateType>({
     email: '',
