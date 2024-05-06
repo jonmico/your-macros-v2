@@ -100,3 +100,36 @@ export async function apiCheckUserSession(): Promise<{
     };
   }
 }
+
+export async function apiChangePassword(
+  oldPassword: string,
+  newPassword: string,
+  confirmNewPassword: string,
+  userId: string
+) {
+  try {
+    const res = await fetch(`/api/user/${userId}change-password`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json',
+        'Accept': 'application/json',
+        'credentials': 'include',
+      },
+      body: JSON.stringify({ oldPassword, newPassword, confirmNewPassword }),
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return { errorMessage: 'The server is most likely down.' };
+  }
+}
