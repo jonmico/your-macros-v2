@@ -15,6 +15,7 @@ import Meal from '../meal/meal';
 import { Food } from '../../types/food';
 import { useFood } from '../../hooks/useFood';
 import { PageHeader } from '../../ui/page-header/page-header';
+import { calcMacros } from '../../utils/calcMacros';
 
 const EditMealInputContainer = styled.div`
   grid-column: 1 / 3;
@@ -106,7 +107,19 @@ export default function FoodLogEdit() {
       return;
     }
 
-    const data = await editMealInLog(currentLog._id, editMeal);
+    const { calories, fat, protein, carbs } = calcMacros(editMeal.foods);
+
+    const data = await editMealInLog(currentLog._id, {
+      ...editMeal,
+      mealTotals: {
+        calories,
+        macros: {
+          fat,
+          protein,
+          carbs,
+        },
+      },
+    });
 
     console.log(data);
   }

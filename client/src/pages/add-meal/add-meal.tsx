@@ -19,6 +19,7 @@ import { FoodLog } from '../../types/food-log';
 import { ErrorText } from '../../ui/error-text/error-text';
 import { MealBuilderInput } from '../../ui/input/input';
 import { PageHeader } from '../../ui/page-header/page-header';
+import { calcMacros } from '../../utils/calcMacros';
 
 const ToastContent = styled.div`
   display: flex;
@@ -97,8 +98,18 @@ export default function AddMeal() {
       return;
     }
 
+    const { calories, fat, carbs, protein } = calcMacros(buildMeal.foods);
+
     await addMealToLog(currentLog._id, {
       ...buildMeal,
+      mealTotals: {
+        calories,
+        macros: {
+          fat,
+          carbs,
+          protein,
+        },
+      },
       author: userId,
     });
 

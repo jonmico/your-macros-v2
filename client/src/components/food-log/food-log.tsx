@@ -3,15 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../hooks/useAuth';
 import { useFindFoodLog } from '../../hooks/useFindFoodLog';
+import { useFood } from '../../hooks/useFood';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import { useMeal } from '../../hooks/useMeal';
 import { Food } from '../../types/food';
 import { FoodLog as FoodLogType } from '../../types/food-log';
 import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
-import { useMeal } from '../../hooks/useMeal';
-import { useFood } from '../../hooks/useFood';
 
 const StyledFoodLog = styled.div`
   display: flex;
@@ -78,7 +78,6 @@ export default function FoodLog() {
           Add a meal
         </StyledLink>
       </FoodLogHeader>
-
       <TotalsDisplay
         backgroundColor={'var(--color-blue-100)'}
         border={'1px solid var(--color-blue-300)'}
@@ -355,7 +354,7 @@ function MealListFoodTableListItem({ food }: MealListFoodTableListItemProps) {
     macros: { fat, carbs, protein },
   } = foodItem;
 
-  const macroDisplayData = { calories, fat, carbs, protein };
+  const macroDisplayData = { calories, fat, carbs, protein, servings };
 
   return (
     <StyledMealListFoodTableListItem>

@@ -134,7 +134,6 @@ export async function editMealInLog(
 ) {
   try {
     const { logId, meal }: IEditMealInLogBody = req.body;
-    console.log(meal);
 
     const foodLog = await FoodLog.findById(logId).exec();
 
@@ -151,6 +150,13 @@ export async function editMealInLog(
         return m;
       }
     });
+
+    const { calories, macros } = calcMacros(foodLog.meals);
+
+    foodLog.logTotals = {
+      calories,
+      macros,
+    };
 
     await foodLog.save();
 

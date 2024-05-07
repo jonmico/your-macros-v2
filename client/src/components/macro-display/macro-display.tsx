@@ -15,17 +15,19 @@ interface MacroDisplayProps {
     fat: number;
     carbs: number;
     protein: number;
+    servings?: number;
   };
 }
 
 export default function MacroDisplay({ data }: MacroDisplayProps) {
-  const { calories, fat, carbs, protein } = data;
+  const { calories, fat, carbs, protein, servings = 1 } = data;
+
   return (
     <StyledMacroDisplay>
-      <div>{calories} cals</div>
-      <div>{fat}f</div>
-      <div>{carbs}c</div>
-      <div>{protein}p</div>
+      <div>{calories * servings} cals</div>
+      <div>{fat * servings}f</div>
+      <div>{carbs * servings}c</div>
+      <div>{protein * servings}p</div>
     </StyledMacroDisplay>
   );
 }
