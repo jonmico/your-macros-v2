@@ -1,14 +1,15 @@
 import { useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Account() {
+  const { changePassword } = useAuth();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   async function handlePasswordSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-
-    console.log('handlePasswordSubmit NYI.');
+    await changePassword(currentPassword, newPassword, confirmNewPassword);
   }
 
   return (

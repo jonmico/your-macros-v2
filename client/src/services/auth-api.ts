@@ -104,11 +104,10 @@ export async function apiCheckUserSession(): Promise<{
 export async function apiChangePassword(
   oldPassword: string,
   newPassword: string,
-  confirmNewPassword: string,
-  userId: string
-) {
+  confirmNewPassword: string
+): Promise<{ updatedPassword: boolean } | { errorMessage: string }> {
   try {
-    const res = await fetch(`/api/user/${userId}change-password`, {
+    const res = await fetch(`/api/user/change-password`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',

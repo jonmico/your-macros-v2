@@ -1,6 +1,7 @@
 import { createContext, useEffect, useReducer } from 'react';
 import { AuthState, authReducer } from '../reducers/auth-reducer';
 import {
+  apiChangePassword,
   apiCheckUserSession,
   apiLogin,
   apiRegisterUser,
@@ -21,6 +22,11 @@ type AuthContextType = {
   register: (user: UserType) => Promise<boolean | undefined>;
   login: (email: string, password: string) => Promise<boolean | undefined>;
   logout: () => void;
+  changePassword: (
+    oldPassword: string,
+    newPassword: string,
+    confirmNewPassword: string
+  ) => Promise<boolean>;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -101,7 +107,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
     dispatch({ type: 'auth/logout' });
   }
 
-  const value = { authState, register, login, logout };
+  async function changePassword(
+    oldPassword: string,
+    newPassword: string,
+    confirmNewPassword: string
+  ): Promise<boolean> {
+    const data = await apiChangePassword(
+      oldPassword,
+      newPassword,
+      confirmNewPassword
+    );
+
+    if ('errorMessage' in data) {
+      dispatch({ type: 'auth/error', payload: data.errorMessage });
+      return false;
+    } else {
+      return data.updatedPassword;
+    }
+  }
+
+  const value = { authState, register, login, logout, changePassword };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
