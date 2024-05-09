@@ -1,5 +1,9 @@
 import { BadRedButton } from '../button/button';
 import styled from 'styled-components';
+import { apiDeleteUser } from '../../services/auth-api';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useAuth } from '../../hooks/useAuth';
 
 const StyledH2 = styled.h2`
   color: var(--color-gray-800);
@@ -12,9 +16,21 @@ const StyledDeleteAccountForm = styled.form`
 `;
 
 export default function DeleteAccountForm() {
+  const [, , removeCookie] = useCookies(['token']);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    console.log('DeleteAccountForm test.');
+    const data = await apiDeleteUser();
+
+    if ('successfulDelete' in data) {
+      removeCookie('token', { path: '/' });
+      logout();
+      navigate('/');
+    } else {
+      console.log('Oops?');
+    }
   }
 
   return (

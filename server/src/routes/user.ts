@@ -6,6 +6,7 @@ import {
   getUserData,
   updateMacros,
   changePassword,
+  deleteUser,
 } from '../controllers/user';
 
 export const router = Router();
@@ -16,3 +17,4 @@ router.get('/:userId', getUserData);
 router.get('/', checkUserSession);
 router.patch('/update-macros', updateMacros);
 router.patch('/change-password', changePassword);
+router.delete('/', deleteUser);

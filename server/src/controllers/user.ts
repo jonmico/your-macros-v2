@@ -245,3 +245,21 @@ export async function changePassword(
     next(err);
   }
 }
+
+export async function deleteUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { token } = req.signedCookies;
+
+    const payload = jwt.verify(token, JWT_SECRET) as IToken;
+
+    await User.findByIdAndDelete(payload.id).exec();
+
+    res.json({ successfulDelete: true });
+  } catch (err) {
+    next(err);
+  }
+}

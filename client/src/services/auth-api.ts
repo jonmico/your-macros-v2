@@ -132,3 +132,34 @@ export async function apiChangePassword(
     return { errorMessage: 'The server is most likely down.' };
   }
 }
+
+export async function apiDeleteUser(): Promise<
+  { successfulDelete: boolean } | { errorMessage: string }
+> {
+  try {
+    const res = await fetch('/api/user/', {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'credentials': 'include',
+      },
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return {
+      errorMessage: 'The server is most likely down.',
+    };
+  }
+}
