@@ -103,6 +103,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  // FIXME: This doesn't actually clear out all the state in other contexts.
   function logout() {
     dispatch({ type: 'auth/logout' });
   }
