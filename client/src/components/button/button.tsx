@@ -110,3 +110,11 @@ export const IndigoButton = styled(PrimaryButton)`
     background-color: var(--color-indigo-500);
   }
 `;
+
+export const BadRedButton = styled(PrimaryButton)`
+  background-color: var(--color-red-400);
+
+  &:hover {
+    background-color: var(--color-red-500);
+  }
+`;
