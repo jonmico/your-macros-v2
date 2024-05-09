@@ -122,6 +122,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
       return false;
     } else {
+      dispatch({ type: 'auth/changePassword' });
       return data.updatedPassword;
     }
   }

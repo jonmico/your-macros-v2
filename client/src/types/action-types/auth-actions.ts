@@ -15,8 +15,17 @@ type SetUser = {
   };
 };
 
-export type Logout = {
+type Logout = {
   type: 'auth/logout';
 };
 
-export type AuthAction = Loading | AuthError | SetUser | Logout;
+type ChangePassword = {
+  type: 'auth/changePassword';
+};
+
+export type AuthAction =
+  | Loading
+  | AuthError
+  | SetUser
+  | Logout
+  | ChangePassword;

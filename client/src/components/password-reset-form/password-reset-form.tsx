@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Input } from '../../ui/input/input';
 import { PurpleWideButton } from '../button/button';
 import { Spinner } from '../spinner/spinner';
+import Error from '../../ui/error/error';
 
 const StyledPasswordResetForm = styled.form`
   display: flex;
@@ -36,7 +37,10 @@ const SpinnerContainer = styled.div`
 
 // TODO: Add error handling/validation.
 export default function PasswordResetForm() {
-  const { changePassword } = useAuth();
+  const {
+    changePassword,
+    authState: { error: authError },
+  } = useAuth();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -57,6 +61,7 @@ export default function PasswordResetForm() {
         </SpinnerContainer>
       )}
       <StyledH2>Password Management</StyledH2>
+      {authError && <Error errorText={authError} />}
       <FormInputContainer>
         <label htmlFor='currentPassword'>Current Password</label>
         <Input

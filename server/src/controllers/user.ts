@@ -223,7 +223,7 @@ export async function changePassword(
     const passwordMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!passwordMatch) {
-      throw new AppError(400, 'Passwords do not match.');
+      throw new AppError(400, 'Current password incorrect.');
     }
 
     bcrypt.hash(newPassword, 10, async (err, hash) => {

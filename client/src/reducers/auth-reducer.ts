@@ -28,13 +28,21 @@ export function authReducer(state: AuthState, action: AuthAction) {
         userId: action.payload.userId,
         isLoading: false,
       };
-    case 'auth/logout':
+    case 'auth/logout': {
       return {
         ...state,
         error: '',
         userId: null,
         isLoggedIn: false,
       };
+    }
+    case 'auth/changePassword': {
+      return {
+        ...state,
+        error: '',
+      };
+    }
+
     default:
       throw new TypeError("We don't recognize that type.");
   }
