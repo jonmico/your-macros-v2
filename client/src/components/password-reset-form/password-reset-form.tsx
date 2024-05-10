@@ -44,13 +44,29 @@ export default function PasswordResetForm() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [formError, setFormError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   async function handlePasswordSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
+
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      setFormError('All fields must be complete.');
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      setFormError('Passwords do not match.');
+      return;
+    }
+
     setIsLoading(true);
     await changePassword(currentPassword, newPassword, confirmNewPassword);
     setIsLoading(false);
+
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
   }
 
   return (
