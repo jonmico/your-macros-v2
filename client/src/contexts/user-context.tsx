@@ -6,7 +6,7 @@ import { apiGetUserData, apiUpdateMacros } from '../services/user-api';
 import { Macros } from '../types/macros';
 
 type UserContextType = {
-  userState: UserState | null;
+  userState: UserState;
   dispatch: React.Dispatch<UserAction>;
   updateMacros: (
     userId: string,
@@ -27,6 +27,7 @@ const initialState: UserState = {
   error: '',
   userData: null,
 };
+
 export function UserProvider({ children }: UserProviderProps) {
   const { authState } = useAuth();
   const [userState, dispatch] = useReducer(userReducer, initialState);

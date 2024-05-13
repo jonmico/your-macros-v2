@@ -65,7 +65,7 @@ export function FoodLogProvider({ children }: FoodLogProviderProps) {
         dispatch({ type: 'foodLog/setLogs', payload: data.foodLogs });
         dispatch({
           type: 'foodLog/setCurrentLog',
-          payload: data.foodLogs[0],
+          payload: !data.foodLogs.length ? null : data.foodLogs[0],
         });
       }
     }

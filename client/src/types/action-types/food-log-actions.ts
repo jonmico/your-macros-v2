@@ -25,7 +25,7 @@ type CreateLog = {
 
 type SetCurrentLog = {
   type: 'foodLog/setCurrentLog';
-  payload: FoodLog;
+  payload: FoodLog | null;
 };
 
 type AddMealToLog = {
