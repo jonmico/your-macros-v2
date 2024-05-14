@@ -1,9 +1,9 @@
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import { useUser } from '../../hooks/useUser';
-import DashboardGrid from '../dashboard-grid/dashboard-grid';
 import LogSelect from '../log-select/log-select';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import DashboardData from '../dashboard-data/dashboard-data';
 
 const StyledDashboardTable = styled.div`
   border: 1px solid var(--color-indigo-300);
@@ -43,7 +43,7 @@ export default function DashboardTable() {
               <LogSelect currentLog={currentLog} logs={foodLogs} />
             </LogSelectWrapper>
           </DashboardTableHeader>
-          <DashboardGrid currentLog={currentLog} />
+          <DashboardData currentLog={currentLog} userData={userData} />
         </>
       )}
     </StyledDashboardTable>
