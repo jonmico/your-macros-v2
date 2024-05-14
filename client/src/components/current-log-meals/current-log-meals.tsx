@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import CurrentLogMealListItem from '../current-log-meal-list-item/current-log-meal-list-item';
 
 const StyledCurrentLogMeals = styled.ul`
   display: grid;
@@ -15,7 +16,7 @@ export default function CurrentLogMeals() {
   }
 
   const currentLogMealList = currentLog.meals.map((meal) => (
-    <li key={meal._id}>{meal.name}</li>
+    <CurrentLogMealListItem key={meal._id} meal={meal} />
   ));
 
   return (
@@ -23,7 +24,7 @@ export default function CurrentLogMeals() {
       {currentLogMealList.length ? (
         currentLogMealList
       ) : (
-        <div>Go make a log</div>
+        <div>Go make a meal</div>
       )}
     </StyledCurrentLogMeals>
   );
