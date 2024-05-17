@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
 import CurrentLogMealListItem from '../current-log-meal-list-item/current-log-meal-list-item';
+import { Link } from 'react-router-dom';
 
 const StyledCurrentLogMeals = styled.ul`
   display: grid;
@@ -21,11 +22,42 @@ export default function CurrentLogMeals() {
 
   return (
     <StyledCurrentLogMeals>
-      {currentLogMealList.length ? (
-        currentLogMealList
-      ) : (
-        <div>Go make a meal</div>
-      )}
+      {currentLogMealList.length ? currentLogMealList : <NoMealsInLog />}
     </StyledCurrentLogMeals>
+  );
+}
+
+const StyledNoMealsInLog = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  height: 5rem;
+  color: var(--color-gray-700);
+  gap: 0.5rem;
+  flex-direction: column;
+`;
+
+const StyledLink = styled(Link)`
+  font-weight: 400;
+  border: 1px solid var(--color-blue-400);
+  background-color: var(--color-blue-100);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    background-color: var(--color-blue-200);
+  }
+`;
+
+function NoMealsInLog() {
+  return (
+    <StyledNoMealsInLog>
+      No meals have been added to this meal yet.
+      <StyledLink to={'/app/add-meal'}>Click here to add a meal</StyledLink>
+    </StyledNoMealsInLog>
   );
 }
