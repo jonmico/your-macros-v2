@@ -17,7 +17,7 @@ export default function CurrentLogMeals() {
   }
 
   const currentLogMealList = currentLog.meals.map((meal) => (
-    <CurrentLogMealListItem key={meal._id} meal={meal} />
+    <CurrentLogMealListItem key={meal._id} meal={meal} logId={currentLog._id} />
   ));
 
   return (
