@@ -4,8 +4,9 @@ import { UserData } from '../../types/user-data';
 
 const StyledDashboardData = styled.div`
   border-radius: 8px;
-  padding: 1rem 2rem;
+  padding: 1.5rem;
   background-color: var(--color-blue-100);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 `;
 
 const Table = styled.table`
