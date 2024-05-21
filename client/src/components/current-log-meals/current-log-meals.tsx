@@ -56,7 +56,7 @@ const StyledLink = styled(Link)`
 function NoMealsInLog() {
   return (
     <StyledNoMealsInLog>
-      No meals have been added to this meal yet.
+      No meals have been added to this log yet.
       <StyledLink to={'/app/add-meal'}>Click here to add a meal</StyledLink>
     </StyledNoMealsInLog>
   );

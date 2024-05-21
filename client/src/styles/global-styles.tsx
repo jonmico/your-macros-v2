@@ -121,7 +121,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: var(--color-slate-100);
     color: var(--color-gray-900);
-    font-family: system-ui, sans-serif;
+    font-family: 'Ubuntu', system-ui, sans-serif;
   }
 
   input,
