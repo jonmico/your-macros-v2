@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   addMealToLog,
   createLog,
+  deleteLog,
   deleteMealFromLog,
   editMealInLog,
   getLogs,
@@ -14,3 +15,4 @@ router.put('/add-meal', addMealToLog);
 router.get('/:userId', getLogs);
 router.delete('/delete', deleteMealFromLog);
 router.patch('/edit-meal', editMealInLog);
+router.delete('/', deleteLog);

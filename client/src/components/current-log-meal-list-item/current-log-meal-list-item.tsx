@@ -55,6 +55,7 @@ const StyledLink = styled(Link)`
   border-radius: 20px;
   background-color: var(--color-indigo-500);
   color: var(--color-slate-100);
+  text-align: center;
 `;
 
 interface MealListItemHeaderProps {

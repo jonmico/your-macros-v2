@@ -165,3 +165,23 @@ export async function editMealInLog(
     next(err);
   }
 }
+
+export async function deleteLog(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { logId }: { logId: string } = req.body;
+
+    const log = await FoodLog.findByIdAndDelete(logId);
+
+    if (!log) {
+      throw new AppError(400, 'Log not found.');
+    }
+
+    res.json({ deleteSuccess: true });
+  } catch (err) {
+    next(err);
+  }
+}
