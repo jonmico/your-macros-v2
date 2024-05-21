@@ -90,6 +90,14 @@ export function foodLogReducer(state: FoodLogState, action: FoodLogAction) {
         isLoadingDB: false,
       };
     }
+    case 'foodLog/deleteLog': {
+      return {
+        ...state,
+        foodLogs: state.foodLogs.filter(
+          (log) => log._id !== action.payload.logId
+        ),
+      };
+    }
     default:
       throw new TypeError('We do not recognize that type.');
   }

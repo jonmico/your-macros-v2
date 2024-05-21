@@ -47,6 +47,13 @@ type EditMealInLog = {
   };
 };
 
+type DeleteLog = {
+  type: 'foodLog/deleteLog';
+  payload: {
+    logId: string;
+  };
+};
+
 export type FoodLogAction =
   | Loading
   | Error
@@ -56,4 +63,5 @@ export type FoodLogAction =
   | AddMealToLog
   | DeleteMealFromLog
   | LoadingDB
-  | EditMealInLog;
+  | EditMealInLog
+  | DeleteLog;

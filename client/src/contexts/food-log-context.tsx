@@ -139,6 +139,10 @@ export function FoodLogProvider({ children }: FoodLogProviderProps) {
     }
   }
 
+  async function deleteLog(logId: string) {
+    // TODO: Implement deleteLog
+  }
+
   const value = {
     ...foodLogState,
     createLog,
