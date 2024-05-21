@@ -49,6 +49,12 @@ const FoodLogHeader = styled.div`
   justify-content: space-between;
 `;
 
+const AddMealDeleteLogContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
 export default function FoodLog() {
   const { foodLogDispatch } = useFoodLog();
   const { foodLog } = useFindFoodLog();
@@ -66,6 +72,10 @@ export default function FoodLog() {
     foodLogDispatch({ type: 'foodLog/setCurrentLog', payload: foodLog });
   }
 
+  async function handleDeleteLogClick() {
+    console.log('NYI: Delete log.');
+  }
+
   return (
     <StyledFoodLog>
       <StyledLink to={'/app/food-logs'}>
@@ -74,9 +84,12 @@ export default function FoodLog() {
       </StyledLink>
       <FoodLogHeader>
         <StyledH2>{foodLog.name}</StyledH2>
-        <StyledLink to={'/app/add-meal'} onClick={handleAddMealClick}>
-          Add a meal
-        </StyledLink>
+        <AddMealDeleteLogContainer>
+          <StyledLink to={'/app/add-meal'} onClick={handleAddMealClick}>
+            Add a meal
+          </StyledLink>
+          <DeleteButton onClick={handleDeleteLogClick}>Delete log</DeleteButton>
+        </AddMealDeleteLogContainer>
       </FoodLogHeader>
       <TotalsDisplay
         backgroundColor={'var(--color-blue-100)'}
