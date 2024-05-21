@@ -174,7 +174,7 @@ export async function deleteLog(
   try {
     const { logId }: { logId: string } = req.body;
 
-    const log = await FoodLog.findByIdAndDelete(logId);
+    const log = await FoodLog.findByIdAndDelete(logId).exec();
 
     if (!log) {
       throw new AppError(400, 'Log not found.');

@@ -149,9 +149,9 @@ export async function apiDeleteLog(
   logId: string
 ): Promise<{ deleteSuccess: boolean } | { errorMessage: string }> {
   try {
-    const res = await fetch('/', {
+    const res = await fetch('/api/food-log/', {
       method: 'DELETE',
-      headers: { 'application-type': 'application/json' },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ logId }),
     });
 

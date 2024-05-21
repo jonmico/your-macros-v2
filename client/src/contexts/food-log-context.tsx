@@ -3,6 +3,7 @@ import { FoodLogState, foodLogReducer } from '../reducers/food-log-reducer';
 import {
   apiAddMealToLog,
   apiCreateLog,
+  apiDeleteLog,
   apiDeleteMealFromLog,
   apiEditMealInLog,
   apiFetchLogs,
@@ -29,6 +30,7 @@ type FoodLogContextType = {
     mealId: string
   ) => Promise<void>;
   editMealInLog: (logId: string, meal: Meal) => Promise<FoodLog | undefined>;
+  deleteLog: (logId: string) => Promise<boolean>;
   foodLogDispatch: React.Dispatch<FoodLogAction>;
 };
 
@@ -140,7 +142,15 @@ export function FoodLogProvider({ children }: FoodLogProviderProps) {
   }
 
   async function deleteLog(logId: string) {
-    // TODO: Implement deleteLog
+    const data = await apiDeleteLog(logId);
+
+    if ('deleteSuccess' in data) {
+      dispatch({ type: 'foodLog/deleteLog', payload: { logId } });
+      return true;
+    } else {
+      dispatch({ type: 'foodLog/error', payload: data.errorMessage });
+      return false;
+    }
   }
 
   const value = {
@@ -149,6 +159,7 @@ export function FoodLogProvider({ children }: FoodLogProviderProps) {
     addMealToLog,
     deleteMealFromLog,
     editMealInLog,
+    deleteLog,
     foodLogDispatch: dispatch,
   };
 

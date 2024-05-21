@@ -1,5 +1,5 @@
 import { FaArrowLeft } from 'react-icons/fa6';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../hooks/useAuth';
 import { useFindFoodLog } from '../../hooks/useFindFoodLog';
@@ -12,11 +12,14 @@ import { Meal } from '../../types/meal';
 import { DeleteButton } from '../button/button';
 import MacroDisplay from '../macro-display/macro-display';
 import TotalsDisplay from '../totals-display/totals-display';
+import { useState } from 'react';
+import { Spinner } from '../spinner/spinner';
 
 const StyledFoodLog = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
 `;
 
 const StyledLink = styled(Link)`
@@ -55,9 +58,20 @@ const AddMealDeleteLogContainer = styled.div`
   gap: 0.75rem;
 `;
 
+const SpinnerContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
 export default function FoodLog() {
-  const { foodLogDispatch } = useFoodLog();
+  const { foodLogDispatch, deleteLog } = useFoodLog();
   const { foodLog } = useFindFoodLog();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   if (!foodLog) return null;
 
@@ -73,11 +87,22 @@ export default function FoodLog() {
   }
 
   async function handleDeleteLogClick() {
-    console.log('NYI: Delete log.');
+    if (!foodLog || !foodLog._id) return;
+
+    setIsLoading(true);
+    await deleteLog(foodLog._id);
+    setIsLoading(false);
+
+    navigate('/app/food-logs');
   }
 
   return (
     <StyledFoodLog>
+      {isLoading && (
+        <SpinnerContainer>
+          <Spinner></Spinner>
+        </SpinnerContainer>
+      )}
       <StyledLink to={'/app/food-logs'}>
         <FaArrowLeft />
         Back to logs
