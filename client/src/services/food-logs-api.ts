@@ -144,3 +144,29 @@ export async function apiEditMealInLog(
     return { errorMessage: 'The server is most likely down.' };
   }
 }
+
+export async function apiDeleteLog(
+  logId: string
+): Promise<{ deleteSuccess: boolean } | { errorMessage: string }> {
+  try {
+    const res = await fetch('/', {
+      method: 'DELETE',
+      headers: { 'application-type': 'application/json' },
+      body: JSON.stringify({ logId }),
+    });
+
+    if (!res.ok) {
+      const errorData: { errorMessage: string } = await res.json();
+
+      if (errorData) {
+        return {
+          errorMessage: errorData.errorMessage,
+        };
+      }
+    }
+
+    return await res.json();
+  } catch (err) {
+    return { errorMessage: 'The server is most likely down.' };
+  }
+}
