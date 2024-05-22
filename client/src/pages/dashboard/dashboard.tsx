@@ -9,15 +9,26 @@ const StyledH2 = styled.h2`
 const StyledDashboard = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 `;
 
 export default function Dashboard() {
   return (
     <StyledDashboard>
-      <StyledH2>Dashboard</StyledH2>
-      <DashboardTable />
-      <CurrentLogMeals />
+      <Container>
+        <StyledH2>Dashboard</StyledH2>
+        <DashboardTable />
+      </Container>
+      <Container>
+        <StyledH2>Meals in this log:</StyledH2>
+        <CurrentLogMeals />
+      </Container>
     </StyledDashboard>
   );
 }
