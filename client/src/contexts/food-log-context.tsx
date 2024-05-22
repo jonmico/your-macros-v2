@@ -146,6 +146,14 @@ export function FoodLogProvider({ children }: FoodLogProviderProps) {
 
     if ('deleteSuccess' in data) {
       dispatch({ type: 'foodLog/deleteLog', payload: { logId } });
+
+      if (foodLogState.currentLog?._id === logId) {
+        dispatch({
+          type: 'foodLog/setCurrentLog',
+          payload: foodLogState.foodLogs[1],
+        });
+      }
+
       return true;
     } else {
       dispatch({ type: 'foodLog/error', payload: data.errorMessage });

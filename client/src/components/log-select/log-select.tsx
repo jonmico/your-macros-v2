@@ -1,9 +1,9 @@
-import styled, { css, keyframes } from 'styled-components';
-import { FoodLog } from '../../types/food-log';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FaAngleLeft } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+import styled, { css, keyframes } from 'styled-components';
 import { useFoodLog } from '../../hooks/useFoodLog';
+import { FoodLog } from '../../types/food-log';
 
 const rotate90 = keyframes`
   from {
@@ -95,8 +95,6 @@ interface LogSelectProps {
   logs: FoodLog[];
   currentLog: FoodLog | null;
 }
-
-// TODO: Make a loading state for this when fetching.
 
 export default function LogSelect({ logs, currentLog }: LogSelectProps) {
   const [isLogListOpen, setIsLogListOpen] = useState(false);
