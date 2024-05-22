@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Meal } from '../../types/meal';
 import { Link } from 'react-router-dom';
 import { Macros } from '../../types/macros';
+import { Food } from '../../types/food';
+import { useState } from 'react';
 
 const StyledCurrentLogMealListItem = styled.li`
   border: 1px solid var(--color-indigo-300);
@@ -27,14 +29,21 @@ export default function CurrentLogMealListItem({
   logId,
 }: CurrentLogMealListItemProps) {
   const { name } = meal;
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  function handleDropdownClick() {
+    setIsDropdownOpen((prevState) => !prevState);
+  }
 
   return (
     <StyledCurrentLogMealListItem>
+      <button onClick={handleDropdownClick}>dumb button</button>
       <MealListItemHeader name={name} logId={logId} />
       <MealData
         calories={meal.mealTotals.calories}
         macros={meal.mealTotals.macros}
       />
+      <MealDropdown meals={meal.foods} isDropdownOpen={isDropdownOpen} />
     </StyledCurrentLogMealListItem>
   );
 }
@@ -95,5 +104,47 @@ function MealData({
       <div>{carbs}c</div>
       <div>{protein}p</div>
     </StyledMealData>
+  );
+}
+
+interface StyledMealDropdownProps {
+  $isDropdownOpen: boolean;
+}
+
+const StyledMealDropdown = styled.div<StyledMealDropdownProps>`
+  display: grid;
+  grid-template-rows: ${(props) => (props.$isDropdownOpen ? '1fr' : '0fr')};
+  transition: grid-template-rows 500ms ease-in-out;
+`;
+
+const MealDropdownWrapper = styled.div`
+  overflow: hidden;
+`;
+
+const MealDropdownContent = styled.div`
+  padding-top: 0.5rem;
+`;
+
+interface MealDropdownProps {
+  isDropdownOpen: boolean;
+  meals: {
+    food: Food;
+    servings: number;
+  }[];
+}
+
+function MealDropdown({ meals, isDropdownOpen }: MealDropdownProps) {
+  return (
+    <StyledMealDropdown $isDropdownOpen={isDropdownOpen}>
+      <MealDropdownWrapper>
+        <MealDropdownContent>
+          <ul>
+            {meals.map((food) => (
+              <li key={food.food._id}>{food.food.name}</li>
+            ))}
+          </ul>
+        </MealDropdownContent>
+      </MealDropdownWrapper>
+    </StyledMealDropdown>
   );
 }
