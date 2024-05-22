@@ -127,6 +127,9 @@ const MealDropdownWrapper = styled.div`
 
 const MealDropdownContent = styled.div`
   padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 `;
 
 const AddToMealContainer = styled.div`
@@ -140,6 +143,11 @@ const AddToMealLink = styled(StyledLink)`
   border-radius: 4px;
   background-color: var(--color-blue-200);
   color: var(--color-gray-900);
+`;
+
+const FoodList = styled.ul`
+  border-top: 1px solid var(--color-indigo-200);
+  padding-top: 0.5rem;
 `;
 
 interface MealDropdownProps {
@@ -165,11 +173,11 @@ function MealDropdown({
       </AddToMealLink>
     </AddToMealContainer>
   ) : (
-    <ul>
+    <FoodList>
       {meals.map((food) => (
-        <li key={food.food._id}>{food.food.name}</li>
+        <FoodItem key={food.food._id} food={food.food} />
       ))}
-    </ul>
+    </FoodList>
   );
 
   return (
@@ -178,5 +186,19 @@ function MealDropdown({
         <MealDropdownContent>{mealList}</MealDropdownContent>
       </MealDropdownWrapper>
     </StyledMealDropdown>
+  );
+}
+
+interface FoodItemProps {
+  food: Food;
+}
+
+function FoodItem({ food }: FoodItemProps) {
+  const { name, brand, calories } = food;
+
+  return (
+    <li>
+      {name} / {brand} / {calories}
+    </li>
   );
 }
