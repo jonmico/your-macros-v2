@@ -36,14 +36,18 @@ export default function CurrentLogMealListItem({
   }
 
   return (
-    <StyledCurrentLogMealListItem>
-      <button onClick={handleDropdownClick}>dumb button</button>
+    <StyledCurrentLogMealListItem onClick={handleDropdownClick}>
       <MealListItemHeader name={name} logId={logId} />
       <MealData
         calories={meal.mealTotals.calories}
         macros={meal.mealTotals.macros}
       />
-      <MealDropdown meals={meal.foods} isDropdownOpen={isDropdownOpen} />
+      <MealDropdown
+        logId={logId}
+        mealId={meal._id}
+        meals={meal.foods}
+        isDropdownOpen={isDropdownOpen}
+      />
     </StyledCurrentLogMealListItem>
   );
 }
@@ -125,25 +129,53 @@ const MealDropdownContent = styled.div`
   padding-top: 0.5rem;
 `;
 
+const AddToMealContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+`;
+
+const AddToMealLink = styled(StyledLink)`
+  border-radius: 4px;
+  background-color: var(--color-blue-200);
+  color: var(--color-gray-900);
+`;
+
 interface MealDropdownProps {
   isDropdownOpen: boolean;
   meals: {
     food: Food;
     servings: number;
   }[];
+  mealId: string | undefined;
+  logId: string | undefined;
 }
 
-function MealDropdown({ meals, isDropdownOpen }: MealDropdownProps) {
+function MealDropdown({
+  meals,
+  isDropdownOpen,
+  logId,
+  mealId,
+}: MealDropdownProps) {
+  const mealList = !meals.length ? (
+    <AddToMealContainer>
+      <AddToMealLink to={`/app/food-logs/${logId}/edit/${mealId}`}>
+        Add to this meal
+      </AddToMealLink>
+    </AddToMealContainer>
+  ) : (
+    <ul>
+      {meals.map((food) => (
+        <li key={food.food._id}>{food.food.name}</li>
+      ))}
+    </ul>
+  );
+
   return (
     <StyledMealDropdown $isDropdownOpen={isDropdownOpen}>
       <MealDropdownWrapper>
-        <MealDropdownContent>
-          <ul>
-            {meals.map((food) => (
-              <li key={food.food._id}>{food.food.name}</li>
-            ))}
-          </ul>
-        </MealDropdownContent>
+        <MealDropdownContent>{mealList}</MealDropdownContent>
       </MealDropdownWrapper>
     </StyledMealDropdown>
   );
