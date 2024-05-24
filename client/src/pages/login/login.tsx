@@ -10,6 +10,7 @@ import { ErrorText } from '../../ui/error-text/error-text';
 import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
 import { Input } from '../../ui/input/input';
 import LoginRegisterForm from '../../ui/login-register-form/login-register-form';
+import { useCookies } from 'react-cookie';
 
 type LoginFormStateType = {
   email: string;
@@ -17,6 +18,8 @@ type LoginFormStateType = {
 };
 
 export default function Login() {
+  const [, setCookies] = useCookies();
+
   const {
     login,
     authState: { isLoading },
@@ -59,10 +62,16 @@ export default function Login() {
       return;
     }
 
-    const isLoggedIn = await login(
+    const { isLoggedIn, token } = await login(
       loginFormState.email,
       loginFormState.password
     );
+
+    setCookies('token', token, {
+      sameSite: 'none',
+      path: '/',
+      // secure: true,
+    });
 
     if (isLoggedIn) navigate('/app/dashboard');
   }

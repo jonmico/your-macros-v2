@@ -20,7 +20,10 @@ type UserType = {
 type AuthContextType = {
   authState: AuthState;
   register: (user: UserType) => Promise<boolean | undefined>;
-  login: (email: string, password: string) => Promise<boolean | undefined>;
+  login: (
+    email: string,
+    password: string
+  ) => Promise<{ isLoggedIn: boolean; token: string | undefined } | undefined>;
   logout: () => void;
   changePassword: (
     oldPassword: string,
@@ -99,7 +102,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
-      return data.isLoggedIn;
+
+      return { token: data.token, isLoggedIn: data.isLoggedIn };
     }
   }
 
