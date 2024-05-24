@@ -21,7 +21,11 @@ export async function apiRegisterUser(user: UserType): Promise<{
   try {
     const response = await fetch(`${API_URL}/api/user/create`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: {
+        'content-type': 'application/json',
+        'Accept': 'application/json',
+        'credentials': 'include',
+      },
       body: JSON.stringify({ user }),
     });
 
@@ -54,6 +58,8 @@ export async function apiLogin(
       method: 'POST',
       headers: {
         'content-type': 'application/json',
+        'Accept': 'application/json',
+        'credentials': 'include',
       },
       body: JSON.stringify({ email, password }),
     });
