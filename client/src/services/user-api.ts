@@ -1,5 +1,9 @@
 import { Macros } from '../types/macros';
 
+const API_URL = import.meta.env.PROD
+  ? 'https://your-macros-v2-backend.onrender.com'
+  : '';
+
 export async function apiGetUserData(userId: string): Promise<{
   errorMessage?: string;
   userData?: {
@@ -10,7 +14,7 @@ export async function apiGetUserData(userId: string): Promise<{
   };
 }> {
   try {
-    const res = await fetch(`/api/user/${userId}`, {
+    const res = await fetch(`${API_URL}/api/user/${userId}`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -40,7 +44,7 @@ export async function apiUpdateMacros(
   errorMessage?: string;
 }> {
   try {
-    const res = await fetch('/api/user/update-macros', {
+    const res = await fetch(`${API_URL}/api/user/update-macros`, {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ userId, calories, macros }),

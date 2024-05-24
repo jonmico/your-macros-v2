@@ -1,12 +1,16 @@
 import { FoodLog } from '../types/food-log';
 import { Meal } from '../types/meal';
 
+const API_URL = import.meta.env.PROD
+  ? 'https://your-macros-v2-backend.onrender.com'
+  : '';
+
 export async function apiCreateLog(
   userId: string,
   name: string
 ): Promise<{ foodLog?: FoodLog; errorMessage?: string }> {
   try {
-    const res = await fetch('/api/food-log/create', {
+    const res = await fetch(`${API_URL}/api/food-log/create`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -34,7 +38,7 @@ export async function apiFetchLogs(
   userId: string
 ): Promise<{ foodLogs?: FoodLog[]; errorMessage?: string }> {
   try {
-    const res = await fetch(`/api/food-log/${userId}`, {
+    const res = await fetch(`${API_URL}/api/food-log/${userId}`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -64,7 +68,7 @@ export async function apiAddMealToLog(
   meal: Meal
 ): Promise<{ updatedLog?: FoodLog; errorMessage?: string }> {
   try {
-    const res = await fetch('/api/food-log/add-meal', {
+    const res = await fetch(`${API_URL}/api/food-log/add-meal`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -96,7 +100,7 @@ export async function apiDeleteMealFromLog(
   mealId: string
 ): Promise<{ updatedLog?: FoodLog; errorMessage?: string }> {
   try {
-    const res = await fetch('/api/food-log/delete', {
+    const res = await fetch(`${API_URL}/api/food-log/delete`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
@@ -125,7 +129,7 @@ export async function apiEditMealInLog(
   meal: Meal
 ): Promise<{ foodLog?: FoodLog; errorMessage?: string }> {
   try {
-    const res = await fetch('/api/food-log/edit-meal', {
+    const res = await fetch(`${API_URL}/api/food-log/edit-meal`, {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ logId, meal }),
@@ -149,7 +153,7 @@ export async function apiDeleteLog(
   logId: string
 ): Promise<{ deleteSuccess: boolean } | { errorMessage: string }> {
   try {
-    const res = await fetch('/api/food-log/', {
+    const res = await fetch(`${API_URL}/api/food-log/`, {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ logId }),

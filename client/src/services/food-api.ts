@@ -1,11 +1,15 @@
 import { Food } from '../types/food';
 
+const API_URL = import.meta.env.PROD
+  ? 'https://your-macros-v2-backend.onrender.com'
+  : '';
+
 export async function apiCreateFood(
   food: Food,
   userId: string
 ): Promise<{ food: Food } | { errorMessage: string }> {
   try {
-    const response = await fetch('/api/food/create', {
+    const response = await fetch(`${API_URL}/api/food/create`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -33,7 +37,7 @@ export async function apiSearchFoodsByText(
   searchText: string
 ): Promise<{ searchedFoods?: Food[]; errorMessage?: string }> {
   try {
-    const res = await fetch(`/api/food/search/${searchText}`, {
+    const res = await fetch(`${API_URL}/api/food/search/${searchText}`, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     });
@@ -60,7 +64,7 @@ export async function apiGetCreatedFoods(
   userId: string
 ): Promise<{ createdFoods: Food[] } | { errorMessage: string }> {
   try {
-    const res = await fetch(`/api/food/created-foods/${userId}`, {
+    const res = await fetch(`${API_URL}/api/food/created-foods/${userId}`, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     });
@@ -87,7 +91,7 @@ export async function apiGetFood(
   foodId: string
 ): Promise<{ food: Food } | { errorMessage: string }> {
   try {
-    const res = await fetch(`/api/food/${foodId}`, {
+    const res = await fetch(`${API_URL}/api/food/${foodId}`, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     });
@@ -114,7 +118,7 @@ export async function apiDeleteFood(
   foodId: string
 ): Promise<{ errorMessage?: string; deleteSuccess: boolean }> {
   try {
-    const res = await fetch('/api/food/', {
+    const res = await fetch(`${API_URL}/api/food/`, {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ foodId }),
@@ -145,7 +149,7 @@ export async function apiEditFood(
   editFood: Food
 ): Promise<{ editFood: Food } | { errorMessage: string }> {
   try {
-    const res = await fetch(`/api/food/${foodId}/edit`, {
+    const res = await fetch(`${API_URL}/api/food/${foodId}/edit`, {
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ editFood }),

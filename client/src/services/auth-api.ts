@@ -1,5 +1,9 @@
 import { Macros } from '../types/macros';
 
+const API_URL = import.meta.env.PROD
+  ? 'https://your-macros-v2-backend.onrender.com'
+  : '';
+
 type UserType = {
   email: string;
   password: string;
@@ -15,7 +19,7 @@ export async function apiRegisterUser(user: UserType): Promise<{
   errorMessage?: string;
 }> {
   try {
-    const response = await fetch('/api/user/create', {
+    const response = await fetch(`${API_URL}/api/user/create`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ user }),
@@ -46,7 +50,7 @@ export async function apiLogin(
   errorMessage?: string;
 }> {
   try {
-    const response = await fetch('/api/user/login', {
+    const response = await fetch(`${API_URL}/api/user/login`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -76,7 +80,7 @@ export async function apiCheckUserSession(): Promise<{
   errorMessage?: string;
 }> {
   try {
-    const res = await fetch('/api/user', {
+    const res = await fetch(`${API_URL}/api/user`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -107,7 +111,7 @@ export async function apiChangePassword(
   confirmNewPassword: string
 ): Promise<{ updatedPassword: boolean } | { errorMessage: string }> {
   try {
-    const res = await fetch(`/api/user/change-password`, {
+    const res = await fetch(`${API_URL}/api/user/change-password`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
@@ -137,7 +141,7 @@ export async function apiDeleteUser(): Promise<
   { successfulDelete: boolean } | { errorMessage: string }
 > {
   try {
-    const res = await fetch('/api/user/', {
+    const res = await fetch(`${API_URL}/api/user/`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
