@@ -29,7 +29,7 @@ export default function DeleteAccountForm() {
       logout();
       navigate('/');
     } else {
-      console.log('Oops?');
+      console.log('No successfulDelete in DeleteAccountForm.');
     }
   }
 
