@@ -42,7 +42,6 @@ const FormErrorContainer = styled.div`
   color: var(--color-red-400);
 `;
 
-// TODO: Add error handling/validation.
 export default function PasswordResetForm() {
   const {
     changePassword,
