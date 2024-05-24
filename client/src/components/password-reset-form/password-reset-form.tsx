@@ -35,6 +35,13 @@ const SpinnerContainer = styled.div`
   height: 100%;
 `;
 
+const FormErrorContainer = styled.div`
+  padding: 0.5rem;
+  background-color: var(--color-red-200);
+  border: 1px solid var(--color-red-400);
+  color: var(--color-red-400);
+`;
+
 // TODO: Add error handling/validation.
 export default function PasswordResetForm() {
   const {
@@ -67,6 +74,7 @@ export default function PasswordResetForm() {
     setCurrentPassword('');
     setNewPassword('');
     setConfirmNewPassword('');
+    setFormError('');
   }
 
   return (
@@ -108,6 +116,8 @@ export default function PasswordResetForm() {
           onChange={(evt) => setConfirmNewPassword(evt.target.value)}
         />
       </FormInputContainer>
+      {formError && <Error errorText={formError} />}
+
       <PurpleWideButton disabled={isLoading}>Change Password</PurpleWideButton>
     </StyledPasswordResetForm>
   );
