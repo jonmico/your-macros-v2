@@ -148,6 +148,9 @@ const AddToMealLink = styled(StyledLink)`
 const FoodList = styled.ul`
   border-top: 1px solid var(--color-indigo-200);
   padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
 interface MealDropdownProps {
@@ -189,6 +192,28 @@ function MealDropdown({
   );
 }
 
+const StyledFoodItem = styled.li`
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid var(--color-slate-300);
+  gap: 1rem;
+`;
+
+const FoodName = styled.div`
+  font-weight: 600;
+`;
+
+const FoodBrand = styled.div`
+  font-weight: 500;
+  color: var(--color-gray-600);
+`;
+
+const FoodCalories = styled.div`
+  color: var(--color-blue-600);
+`;
+
 interface FoodItemProps {
   food: Food;
 }
@@ -197,8 +222,12 @@ function FoodItem({ food }: FoodItemProps) {
   const { name, brand, calories } = food;
 
   return (
-    <li>
-      {name} / {brand} / {calories}
-    </li>
+    <StyledFoodItem>
+      <div>
+        <FoodName>{name}</FoodName>
+        <FoodBrand>{brand}</FoodBrand>
+      </div>
+      <FoodCalories>{calories}cals</FoodCalories>
+    </StyledFoodItem>
   );
 }
