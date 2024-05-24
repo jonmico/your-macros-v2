@@ -26,7 +26,6 @@ export default function Dashboard() {
         <DashboardTable />
       </Container>
       <Container>
-        <StyledH2>Meals in this log:</StyledH2>
         <CurrentLogMeals />
       </Container>
     </StyledDashboard>

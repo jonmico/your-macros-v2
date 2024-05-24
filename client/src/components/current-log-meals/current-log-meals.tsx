@@ -9,11 +9,15 @@ const StyledCurrentLogMeals = styled.ul`
   gap: 1rem;
 `;
 
+const StyledH2 = styled.h2`
+  color: var(--color-gray-700);
+`;
+
 export default function CurrentLogMeals() {
   const { currentLog } = useFoodLog();
 
   if (currentLog === null) {
-    return <div>Oops</div>;
+    return null;
   }
 
   const currentLogMealList = currentLog.meals.map((meal) => (
@@ -21,9 +25,12 @@ export default function CurrentLogMeals() {
   ));
 
   return (
-    <StyledCurrentLogMeals>
-      {currentLogMealList.length ? currentLogMealList : <NoMealsInLog />}
-    </StyledCurrentLogMeals>
+    <>
+      <StyledH2>Meals in this log:</StyledH2>
+      <StyledCurrentLogMeals>
+        {currentLogMealList.length ? currentLogMealList : <NoMealsInLog />}
+      </StyledCurrentLogMeals>
+    </>
   );
 }
 
