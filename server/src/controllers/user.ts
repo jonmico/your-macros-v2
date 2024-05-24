@@ -49,6 +49,7 @@ export async function createUser(
         .cookie('token', token, {
           maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
           signed: true,
+          sameSite: 'none',
         })
         .json({
           isLoggedIn: true,
@@ -82,6 +83,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       .cookie('token', token, {
         signed: true,
         maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        sameSite: 'none',
       })
       .json({
         isLoggedIn: true,
@@ -123,6 +125,7 @@ export async function checkUserSession(
         .cookie('token', token, {
           maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
           signed: true,
+          sameSite: 'none',
         })
         .json({
           isLoggedIn: true,
@@ -241,6 +244,7 @@ export async function changePassword(
         .cookie('token', token, {
           maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
           signed: true,
+          sameSite: 'none',
         })
         .json({ updatedPassword: true });
     });
