@@ -21,7 +21,7 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api/user', userRouter);
