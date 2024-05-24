@@ -35,13 +35,6 @@ const SpinnerContainer = styled.div`
   height: 100%;
 `;
 
-const FormErrorContainer = styled.div`
-  padding: 0.5rem;
-  background-color: var(--color-red-200);
-  border: 1px solid var(--color-red-400);
-  color: var(--color-red-400);
-`;
-
 export default function PasswordResetForm() {
   const {
     changePassword,
