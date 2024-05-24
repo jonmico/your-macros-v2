@@ -25,6 +25,7 @@ type UpdateMacros = {
   payload: {
     calories: number;
     macros: Macros;
+    isInitialized: boolean;
   };
 };
 

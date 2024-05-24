@@ -161,6 +161,7 @@ export async function getUserData(
           protein: user.dailyIntake.macros.protein,
         },
         createdFoods: user.createdFoods,
+        isInitialized: user.isInitialized,
       },
     });
   } catch (err) {
@@ -180,6 +181,7 @@ export async function updateMacros(
       userId,
       {
         dailyIntake: { calories: calories, macros: macros },
+        isInitialized: true,
       },
       { returnDocument: 'after', runValidators: true }
     ).exec();
@@ -192,6 +194,7 @@ export async function updateMacros(
       userData: {
         calories: user.dailyIntake.calories,
         macros: user.dailyIntake.macros,
+        isInitialized: user.isInitialized,
       },
     });
   } catch (err) {

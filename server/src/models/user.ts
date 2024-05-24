@@ -18,6 +18,7 @@ const userSchema = new Schema<User>(
     password: { type: String, required: true },
     createdFoods: [{ type: Schema.Types.ObjectId, ref: 'Food', default: [] }],
     foodLogs: [{ type: Schema.Types.ObjectId, ref: 'Log', default: [] }],
+    isInitialized: { type: Boolean, default: false },
     dailyIntake: {
       calories: {
         type: Number,

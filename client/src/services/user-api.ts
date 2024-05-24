@@ -2,7 +2,12 @@ import { Macros } from '../types/macros';
 
 export async function apiGetUserData(userId: string): Promise<{
   errorMessage?: string;
-  userData?: { calories: number; macros: Macros; createdFoods: string[] };
+  userData?: {
+    calories: number;
+    macros: Macros;
+    createdFoods: string[];
+    isInitialized: boolean;
+  };
 }> {
   try {
     const res = await fetch(`/api/user/${userId}`, {
@@ -31,7 +36,7 @@ export async function apiUpdateMacros(
   calories: number,
   macros: Macros
 ): Promise<{
-  userData?: { calories: number; macros: Macros };
+  userData?: { calories: number; macros: Macros; isInitialized: boolean };
   errorMessage?: string;
 }> {
   try {

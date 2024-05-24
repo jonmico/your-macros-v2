@@ -6,6 +6,7 @@ export type User = {
   password: string;
   createdFoods: mongoose.Types.ObjectId[];
   foodLogs: mongoose.Types.ObjectId[];
+  isInitialized: boolean;
   dailyIntake: {
     calories: number;
     macros: Macros;

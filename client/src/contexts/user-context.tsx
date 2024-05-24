@@ -69,6 +69,7 @@ export function UserProvider({ children }: UserProviderProps) {
         payload: {
           calories: data.userData.calories,
           macros: data.userData.macros,
+          isInitialized: data.userData.isInitialized,
         },
       });
       return { updateSuccess: true };

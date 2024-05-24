@@ -32,6 +32,7 @@ export function userReducer(state: UserState, action: UserAction) {
           calories: action.payload.calories,
           macros: action.payload.macros,
           createdFoods: action.payload.createdFoods,
+          isInitialized: action.payload.isInitialized,
         },
       };
     case 'user/setCreatedFoods':
@@ -53,6 +54,7 @@ export function userReducer(state: UserState, action: UserAction) {
           ...state.userData,
           calories: action.payload.calories,
           macros: action.payload.macros,
+          isInitialized: action.payload.isInitialized,
         },
         isDBLoading: false,
       };
