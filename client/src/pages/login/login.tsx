@@ -1,15 +1,15 @@
-import LoginRegisterForm from '../../ui/login-register-form/login-register-form';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { WideButton } from '../../components/button/button';
+import {
+  CenterSpinnerContainer,
+  Spinner,
+} from '../../components/spinner/spinner';
+import { useAuth } from '../../hooks/useAuth';
+import { ErrorText } from '../../ui/error-text/error-text';
 import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
 import { Input } from '../../ui/input/input';
-import { WideButton } from '../../components/button/button';
-import { useState } from 'react';
-import { ErrorText } from '../../ui/error-text/error-text';
-import { useAuth } from '../../hooks/useAuth';
-import {
-  Spinner,
-  CenterSpinnerContainer,
-} from '../../components/spinner/spinner';
-import { useNavigate } from 'react-router-dom';
+import LoginRegisterForm from '../../ui/login-register-form/login-register-form';
 
 type LoginFormStateType = {
   email: string;

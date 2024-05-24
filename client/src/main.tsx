@@ -19,6 +19,7 @@ import Settings from './components/settings/settings.tsx';
 import Account from './components/account/account.tsx';
 import CreatedFoods from './components/created-foods/created-foods.tsx';
 import CreatedFood from './components/created-food/created-food.tsx';
+import AccountSetUp from './pages/account-set-up/account-set-up.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           }
         >
           <Route index element={<Home />} />
+          <Route path={'setup'} element={<AccountSetUp />} />
           <Route path={'login'} element={<Login />} />
           <Route path={'register'} element={<Register />} />
           <Route

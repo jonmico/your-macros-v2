@@ -93,7 +93,7 @@ export default function Register() {
 
     const isLoggedIn = await register(user);
 
-    if (isLoggedIn) navigate('/app/dashboard');
+    if (isLoggedIn) navigate('/setup');
   }
   return (
     <LoginRegisterForm header={'Register'} handleSubmit={handleSubmit}>
