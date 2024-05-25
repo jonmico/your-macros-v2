@@ -20,10 +20,7 @@ type UserType = {
 type AuthContextType = {
   authState: AuthState;
   register: (user: UserType) => Promise<boolean | undefined>;
-  login: (
-    email: string,
-    password: string
-  ) => Promise<{ isLoggedIn: boolean; token: string | undefined } | undefined>;
+  login: (email: string, password: string) => Promise<boolean | undefined>;
   logout: () => void;
   changePassword: (
     oldPassword: string,
@@ -102,9 +99,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
-
-      return { token: data.token, isLoggedIn: data.isLoggedIn };
     }
+    return data.isLoggedIn;
   }
 
   // FIXME: This doesn't actually clear out all the state in other contexts.
