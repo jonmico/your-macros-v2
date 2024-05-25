@@ -67,7 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     }
     checkUserSession();
-  }, []);
+  }, [cookies.token]);
 
   async function register(user: UserType) {
     dispatch({ type: 'auth/loading' });
