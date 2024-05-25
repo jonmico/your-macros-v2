@@ -14,8 +14,11 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const navigate = useNavigate();
   const [cookies] = useCookies(['token']);
 
+  console.log(cookies);
+
   useEffect(() => {
     if (!isLoading && !isLoggedIn && !cookies.token) {
+      console.log('In useEffect hook.');
       navigate('/login');
     }
   }, [isLoading, isLoggedIn, navigate, cookies.token]);
