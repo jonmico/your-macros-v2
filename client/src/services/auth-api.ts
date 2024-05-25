@@ -24,8 +24,8 @@ export async function apiRegisterUser(user: UserType): Promise<{
       headers: {
         'content-type': 'application/json',
         'Accept': 'application/json',
-        'credentials': 'include',
       },
+      credentials: 'include',
       body: JSON.stringify({ user }),
     });
 
@@ -60,8 +60,8 @@ export async function apiLogin(
       headers: {
         'content-type': 'application/json',
         'Accept': 'application/json',
-        'credentials': 'include',
       },
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
@@ -92,8 +92,8 @@ export async function apiCheckUserSession(): Promise<{
       headers: {
         'content-type': 'application/json',
         'Accept': 'application/json',
-        'credentials': 'include',
       },
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -123,8 +123,8 @@ export async function apiChangePassword(
       headers: {
         'content-type': 'application/json',
         'Accept': 'application/json',
-        'credentials': 'include',
       },
+      credentials: 'include',
       body: JSON.stringify({ oldPassword, newPassword, confirmNewPassword }),
     });
 
@@ -153,8 +153,8 @@ export async function apiDeleteUser(): Promise<
       headers: {
         'content-type': 'application/json',
         'accept': 'application/json',
-        'credentials': 'include',
       },
+      credentials: 'include',
     });
 
     if (!res.ok) {
