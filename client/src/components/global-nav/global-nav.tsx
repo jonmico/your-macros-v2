@@ -1,7 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../hooks/useAuth';
-import { useCookies } from 'react-cookie';
 
 const StyledGlobalNav = styled.div`
   border-bottom: 1px solid var(--color-indigo-300);
@@ -77,13 +76,11 @@ export default function GlobalNav() {
     logout,
     authState: { isLoggedIn },
   } = useAuth();
-  const [, , removeCookie] = useCookies(['token']);
 
   const yourMacrosLink = isLoggedIn ? '/app' : '/';
 
   function handleLogoutClick() {
     logout();
-    removeCookie('token', { path: '/', secure: true });
   }
 
   return (

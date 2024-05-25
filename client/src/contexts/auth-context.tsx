@@ -7,6 +7,7 @@ import {
   apiRegisterUser,
 } from '../services/auth-api';
 import { Macros } from '../types/macros';
+import { useCookies } from 'react-cookie';
 
 type UserType = {
   email: string;
@@ -44,6 +45,9 @@ const initialState: AuthState = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+  console.log(cookies);
 
   useEffect(() => {
     async function checkUserSession() {
@@ -94,10 +98,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
     }
 
-    if (data.isLoggedIn && data.userId) {
+    if (data.isLoggedIn && data.userId && data.token) {
       dispatch({
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
+      });
+      setCookie('token', data.token, {
+        path: '/',
+        secure: true,
+        sameSite: 'none',
+        partitioned: true,
       });
     }
     return data.isLoggedIn;
@@ -106,6 +116,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // FIXME: This doesn't actually clear out all the state in other contexts.
   function logout() {
     dispatch({ type: 'auth/logout' });
+    removeCookie('token', { path: '/', secure: true });
   }
 
   async function changePassword(
