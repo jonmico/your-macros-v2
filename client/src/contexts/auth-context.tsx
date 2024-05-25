@@ -105,9 +105,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
       setCookie('token', data.token, {
         path: '/',
-        secure: true,
-        sameSite: 'none',
-        partitioned: true,
+        // secure: true,
+        // sameSite: 'none',
+        // partitioned: true,
       });
     }
     return data.isLoggedIn;
