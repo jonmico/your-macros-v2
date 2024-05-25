@@ -86,7 +86,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         signed: true,
         maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
         sameSite: 'none',
-        // httpOnly: true,
+        httpOnly: false,
         secure: true,
       })
       .json({
