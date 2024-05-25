@@ -45,7 +45,7 @@ const initialState: AuthState = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
-  const [, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     async function checkUserSession() {
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         dispatch({ type: 'auth/error', payload: data.errorMessage });
       }
 
-      if (data.isLoggedIn && data.userId) {
+      if (data.isLoggedIn && data.userId && cookies.token) {
         dispatch({
           type: 'auth/setUser',
           payload: {
