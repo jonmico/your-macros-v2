@@ -46,16 +46,17 @@ export async function createUser(
 
       res
         .status(201)
-        .cookie('token', token, {
-          maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-          signed: true,
-          sameSite: 'none',
-          httpOnly: true,
-          secure: true,
-        })
+        // .cookie('token', token, {
+        //   maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        //   signed: true,
+        //   sameSite: 'none',
+        //   httpOnly: true,
+        //   secure: true,
+        // })
         .json({
           isLoggedIn: true,
           userId: newUser._id,
+          token,
         });
     });
   } catch (err) {
@@ -82,13 +83,13 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
     res
-      .cookie('token', token, {
-        signed: true,
-        maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        sameSite: 'none',
-        httpOnly: true,
-        secure: true,
-      })
+      // .cookie('token', token, {
+      //   signed: true,
+      //   maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      //   sameSite: 'none',
+      //   httpOnly: true,
+      //   secure: true,
+      // })
       .json({
         isLoggedIn: true,
         userId: user._id,
@@ -127,16 +128,17 @@ export async function checkUserSession(
       const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
       res
-        .cookie('token', token, {
-          maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-          signed: true,
-          sameSite: 'none',
-          httpOnly: true,
-          secure: true,
-        })
+        // .cookie('token', token, {
+        //   maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        //   signed: true,
+        //   sameSite: 'none',
+        //   httpOnly: true,
+        //   secure: true,
+        // })
         .json({
           isLoggedIn: true,
           userId: user._id,
+          token,
         });
     }
   } catch (err) {
