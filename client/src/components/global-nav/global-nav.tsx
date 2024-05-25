@@ -83,7 +83,7 @@ export default function GlobalNav() {
 
   function handleLogoutClick() {
     logout();
-    removeCookie('token', { path: '/' });
+    removeCookie('token', { path: '/', secure: true });
   }
 
   return (
