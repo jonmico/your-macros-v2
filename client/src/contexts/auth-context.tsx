@@ -105,6 +105,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         path: '/',
         partitioned: true,
         secure: true,
+        sameSite: 'none',
+        maxAge: Date.now() * 60 * 60 * 60,
       });
     }
     return data.isLoggedIn;
