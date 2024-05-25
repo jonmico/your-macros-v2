@@ -49,6 +49,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     async function checkUserSession() {
+      if (!cookies.token) return;
+
       dispatch({ type: 'auth/loading' });
       const data = await apiCheckUserSession();
 
@@ -56,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         dispatch({ type: 'auth/error', payload: data.errorMessage });
       }
 
-      if (data.isLoggedIn && data.userId && cookies.token) {
+      if (data.isLoggedIn && data.userId) {
         dispatch({
           type: 'auth/setUser',
           payload: {
