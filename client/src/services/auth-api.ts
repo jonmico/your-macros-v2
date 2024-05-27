@@ -51,7 +51,6 @@ export async function apiLogin(
 ): Promise<{
   isLoggedIn?: boolean;
   userId?: string;
-  token?: string;
   errorMessage?: string;
 }> {
   try {

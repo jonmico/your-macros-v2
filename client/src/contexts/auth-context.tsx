@@ -45,7 +45,7 @@ const initialState: AuthState = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
-  const [, setCookie, removeCookie] = useCookies(['token']);
+  const [, , removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     async function checkUserSession() {
@@ -96,17 +96,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
     }
 
-    if (data.isLoggedIn && data.userId && data.token) {
+    if (data.isLoggedIn && data.userId) {
       dispatch({
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
-      });
-      setCookie('token', data.token, {
-        path: '/',
-        partitioned: true,
-        secure: true,
-        sameSite: 'none',
-        maxAge: Date.now() * 60 * 60 * 60,
       });
     }
     return data.isLoggedIn;
