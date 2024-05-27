@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import 'dotenv/config';
-import { NextFunction, Request, Response } from 'express';
+import { CookieOptions, NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../app-error';
 import User from '../models/user';
@@ -8,6 +8,14 @@ import { User as UserType } from '../types/user';
 import { calcCalories } from '../utils/calcCalories';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
+
+const cookieOptions: CookieOptions = {
+  maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+  signed: false,
+  sameSite: 'none',
+  httpOnly: false,
+  secure: true,
+};
 
 export async function createUser(
   req: Request,
@@ -44,20 +52,10 @@ export async function createUser(
         expiresIn: '1h',
       });
 
-      res
-        .status(201)
-        // .cookie('token', token, {
-        //   maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        //   signed: true,
-        //   sameSite: 'none',
-        //   httpOnly: true,
-        //   secure: true,
-        // })
-        .json({
-          isLoggedIn: true,
-          userId: newUser._id,
-          token,
-        });
+      res.status(201).cookie('token', token, cookieOptions).json({
+        isLoggedIn: true,
+        userId: newUser._id,
+      });
     });
   } catch (err) {
     next(err);
@@ -82,19 +80,10 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-    res
-      // .cookie('token', token, {
-      //   signed: true,
-      //   maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      //   sameSite: 'none',
-      //   httpOnly: true,
-      //   secure: true,
-      // })
-      .json({
-        isLoggedIn: true,
-        userId: user._id,
-        token: token,
-      });
+    res.cookie('token', token, cookieOptions).json({
+      isLoggedIn: true,
+      userId: user._id,
+    });
   } catch (err) {
     next(err);
   }
@@ -127,19 +116,10 @@ export async function checkUserSession(
 
       const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-      res
-        // .cookie('token', token, {
-        //   maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        //   signed: true,
-        //   sameSite: 'none',
-        //   httpOnly: true,
-        //   secure: true,
-        // })
-        .json({
-          isLoggedIn: true,
-          userId: user._id,
-          token,
-        });
+      res.cookie('token', token, cookieOptions).json({
+        isLoggedIn: true,
+        userId: user._id,
+      });
     }
   } catch (err) {
     next(err);
@@ -249,15 +229,7 @@ export async function changePassword(
         'expiresIn': '7d',
       });
 
-      res
-        .cookie('token', token, {
-          maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-          signed: true,
-          sameSite: 'none',
-          httpOnly: true,
-          secure: true,
-        })
-        .json({ updatedPassword: true });
+      res.cookie('token', token, cookieOptions).json({ updatedPassword: true });
     });
   } catch (err) {
     next(err);
