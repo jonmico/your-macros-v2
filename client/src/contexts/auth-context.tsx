@@ -107,7 +107,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
-      setCookie('token', data.token, cookieOptions);
+      setCookie('token', data.token, {
+        path: '/',
+      });
 
       return data.isLoggedIn;
     }
