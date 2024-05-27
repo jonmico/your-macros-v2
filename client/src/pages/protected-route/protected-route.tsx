@@ -17,11 +17,11 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   console.log(cookies);
 
   useEffect(() => {
-    if (!isLoading && !cookies.token) {
+    if (!isLoading && !isLoggedIn) {
       console.log('In useEffect hook.');
       navigate('/login');
     }
-  }, [isLoading, isLoggedIn, navigate, cookies.token]);
+  }, [isLoading, isLoggedIn, navigate]);
 
   if (isLoading) {
     return 'LOADING';
