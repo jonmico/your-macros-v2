@@ -101,6 +101,8 @@ export async function checkUserSession(
   try {
     const token = req.cookies.token;
 
+    console.log(req.cookies);
+
     if (!token) {
       throw new AppError(401, 'Token not provided.');
     }
