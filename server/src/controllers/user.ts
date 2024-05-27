@@ -56,6 +56,7 @@ export async function createUser(
       res.status(201).cookie('token', token, cookieOptions).json({
         isLoggedIn: true,
         userId: newUser._id,
+        token: token,
       });
     });
   } catch (err) {
@@ -84,6 +85,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     res.cookie('token', token, cookieOptions).json({
       isLoggedIn: true,
       userId: user._id,
+      token,
     });
   } catch (err) {
     next(err);
@@ -122,6 +124,7 @@ export async function checkUserSession(
       res.cookie('token', token, cookieOptions).json({
         isLoggedIn: true,
         userId: user._id,
+        token,
       });
     }
   } catch (err) {
@@ -232,7 +235,9 @@ export async function changePassword(
         'expiresIn': '7d',
       });
 
-      res.cookie('token', token, cookieOptions).json({ updatedPassword: true });
+      res
+        .cookie('token', token, cookieOptions)
+        .json({ updatedPassword: true, token: token });
     });
   } catch (err) {
     next(err);

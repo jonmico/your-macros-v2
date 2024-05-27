@@ -13,11 +13,12 @@ type UserType = {
   };
 };
 
-export async function apiRegisterUser(user: UserType): Promise<{
-  isLoggedIn?: boolean;
-  userId?: string;
-  errorMessage?: string;
-}> {
+export async function apiRegisterUser(
+  user: UserType
+): Promise<
+  | { isLoggedIn: boolean; userId: string; token: string }
+  | { errorMessage: string }
+> {
   try {
     const response = await fetch(`${API_URL}/api/user/create`, {
       method: 'POST',
@@ -25,7 +26,6 @@ export async function apiRegisterUser(user: UserType): Promise<{
         'content-type': 'application/json',
         'Accept': 'application/json',
       },
-      credentials: 'include',
       body: JSON.stringify({ user }),
     });
 
@@ -48,11 +48,10 @@ export async function apiRegisterUser(user: UserType): Promise<{
 export async function apiLogin(
   email: string,
   password: string
-): Promise<{
-  isLoggedIn?: boolean;
-  userId?: string;
-  errorMessage?: string;
-}> {
+): Promise<
+  | { isLoggedIn: boolean; userId: string; token: string }
+  | { errorMessage: string }
+> {
   try {
     const response = await fetch(`${API_URL}/api/user/login`, {
       method: 'POST',
@@ -60,7 +59,6 @@ export async function apiLogin(
         'content-type': 'application/json',
         'Accept': 'application/json',
       },
-      // credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
@@ -80,11 +78,10 @@ export async function apiLogin(
   }
 }
 
-export async function apiCheckUserSession(): Promise<{
-  isLoggedIn?: boolean;
-  userId?: string;
-  errorMessage?: string;
-}> {
+export async function apiCheckUserSession(): Promise<
+  | { isLoggedIn: boolean; userId: string; token: string }
+  | { errorMessage: string }
+> {
   try {
     const res = await fetch(`${API_URL}/api/user`, {
       method: 'GET',
@@ -115,7 +112,9 @@ export async function apiChangePassword(
   oldPassword: string,
   newPassword: string,
   confirmNewPassword: string
-): Promise<{ updatedPassword: boolean } | { errorMessage: string }> {
+): Promise<
+  { updatedPassword: boolean; token?: string } | { errorMessage: string }
+> {
   try {
     const res = await fetch(`${API_URL}/api/user/change-password`, {
       method: 'PATCH',

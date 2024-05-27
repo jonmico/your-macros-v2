@@ -30,6 +30,15 @@ type AuthContextType = {
   ) => Promise<boolean>;
 };
 
+const cookieOptions = {
+  path: '/',
+  sameSite: true,
+  partitioned: true,
+  maxAge: 43_200_200,
+  secure: true,
+  httpOnly: false,
+};
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 interface AuthProviderProps {
@@ -45,18 +54,16 @@ const initialState: AuthState = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
-  const [, , removeCookie] = useCookies(['token']);
+  const [, setCookie, removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     async function checkUserSession() {
       dispatch({ type: 'auth/loading' });
       const data = await apiCheckUserSession();
 
-      if (data.errorMessage) {
+      if ('errorMessage' in data) {
         dispatch({ type: 'auth/error', payload: data.errorMessage });
-      }
-
-      if (data.isLoggedIn && data.userId) {
+      } else {
         dispatch({
           type: 'auth/setUser',
           payload: {
@@ -64,25 +71,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
             userId: data.userId,
           },
         });
+        setCookie('token', data.token, cookieOptions);
       }
     }
     checkUserSession();
-  }, []);
+  }, [setCookie]);
 
   async function register(user: UserType) {
     dispatch({ type: 'auth/loading' });
 
     const data = await apiRegisterUser(user);
 
-    if (data.errorMessage) {
+    if ('errorMessage' in data) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
-    }
-
-    if (data.isLoggedIn && data.userId) {
+    } else {
       dispatch({
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
+      setCookie('token', data.token, cookieOptions);
+
       return data.isLoggedIn;
     }
   }
@@ -92,17 +100,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const data = await apiLogin(email, password);
 
-    if (data.errorMessage) {
+    if ('errorMessage' in data) {
       dispatch({ type: 'auth/error', payload: data.errorMessage });
-    }
-
-    if (data.isLoggedIn && data.userId) {
+    } else {
       dispatch({
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
+      setCookie('token', data.token, cookieOptions);
+
+      return data.isLoggedIn;
     }
-    return data.isLoggedIn;
   }
 
   // FIXME: This doesn't actually clear out all the state in other contexts.
