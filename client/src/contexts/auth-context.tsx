@@ -45,7 +45,7 @@ const initialState: AuthState = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [, setCookie, removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     async function checkUserSession() {
@@ -73,7 +73,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     }
     checkUserSession();
-  }, [setCookie, cookies.token]);
+  }, [setCookie]);
 
   async function register(user: UserType) {
     dispatch({ type: 'auth/loading' });
