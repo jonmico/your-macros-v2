@@ -30,15 +30,6 @@ type AuthContextType = {
   ) => Promise<boolean>;
 };
 
-const cookieOptions = {
-  path: '/',
-  sameSite: true,
-  partitioned: true,
-  maxAge: 43_200_200,
-  secure: true,
-  httpOnly: false,
-};
-
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 interface AuthProviderProps {
@@ -71,7 +62,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
             userId: data.userId,
           },
         });
-        setCookie('token', data.token, cookieOptions);
+        setCookie('token', data.token, {
+          path: '/',
+          maxAge: 43_200_200,
+          partitioned: true,
+          secure: true,
+          httpOnly: false,
+          sameSite: 'none',
+        });
       }
     }
     checkUserSession();
@@ -89,7 +87,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
-      setCookie('token', data.token, cookieOptions);
+      setCookie('token', data.token, {
+        path: '/',
+        maxAge: 43_200_200,
+        partitioned: true,
+        secure: true,
+        httpOnly: false,
+        sameSite: 'none',
+      });
 
       return data.isLoggedIn;
     }
