@@ -25,8 +25,14 @@ export default function DeleteAccountForm() {
     const data = await apiDeleteUser();
 
     if ('successfulDelete' in data) {
-      removeCookie('token', { path: '/' });
       logout();
+      removeCookie('token', {
+        path: '/',
+        secure: true,
+        partitioned: true,
+        sameSite: 'none',
+        httpOnly: false,
+      });
       navigate('/');
     } else {
       console.log('No successfulDelete in DeleteAccountForm.');
