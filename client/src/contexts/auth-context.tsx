@@ -110,6 +110,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setCookie('token', data.token, {
         path: '/',
         maxAge: 43_200_200,
+        partitioned: true,
+        secure: true,
+        httpOnly: false,
+        sameSite: 'none',
       });
 
       return data.isLoggedIn;
