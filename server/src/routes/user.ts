@@ -14,7 +14,7 @@ export const router = Router();
 router.post('/create', createUser);
 router.post('/login', login);
 router.get('/:userId', getUserData);
-router.get('/', checkUserSession);
+router.post('/', checkUserSession);
 router.patch('/update-macros', updateMacros);
 router.patch('/change-password', changePassword);
 router.delete('/', deleteUser);
