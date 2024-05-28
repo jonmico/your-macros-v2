@@ -237,7 +237,10 @@ export async function deleteUser(
   next: NextFunction
 ) {
   try {
-    const { token } = req.cookies;
+    const token = req.cookies.token;
+
+    console.log(req.cookies);
+    console.log(token);
 
     const payload = jwt.verify(token, JWT_SECRET) as IToken;
 
