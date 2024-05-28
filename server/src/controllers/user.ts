@@ -241,7 +241,11 @@ export async function deleteUser(
 
     const payload = jwt.verify(token, JWT_SECRET) as IToken;
 
-    await User.findByIdAndDelete(payload.id).exec();
+    const user = await User.findByIdAndDelete(payload.id).exec();
+
+    if (!user) {
+      throw new AppError(400, 'No user with that ID exists.');
+    }
 
     res.json({ successfulDelete: true });
   } catch (err) {
