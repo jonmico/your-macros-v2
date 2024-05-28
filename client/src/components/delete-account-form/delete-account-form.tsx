@@ -16,13 +16,13 @@ const StyledDeleteAccountForm = styled.form`
 `;
 
 export default function DeleteAccountForm() {
-  const [, , removeCookie] = useCookies(['token']);
+  const [cookies, , removeCookie] = useCookies(['token']);
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    const data = await apiDeleteUser();
+    const data = await apiDeleteUser(cookies.token);
 
     if ('successfulDelete' in data) {
       logout();

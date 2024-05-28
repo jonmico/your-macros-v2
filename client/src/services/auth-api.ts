@@ -144,17 +144,18 @@ export async function apiChangePassword(
   }
 }
 
-export async function apiDeleteUser(): Promise<
-  { successfulDelete: boolean } | { errorMessage: string }
-> {
+export async function apiDeleteUser(
+  token: string
+): Promise<{ successfulDelete: boolean } | { errorMessage: string }> {
   try {
-    const res = await fetch(`${API_URL}/api/user/`, {
-      method: 'DELETE',
+    const res = await fetch(`${API_URL}/api/user/delete`, {
+      method: 'POST',
       headers: {
         'content-type': 'application/json',
         'accept': 'application/json',
       },
-      credentials: 'include',
+      // credentials: 'include',
+      body: JSON.stringify({ token }),
     });
 
     if (!res.ok) {

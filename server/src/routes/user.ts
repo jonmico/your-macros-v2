@@ -17,4 +17,4 @@ router.get('/:userId', getUserData);
 router.post('/', checkUserSession);
 router.patch('/update-macros', updateMacros);
 router.patch('/change-password', changePassword);
-router.delete('/', deleteUser);
+router.post('/delete', deleteUser);
