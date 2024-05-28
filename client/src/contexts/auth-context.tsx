@@ -107,9 +107,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
       });
-      // setCookie('token', data.token, {
-      //   path: '/',
-      // });
+      setCookie('token', data.token, {
+        path: '/',
+        maxAge: 43_200_200,
+      });
 
       return data.isLoggedIn;
     }
