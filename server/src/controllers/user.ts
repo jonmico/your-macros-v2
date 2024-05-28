@@ -9,15 +9,6 @@ import { calcCalories } from '../utils/calcCalories';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
-// const cookieOptions: CookieOptions = {
-//   maxAge: 60000000,
-//   signed: false,
-//   sameSite: 'none',
-//   httpOnly: false,
-//   secure: true,
-//   path: '/',
-// };
-
 export async function createUser(
   req: Request,
   res: Response,
@@ -53,12 +44,6 @@ export async function createUser(
         expiresIn: '1h',
       });
 
-      //   res.status(201).cookie('token', token, cookieOptions).json({
-      //     isLoggedIn: true,
-      //     userId: newUser._id,
-      //     token: token,
-      //   });
-      // });
       res.status(201).json({
         isLoggedIn: true,
         userId: newUser._id,
@@ -88,12 +73,6 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-    // res.cookie('token', token, cookieOptions).json({
-    //   isLoggedIn: true,
-    //   userId: user._id,
-    //   token,
-    // });
-
     res.json({
       isLoggedIn: true,
       userId: user._id,
@@ -116,8 +95,6 @@ export async function checkUserSession(
   try {
     const { token } = req.body;
 
-    console.log(token);
-
     if (!token) {
       throw new AppError(401, 'Token not provided.');
     }
@@ -132,12 +109,6 @@ export async function checkUserSession(
       }
 
       const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-
-      // res.cookie('token', token, cookieOptions).json({
-      //   isLoggedIn: true,
-      //   userId: user._id,
-      //   token,
-      // });
 
       res.json({
         isLoggedIn: true,
@@ -252,11 +223,6 @@ export async function changePassword(
       const token = jwt.sign({ id: user._id }, JWT_SECRET, {
         'expiresIn': '7d',
       });
-
-      //   res
-      //     .cookie('token', token, cookieOptions)
-      //     .json({ updatedPassword: true, token: token });
-      // });
 
       res.json({ updatedPassword: true, token: token });
     });
