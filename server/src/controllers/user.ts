@@ -10,7 +10,7 @@ import { calcCalories } from '../utils/calcCalories';
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 const cookieOptions: CookieOptions = {
-  maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+  maxAge: 43_200_200,
   signed: false,
   sameSite: 'none',
   httpOnly: false,
