@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     async function checkUserSession() {
       dispatch({ type: 'auth/loading' });
-      const data = await apiCheckUserSession(cookies.token);
+      const data = await apiCheckUserSession();
 
       if ('errorMessage' in data) {
         dispatch({ type: 'auth/error', payload: data.errorMessage });

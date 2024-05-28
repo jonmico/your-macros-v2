@@ -93,7 +93,9 @@ export async function checkUserSession(
   next: NextFunction
 ) {
   try {
-    const { token } = req.body;
+    // const { token } = req.body;
+
+    const token = req.cookies.token;
 
     if (!token) {
       throw new AppError(401, 'Token not provided.');
@@ -196,7 +198,7 @@ export async function changePassword(
 ) {
   try {
     const { oldPassword, newPassword, confirmNewPassword } = req.body;
-    const { token } = req.signedCookies;
+    const { token } = req.cookies;
 
     if (newPassword !== confirmNewPassword) {
       throw new AppError(400, 'Passwords do not match.');
@@ -237,7 +239,7 @@ export async function deleteUser(
   next: NextFunction
 ) {
   try {
-    const { token } = req.signedCookies;
+    const { token } = req.cookies;
 
     const payload = jwt.verify(token, JWT_SECRET) as IToken;
 

@@ -78,21 +78,18 @@ export async function apiLogin(
   }
 }
 
-export async function apiCheckUserSession(
-  token: string
-): Promise<
+export async function apiCheckUserSession(): Promise<
   | { isLoggedIn: boolean; userId: string; token: string }
   | { errorMessage: string }
 > {
   try {
     const res = await fetch(`${API_URL}/api/user`, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'content-type': 'application/json',
         'Accept': 'application/json',
       },
-      // credentials: 'include',
-      body: JSON.stringify({ token }),
+      credentials: 'include',
     });
 
     if (!res.ok) {
