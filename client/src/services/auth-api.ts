@@ -89,7 +89,7 @@ export async function apiCheckUserSession(): Promise<
         'content-type': 'application/json',
         'Accept': 'application/json',
       },
-      credentials: 'include',
+      // credentials: 'include',
     });
 
     if (!res.ok) {
