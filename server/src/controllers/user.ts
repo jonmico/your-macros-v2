@@ -241,6 +241,8 @@ export async function deleteUser(
 
     const payload = jwt.verify(token, JWT_SECRET) as IToken;
 
+    console.log(payload);
+
     const user = await User.findByIdAndDelete(payload.id).exec();
 
     if (!user) {
