@@ -43,7 +43,10 @@ export async function apiRegisterUser(
 export async function apiLogin(
   email: string,
   password: string
-): Promise<{ isLoggedIn: boolean; userId: string } | { errorMessage: string }> {
+): Promise<
+  | { isLoggedIn: boolean; userId: string; token: string }
+  | { errorMessage: string }
+> {
   try {
     const response = await fetch(`${API_URL}/api/user/login`, {
       method: 'POST',

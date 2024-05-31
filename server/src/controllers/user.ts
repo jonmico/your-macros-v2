@@ -56,6 +56,7 @@ export async function createUser(
       res.status(201).cookie('token', token, cookieOptions).json({
         isLoggedIn: true,
         userId: newUser._id,
+        token,
       });
     });
   } catch (err) {
