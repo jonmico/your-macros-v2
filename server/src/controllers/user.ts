@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import 'dotenv/config';
-import { NextFunction, Request, Response } from 'express';
+import { CookieOptions, NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../app-error';
 import User from '../models/user';
@@ -8,6 +8,15 @@ import { User as UserType } from '../types/user';
 import { calcCalories } from '../utils/calcCalories';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
+
+const cookieOptions: CookieOptions = {
+  path: '/',
+  maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+  signed: true,
+  sameSite: 'none',
+  httpOnly: false,
+  secure: true,
+};
 
 export async function createUser(
   req: Request,
@@ -44,10 +53,9 @@ export async function createUser(
         expiresIn: '1h',
       });
 
-      res.status(201).json({
+      res.status(201).cookie('token', token, cookieOptions).json({
         isLoggedIn: true,
         userId: newUser._id,
-        token: token,
       });
     });
   } catch (err) {
@@ -73,7 +81,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-    res.json({
+    res.cookie('token', token, cookieOptions).json({
       isLoggedIn: true,
       userId: user._id,
       token,
@@ -93,7 +101,7 @@ export async function checkUserSession(
   next: NextFunction
 ) {
   try {
-    const { token } = req.body;
+    const { token } = req.signedCookies;
 
     if (!token) {
       throw new AppError(401, 'Token not provided.');
@@ -110,7 +118,7 @@ export async function checkUserSession(
 
       const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-      res.json({
+      res.cookie('token', token, cookieOptions).json({
         isLoggedIn: true,
         userId: user._id,
         token,
@@ -196,7 +204,7 @@ export async function changePassword(
 ) {
   try {
     const { oldPassword, newPassword, confirmNewPassword } = req.body;
-    const { token } = req.cookies;
+    const { token } = req.signedCookies;
 
     if (newPassword !== confirmNewPassword) {
       throw new AppError(400, 'Passwords do not match.');
@@ -224,7 +232,7 @@ export async function changePassword(
         'expiresIn': '7d',
       });
 
-      res.json({ updatedPassword: true, token: token });
+      res.cookie('token', token, cookieOptions).json({ updatedPassword: true });
     });
   } catch (err) {
     next(err);
@@ -237,13 +245,9 @@ export async function deleteUser(
   next: NextFunction
 ) {
   try {
-    // const token = req.signedCookies.token;
-
-    const { token } = req.body;
+    const { token } = req.signedCookies;
 
     const payload = jwt.verify(token, JWT_SECRET) as IToken;
-
-    console.log(payload);
 
     const user = await User.findByIdAndDelete(payload.id).exec();
 
