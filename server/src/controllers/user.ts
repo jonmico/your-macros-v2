@@ -16,6 +16,7 @@ const cookieOptions: CookieOptions = {
   sameSite: 'none',
   httpOnly: false,
   secure: true,
+  domain: 'https://your-macros.com/',
 };
 
 export async function createUser(
