@@ -1,6 +1,6 @@
 import { Macros } from '../types/macros';
 
-const API_URL = import.meta.env.PROD ? 'https://www.your-macros-api.com/' : '';
+const API_URL = import.meta.env.PROD ? 'https://www.your-macros-api.com' : '';
 
 export async function apiGetUserData(userId: string): Promise<{
   errorMessage?: string;

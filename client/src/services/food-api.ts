@@ -1,6 +1,6 @@
 import { Food } from '../types/food';
 
-const API_URL = import.meta.env.PROD ? 'https://www.your-macros-api.com/' : '';
+const API_URL = import.meta.env.PROD ? 'https://www.your-macros-api.com' : '';
 
 export async function apiCreateFood(
   food: Food,
