@@ -15,7 +15,7 @@ const cookieOptions: CookieOptions = {
   signed: true,
   sameSite: 'none',
   httpOnly: false,
-  secure: true,
+  secure: false,
 };
 
 export async function createUser(
