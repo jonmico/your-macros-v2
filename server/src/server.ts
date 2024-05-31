@@ -20,7 +20,6 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET;
 
 const app = express();
 
-app.options('*', cors());
 app.use(express.json());
 app.use(cors({ credentials: true, origin: 'https://your-macros.com' }));
 app.use(cookieParser(COOKIE_SECRET));
