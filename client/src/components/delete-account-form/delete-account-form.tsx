@@ -1,9 +1,8 @@
-import { BadRedButton } from '../button/button';
-import styled from 'styled-components';
-import { apiDeleteUser } from '../../services/auth-api';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import styled from 'styled-components';
 import { useAuth } from '../../hooks/useAuth';
+import { apiDeleteUser } from '../../services/auth-api';
+import { BadRedButton } from '../button/button';
 
 const StyledH2 = styled.h2`
   color: var(--color-gray-800);
@@ -16,23 +15,16 @@ const StyledDeleteAccountForm = styled.form`
 `;
 
 export default function DeleteAccountForm() {
-  const [cookies, , removeCookie] = useCookies(['token']);
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    const data = await apiDeleteUser(cookies.token);
+    const data = await apiDeleteUser();
 
     if ('successfulDelete' in data) {
       logout();
-      removeCookie('token', {
-        path: '/',
-        secure: true,
-        partitioned: true,
-        sameSite: 'none',
-        httpOnly: false,
-      });
+
       navigate('/');
     } else {
       console.log('No successfulDelete in DeleteAccountForm.');
