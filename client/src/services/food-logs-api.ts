@@ -1,9 +1,7 @@
 import { FoodLog } from '../types/food-log';
 import { Meal } from '../types/meal';
 
-const API_URL = import.meta.env.PROD
-  ? 'https://your-macros-v2-backend.onrender.com'
-  : '';
+const API_URL = import.meta.env.PROD ? 'https://www.your-macros-api.com/' : '';
 
 export async function apiCreateLog(
   userId: string,

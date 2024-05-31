@@ -1,8 +1,6 @@
 import { Macros } from '../types/macros';
 
-const API_URL = import.meta.env.PROD
-  ? 'https://your-macros-v2-backend.onrender.com'
-  : '';
+const API_URL = import.meta.env.PROD ? 'https://www.your-macros-api.com/' : '';
 
 type UserType = {
   email: string;
@@ -78,20 +76,18 @@ export async function apiLogin(
   }
 }
 
-export async function apiCheckUserSession(
-  token: string
-): Promise<
+export async function apiCheckUserSession(): Promise<
   | { isLoggedIn: boolean; userId: string; token: string }
   | { errorMessage: string }
 > {
   try {
     const res = await fetch(`${API_URL}/api/user`, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'content-type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({ token }),
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -149,7 +145,7 @@ export async function apiDeleteUser(
 ): Promise<{ successfulDelete: boolean } | { errorMessage: string }> {
   try {
     const res = await fetch(`${API_URL}/api/user/delete`, {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         'content-type': 'application/json',
         'accept': 'application/json',
