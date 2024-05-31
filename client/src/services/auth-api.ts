@@ -84,7 +84,6 @@ export async function apiCheckUserSession(): Promise<
         'Accept': 'application/json',
       },
       credentials: 'include',
-      mode: 'cors',
     });
 
     if (!res.ok) {
