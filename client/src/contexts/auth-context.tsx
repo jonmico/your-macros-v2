@@ -45,12 +45,12 @@ const initialState: AuthState = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [authState, dispatch] = useReducer(authReducer, initialState);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [, , removeCookie] = useCookies(['token']);
 
   useEffect(() => {
     async function checkUserSession() {
       dispatch({ type: 'auth/loading' });
-      const data = await apiCheckUserSession(cookies.token);
+      const data = await apiCheckUserSession();
 
       if ('errorMessage' in data) {
         dispatch({ type: 'auth/error', payload: data.errorMessage });
@@ -62,18 +62,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
             userId: data.userId,
           },
         });
-        setCookie('token', data.token, {
-          path: '/',
-          maxAge: 43_200_200,
-          partitioned: true,
-          secure: true,
-          httpOnly: false,
-          sameSite: 'none',
-        });
       }
     }
     checkUserSession();
-  }, [setCookie, cookies.token]);
+  }, []);
 
   async function register(user: UserType) {
     dispatch({ type: 'auth/loading' });
@@ -86,14 +78,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
-      });
-      setCookie('token', data.token, {
-        path: '/',
-        maxAge: 43_200_200,
-        partitioned: true,
-        secure: true,
-        httpOnly: false,
-        sameSite: 'none',
       });
 
       return data.isLoggedIn;
@@ -111,14 +95,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({
         type: 'auth/setUser',
         payload: { isLoggedIn: data.isLoggedIn, userId: data.userId },
-      });
-      setCookie('token', data.token, {
-        path: '/',
-        maxAge: 43_200_200,
-        partitioned: true,
-        secure: true,
-        httpOnly: false,
-        sameSite: 'none',
       });
 
       return data.isLoggedIn;

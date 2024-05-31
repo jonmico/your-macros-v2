@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useCookies } from 'react-cookie';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,9 +11,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     authState: { isLoading, isLoggedIn },
   } = useAuth();
   const navigate = useNavigate();
-  const [cookies] = useCookies(['token']);
-
-  console.log(cookies);
 
   useEffect(() => {
     if (!isLoading && !isLoggedIn) {

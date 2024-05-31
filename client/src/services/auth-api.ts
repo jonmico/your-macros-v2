@@ -13,10 +13,7 @@ type UserType = {
 
 export async function apiRegisterUser(
   user: UserType
-): Promise<
-  | { isLoggedIn: boolean; userId: string; token: string }
-  | { errorMessage: string }
-> {
+): Promise<{ isLoggedIn: boolean; userId: string } | { errorMessage: string }> {
   try {
     const response = await fetch(`${API_URL}/api/user/create`, {
       method: 'POST',
@@ -46,10 +43,7 @@ export async function apiRegisterUser(
 export async function apiLogin(
   email: string,
   password: string
-): Promise<
-  | { isLoggedIn: boolean; userId: string; token: string }
-  | { errorMessage: string }
-> {
+): Promise<{ isLoggedIn: boolean; userId: string } | { errorMessage: string }> {
   try {
     const response = await fetch(`${API_URL}/api/user/login`, {
       method: 'POST',
@@ -77,8 +71,7 @@ export async function apiLogin(
 }
 
 export async function apiCheckUserSession(): Promise<
-  | { isLoggedIn: boolean; userId: string; token: string }
-  | { errorMessage: string }
+  { isLoggedIn: boolean; userId: string } | { errorMessage: string }
 > {
   try {
     const res = await fetch(`${API_URL}/api/user`, {
@@ -110,9 +103,7 @@ export async function apiChangePassword(
   oldPassword: string,
   newPassword: string,
   confirmNewPassword: string
-): Promise<
-  { updatedPassword: boolean; token?: string } | { errorMessage: string }
-> {
+): Promise<{ updatedPassword: boolean } | { errorMessage: string }> {
   try {
     const res = await fetch(`${API_URL}/api/user/change-password`, {
       method: 'PATCH',
@@ -140,9 +131,9 @@ export async function apiChangePassword(
   }
 }
 
-export async function apiDeleteUser(
-  token: string
-): Promise<{ successfulDelete: boolean } | { errorMessage: string }> {
+export async function apiDeleteUser(): Promise<
+  { successfulDelete: boolean } | { errorMessage: string }
+> {
   try {
     const res = await fetch(`${API_URL}/api/user/delete`, {
       method: 'DELETE',
@@ -150,8 +141,7 @@ export async function apiDeleteUser(
         'content-type': 'application/json',
         'accept': 'application/json',
       },
-      // credentials: 'include',
-      body: JSON.stringify({ token }),
+      credentials: 'include',
     });
 
     if (!res.ok) {
