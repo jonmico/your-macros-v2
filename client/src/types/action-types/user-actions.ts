@@ -33,7 +33,12 @@ type DBLoading = {
   type: 'user/DBLoading';
 };
 
+type ClearUser = {
+  type: 'user/clearUser';
+};
+
 export type UserAction =
+  | ClearUser
   | Loading
   | Error
   | SetUser

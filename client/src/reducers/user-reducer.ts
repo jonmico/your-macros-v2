@@ -62,6 +62,15 @@ export function userReducer(state: UserState, action: UserAction) {
     case 'user/DBLoading': {
       return { ...state, isDBLoading: true };
     }
+    case 'user/clearUser': {
+      return {
+        ...state,
+        isLoading: true,
+        isDBLoading: false,
+        error: '',
+        userData: null,
+      };
+    }
     default:
       throw new TypeError("We don't know that type.");
   }

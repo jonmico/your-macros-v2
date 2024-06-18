@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../hooks/useAuth';
+import { useUser } from '../../hooks/useUser';
 
 const StyledGlobalNav = styled.div`
   border-bottom: 1px solid var(--color-indigo-300);
@@ -76,11 +77,13 @@ export default function GlobalNav() {
     logout,
     authState: { isLoggedIn },
   } = useAuth();
+  const { dispatch: userDispatch } = useUser();
 
   const yourMacrosLink = isLoggedIn ? '/app' : '/';
 
   function handleLogoutClick() {
     logout();
+    userDispatch({ type: 'user/clearUser' });
   }
 
   return (
