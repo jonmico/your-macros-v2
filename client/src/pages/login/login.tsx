@@ -17,10 +17,8 @@ type LoginFormStateType = {
 };
 
 export default function Login() {
-  const {
-    login,
-    authState: { isLoading },
-  } = useAuth();
+  const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [loginFormState, setLoginFormState] = useState<LoginFormStateType>({
     email: '',
@@ -59,10 +57,12 @@ export default function Login() {
       return;
     }
 
+    setIsLoading(true);
     const isLoggedIn = await login(
       loginFormState.email,
       loginFormState.password
     );
+    setIsLoading(false);
 
     if (isLoggedIn) navigate('/app/dashboard');
   }

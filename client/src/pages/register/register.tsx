@@ -18,10 +18,8 @@ type RegisterFormType = {
 };
 
 export default function Register() {
-  const {
-    register,
-    authState: { isLoading },
-  } = useAuth();
+  const { register } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const [registerFormState, setRegisterFormState] = useState<RegisterFormType>({
@@ -91,7 +89,9 @@ export default function Register() {
       password: registerFormState.password,
     };
 
+    setIsLoading(true);
     const isLoggedIn = await register(user);
+    setIsLoading(false);
 
     if (isLoggedIn) navigate('/setup');
   }
