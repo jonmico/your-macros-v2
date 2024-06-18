@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const StyledError = styled.div`
   border: 1px solid var(--color-red-500);
   border-radius: 4px;
-  background-color: var(--color-red-200);
+  background-color: var(--color-red-100);
   padding: 0.5rem;
   color: var(--color-red-500);
 `;

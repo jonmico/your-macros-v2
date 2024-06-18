@@ -54,7 +54,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const data = await apiCheckUserSession();
 
       if ('errorMessage' in data) {
-        dispatch({ type: 'auth/error', payload: data.errorMessage });
+        console.log(data.errorMessage);
       } else {
         dispatch({
           type: 'auth/setUser',
@@ -102,7 +102,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  // FIXME: This doesn't actually clear out all the state in other contexts.
   function logout() {
     dispatch({ type: 'auth/logout' });
     removeCookie('token', {
