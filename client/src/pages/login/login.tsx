@@ -10,6 +10,7 @@ import { ErrorText } from '../../ui/error-text/error-text';
 import { FormInputContainer } from '../../ui/form-input-container/form-input-container';
 import { Input } from '../../ui/input/input';
 import LoginRegisterForm from '../../ui/login-register-form/login-register-form';
+import Error from '../../ui/error/error';
 
 type LoginFormStateType = {
   email: string;
@@ -17,7 +18,10 @@ type LoginFormStateType = {
 };
 
 export default function Login() {
-  const { login } = useAuth();
+  const {
+    login,
+    authState: { error: authError },
+  } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [loginFormState, setLoginFormState] = useState<LoginFormStateType>({
@@ -69,6 +73,7 @@ export default function Login() {
 
   return (
     <LoginRegisterForm header={'Login'} handleSubmit={handleSubmit}>
+      {authError && <Error errorText={authError} />}
       {isLoading && (
         <CenterSpinnerContainer>
           <Spinner></Spinner>
