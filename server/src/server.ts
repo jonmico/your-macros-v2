@@ -17,11 +17,17 @@ connectDb();
 
 const PORT = process.env.PORT;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
+const NODE_ENV = process.env.NODE_ENV;
+
+const corsOptions =
+  NODE_ENV === 'DEV'
+    ? { credentials: true }
+    : { credentials: true, origin: 'https://your-macros.com' };
 
 const app = express();
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: 'https://your-macros.com' }));
+app.use(cors(corsOptions));
 app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api/user', userRouter);
