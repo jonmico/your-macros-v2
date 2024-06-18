@@ -6,7 +6,7 @@ import express, {
 } from 'express';
 import 'dotenv/config';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 import { connectDb } from './db';
 import { AppError } from './app-error';
 import { router as userRouter } from './routes/user';
@@ -19,7 +19,7 @@ const PORT = process.env.PORT;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const NODE_ENV = process.env.NODE_ENV;
 
-const corsOptions =
+const corsOptions: CorsOptions =
   NODE_ENV === 'DEV'
     ? { credentials: true }
     : { credentials: true, origin: 'https://your-macros.com' };
