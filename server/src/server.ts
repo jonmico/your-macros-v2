@@ -20,7 +20,7 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const NODE_ENV = process.env.NODE_ENV;
 
 const corsOptions: CorsOptions =
-  NODE_ENV === 'DEV'
+  NODE_ENV !== 'production'
     ? { credentials: true }
     : { credentials: true, origin: 'https://your-macros.com' };
 
