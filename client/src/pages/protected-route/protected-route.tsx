@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import {
+  Spinner,
+  CenterSpinnerContainer,
+} from '../../components/spinner/spinner';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -14,13 +18,16 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   useEffect(() => {
     if (!isLoading && !isLoggedIn) {
-      console.log('In useEffect hook.');
       navigate('/login');
     }
   }, [isLoading, isLoggedIn, navigate]);
 
   if (isLoading) {
-    return 'LOADING';
+    return (
+      <CenterSpinnerContainer>
+        <Spinner></Spinner>
+      </CenterSpinnerContainer>
+    );
   }
 
   return <div>{children}</div>;
