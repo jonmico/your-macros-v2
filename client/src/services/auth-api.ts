@@ -19,7 +19,7 @@ export async function apiRegisterUser(
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({ user }),
     });
@@ -52,7 +52,7 @@ export async function apiLogin(
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({ email, password }),
     });
@@ -81,7 +81,7 @@ export async function apiCheckUserSession(): Promise<
       method: 'GET',
       headers: {
         'content-type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       credentials: 'include',
     });
@@ -103,6 +103,7 @@ export async function apiCheckUserSession(): Promise<
 }
 
 export async function apiChangePassword(
+  userId: string,
   oldPassword: string,
   newPassword: string,
   confirmNewPassword: string
@@ -112,10 +113,15 @@ export async function apiChangePassword(
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ oldPassword, newPassword, confirmNewPassword }),
+      body: JSON.stringify({
+        userId,
+        oldPassword,
+        newPassword,
+        confirmNewPassword,
+      }),
     });
 
     if (!res.ok) {
@@ -142,7 +148,7 @@ export async function apiDeleteUser(): Promise<
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
-        'accept': 'application/json',
+        accept: 'application/json',
       },
       credentials: 'include',
     });

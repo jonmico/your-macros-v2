@@ -213,16 +213,16 @@ export async function changePassword(
   next: NextFunction
 ) {
   try {
-    const { oldPassword, newPassword, confirmNewPassword } = req.body;
-    const { token } = req.signedCookies;
+    const { userId, oldPassword, newPassword, confirmNewPassword } = req.body;
+    // const { token } = req.signedCookies;
 
     if (newPassword !== confirmNewPassword) {
       throw new AppError(400, 'Passwords do not match.');
     }
 
-    const payload = jwt.verify(token, JWT_SECRET) as IToken;
+    // const payload = jwt.verify(token, JWT_SECRET) as IToken;
 
-    const user = await User.findById(payload.id).exec();
+    const user = await User.findById(userId).exec();
 
     if (!user) {
       throw new AppError(400, 'User does not exist.');

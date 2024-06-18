@@ -38,7 +38,7 @@ const SpinnerContainer = styled.div`
 export default function PasswordResetForm() {
   const {
     changePassword,
-    authState: { error: authError },
+    authState: { error: authError, userId },
   } = useAuth();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -59,8 +59,15 @@ export default function PasswordResetForm() {
       return;
     }
 
+    if (userId === null) return;
+
     setIsLoading(true);
-    await changePassword(currentPassword, newPassword, confirmNewPassword);
+    await changePassword(
+      userId,
+      currentPassword,
+      newPassword,
+      confirmNewPassword
+    );
     setIsLoading(false);
 
     setCurrentPassword('');

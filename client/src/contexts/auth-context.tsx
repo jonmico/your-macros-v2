@@ -24,6 +24,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<boolean | undefined>;
   logout: () => void;
   changePassword: (
+    userId: string,
     oldPassword: string,
     newPassword: string,
     confirmNewPassword: string
@@ -114,11 +115,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function changePassword(
+    userId: string,
     oldPassword: string,
     newPassword: string,
     confirmNewPassword: string
   ): Promise<boolean> {
     const data = await apiChangePassword(
+      userId,
       oldPassword,
       newPassword,
       confirmNewPassword
