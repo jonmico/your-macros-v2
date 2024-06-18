@@ -8,16 +8,24 @@ import { User as UserType } from '../types/user';
 import { calcCalories } from '../utils/calcCalories';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
+const NODE_ENV = process.env.NODE_ENV;
 
-const cookieOptions: CookieOptions = {
-  path: '/',
-  maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
-  signed: true,
-  sameSite: 'none',
-  httpOnly: false,
-  secure: true,
-  domain: 'https://your-macros.com/',
-};
+const cookieOptions: CookieOptions =
+  NODE_ENV !== 'production'
+    ? {
+        signed: true,
+        path: '/',
+        maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      }
+    : {
+        path: '/',
+        maxAge: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        signed: true,
+        sameSite: 'none',
+        httpOnly: false,
+        secure: true,
+        domain: 'https://your-macros.com/',
+      };
 
 export async function createUser(
   req: Request,
@@ -231,7 +239,7 @@ export async function changePassword(
       await user.save();
 
       const token = jwt.sign({ id: user._id }, JWT_SECRET, {
-        'expiresIn': '7d',
+        expiresIn: '7d',
       });
 
       res.cookie('token', token, cookieOptions).json({ updatedPassword: true });
